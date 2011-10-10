@@ -1,0 +1,12 @@
+TestLocalTimeConversion -> OK
+TestJulianDateConversion -> OK
+TestDeltaTAI -> OK
+TestDeltaTCG -> OK
+TestDeltaTCB -> OK
+TestGregorianCalendarFunction
+Test1977Origins -> OK
+
+no TTimeScales, fazer
+ - um construtor sem UTC e com Lat/Long/Height
+ - SetUTC(UTC, DUT1, Xp, Yp)
+

@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="almagesto"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="João Marcelo S. Vaz"/>
+    <CompilerOptions>
+      <Version Value="10"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value=".."/>
+        <UnitOutputDirectory Value="..\lib\$(TargetCPU)\$(TargetOS)"/>
+      </SearchPaths>
+      <Linking>
+        <Debugging>
+          <UseExternalDbgSyms Value="True"/>
+        </Debugging>
+      </Linking>
+      <Other>
+        <CompilerMessages>
+          <UseMsgFile Value="True"/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Almagesto is a Free Pascal astronomical library"/>
+    <License Value="Almagesto is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."/>
+    <Version Minor="1"/>
+    <Files Count="9">
+      <Item1>
+        <Filename Value="..\almBase.pas"/>
+        <UnitName Value="almBase"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\consts.inc"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\almCalendar.pas"/>
+        <UnitName Value="almcalendar"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\almDateTime.pas"/>
+        <UnitName Value="almDateTime"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\dat.inc"/>
+        <Type Value="Include"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\dut1.inc"/>
+        <Type Value="Include"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\almEOP.pas"/>
+        <UnitName Value="almEOP"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\almEphemerides.pas"/>
+        <UnitName Value="almEphemerides"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\almEPMModel.pas"/>
+        <UnitName Value="almEPMModel"/>
+      </Item9>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

@@ -1,0 +1,74 @@
+object fmMain: TfmMain
+  Left = 474
+  Height = 363
+  Top = 316
+  Width = 361
+  Caption = 'fmMain'
+  ClientHeight = 363
+  ClientWidth = 361
+  OnCreate = FormCreate
+  OnShow = FormShow
+  LCLVersion = '0.9.29'
+  object edInputFile: TFileNameEdit
+    Left = 18
+    Height = 21
+    Top = 40
+    Width = 302
+    DialogTitle = 'Select the input file to import'
+    DialogOptions = [ofFileMustExist]
+    FilterIndex = 0
+    HideDirectories = False
+    ButtonWidth = 23
+    NumGlyphs = 0
+    MaxLength = 0
+    TabOrder = 0
+    OnEditingDone = edInputFileEditingDone
+  end
+  object lbInputFile: TLabel
+    Left = 18
+    Height = 14
+    Top = 23
+    Width = 46
+    Caption = 'Input File'
+    FocusControl = edInputFile
+    ParentColor = False
+  end
+  object btRun: TButton
+    Left = 18
+    Height = 25
+    Top = 128
+    Width = 75
+    Caption = 'Run'
+    OnClick = btRunClick
+    TabOrder = 1
+  end
+  object mmLog: TMemo
+    Left = 18
+    Height = 170
+    Top = 176
+    Width = 302
+    TabOrder = 2
+  end
+  object edOutputFile: TFileNameEdit
+    Left = 18
+    Height = 21
+    Top = 86
+    Width = 302
+    DialogOptions = []
+    FilterIndex = 0
+    HideDirectories = False
+    ButtonWidth = 23
+    NumGlyphs = 0
+    MaxLength = 0
+    TabOrder = 3
+    OnEditingDone = edOutputFileEditingDone
+  end
+  object lbOutputFile: TLabel
+    Left = 18
+    Height = 14
+    Top = 70
+    Width = 54
+    Caption = 'Output File'
+    ParentColor = False
+  end
+end
