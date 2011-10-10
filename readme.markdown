@@ -13,7 +13,7 @@ The library is tested with the latest stable [Free Pascal compiler] [http://www.
 
 Just add the units to the _uses_ clause.
 
-If you want to use the Lazarus IDE [laz], you may install a Lazarus package, located at the _lpk_ dir.
+If you want to use the Lazarus IDE, you may install a Lazarus package, located at the _lpk_ dir.
 
 # ALMAGESTO LICENSE #
 
