@@ -50,7 +50,7 @@ type
 
 implementation
 
-uses almBase, almConsts, almDateTime;
+uses almBase, almDateTime;
 
 procedure TTestTimeConversion.TestLocalTimeConversion;
 var
