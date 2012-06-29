@@ -23,15 +23,15 @@ The complete series can be found at ftp://maia.usno.navy.mil/ser7/tai-utc.dat
 - NLeapSeconds should be incremented as a new leap second is annnounced;
 - LeapSeconds is the array of leap seconds; a new row should be added as a new leap second is annnounced.
 
-The current IERS Bulletin C is Number 40 released at 2010-Jul-14:
-- NO positive leap second will be introduced at the end of December 2010
-- from 2009 January 1, 0h UTC, until further notice : UTC-TAI = -34 s
+The current IERS Bulletin C is Number 43 released at 2012-Jan-05:
+- from 2009 January 1, 0h UTC, to 2012 July 1  0h UTC  : UTC-TAI = - 34s
+- from 2012 July 1,    0h UTC, until further notice    : UTC-TAI = - 35s
 }
 
 const
   MinDate = 2437300.5; // >= 1961-01-01
-  MaxDate = 2455562.5; // <  2011-01-01
-  NLeapSeconds = 38;
+  MaxDate = 2456293.5; // <  2013-01-01
+  NLeapSeconds = 39;
   LeapSeconds: array [1..NLeapSeconds,1..4] of Single =
   // TAI-UTC (T) = A + (MJD - B) x C (in seconds)
   //    T           A        B        C
@@ -72,5 +72,6 @@ const
    (2450630.5, 31.0,       41317, 0.0      ),
    (2451179.5, 32.0,       41317, 0.0      ),
    (2453736.5, 33.0,       41317, 0.0      ),
-   (2454832.5, 34.0,       41317, 0.0      ));
-
+   (2454832.5, 34.0,       41317, 0.0      ),
+   (2456109.5, 35.0,       41317, 0.0      ));
+

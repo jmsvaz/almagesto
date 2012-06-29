@@ -61,7 +61,7 @@ var
 
 implementation
 
-uses almBase, almConsts;
+uses almBase;
 
 {$R *.lfm}
 
