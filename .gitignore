@@ -1,6 +1,13 @@
-*.lps
-*.bkp
 *.*~
-lib/
-backup/
+*.bak
+*.bkp
+*.lps
+*.res
+*.o
+*.ppu
+*.or
+*.dbg
+*.compiled
+lib
+backup
 !.gitignore
