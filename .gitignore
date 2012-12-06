@@ -1,6 +1,6 @@
 *.lps
 *.bkp
 *.*~
-lib/*
-backup/*
+lib/
+backup/
 !.gitignore
