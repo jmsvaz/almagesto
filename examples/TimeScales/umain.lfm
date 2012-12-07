@@ -1,37 +1,40 @@
 object fmMain: TfmMain
-  Left = 246
-  Height = 273
-  Top = 326
-  Width = 652
+  Left = 274
+  Height = 329
+  Top = 233
+  Width = 799
   BorderStyle = bsDialog
   Caption = 'fmMain'
-  ClientHeight = 273
-  ClientWidth = 652
+  ClientHeight = 329
+  ClientWidth = 799
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.31'
+  ShowHint = True
+  LCLVersion = '1.0.5.0'
   object pnTimeScales: TPanel
     Left = 24
-    Height = 184
+    Height = 235
     Top = 72
-    Width = 600
+    Width = 747
     Anchors = [akTop, akLeft, akRight, akBottom]
-    ClientHeight = 184
-    ClientWidth = 600
+    ClientHeight = 235
+    ClientWidth = 747
     TabOrder = 0
     object edTAI: TLabeledEdit
       Left = 16
-      Height = 27
+      Height = 25
       Top = 24
-      Width = 274
+      Width = 344
       EditLabel.AnchorSideLeft.Control = edTAI
+      EditLabel.AnchorSideRight.Control = edTAI
+      EditLabel.AnchorSideRight.Side = asrBottom
       EditLabel.AnchorSideBottom.Control = edTAI
       EditLabel.Left = 16
-      EditLabel.Height = 18
-      EditLabel.Top = 3
-      EditLabel.Width = 22
+      EditLabel.Height = 16
+      EditLabel.Top = 5
+      EditLabel.Width = 344
       EditLabel.Caption = 'TAI'
       EditLabel.ParentColor = False
       ReadOnly = True
@@ -39,16 +42,18 @@ object fmMain: TfmMain
       TabStop = False
     end
     object edTT: TLabeledEdit
-      Left = 312
-      Height = 27
+      Left = 384
+      Height = 25
       Top = 24
-      Width = 274
+      Width = 344
       EditLabel.AnchorSideLeft.Control = edTT
+      EditLabel.AnchorSideRight.Control = edTT
+      EditLabel.AnchorSideRight.Side = asrBottom
       EditLabel.AnchorSideBottom.Control = edTT
-      EditLabel.Left = 312
-      EditLabel.Height = 18
-      EditLabel.Top = 3
-      EditLabel.Width = 17
+      EditLabel.Left = 384
+      EditLabel.Height = 16
+      EditLabel.Top = 5
+      EditLabel.Width = 344
       EditLabel.Caption = 'TT'
       EditLabel.ParentColor = False
       ReadOnly = True
@@ -56,16 +61,18 @@ object fmMain: TfmMain
       TabStop = False
     end
     object edTDB: TLabeledEdit
-      Left = 312
-      Height = 27
-      Top = 64
-      Width = 274
+      Left = 384
+      Height = 25
+      Top = 80
+      Width = 344
       EditLabel.AnchorSideLeft.Control = edTDB
+      EditLabel.AnchorSideRight.Control = edTDB
+      EditLabel.AnchorSideRight.Side = asrBottom
       EditLabel.AnchorSideBottom.Control = edTDB
-      EditLabel.Left = 312
-      EditLabel.Height = 18
-      EditLabel.Top = 43
-      EditLabel.Width = 28
+      EditLabel.Left = 384
+      EditLabel.Height = 16
+      EditLabel.Top = 61
+      EditLabel.Width = 344
       EditLabel.Caption = 'TDB'
       EditLabel.ParentColor = False
       ReadOnly = True
@@ -73,16 +80,18 @@ object fmMain: TfmMain
       TabStop = False
     end
     object edUT1: TLabeledEdit
-      Left = 14
-      Height = 27
-      Top = 64
-      Width = 274
+      Left = 16
+      Height = 25
+      Top = 80
+      Width = 344
       EditLabel.AnchorSideLeft.Control = edUT1
+      EditLabel.AnchorSideRight.Control = edUT1
+      EditLabel.AnchorSideRight.Side = asrBottom
       EditLabel.AnchorSideBottom.Control = edUT1
-      EditLabel.Left = 14
-      EditLabel.Height = 18
-      EditLabel.Top = 43
-      EditLabel.Width = 27
+      EditLabel.Left = 16
+      EditLabel.Height = 16
+      EditLabel.Top = 61
+      EditLabel.Width = 344
       EditLabel.Caption = 'UT1'
       EditLabel.ParentColor = False
       ReadOnly = True
@@ -90,16 +99,18 @@ object fmMain: TfmMain
       TabStop = False
     end
     object edUT2: TLabeledEdit
-      Left = 14
-      Height = 27
-      Top = 105
-      Width = 274
+      Left = 16
+      Height = 25
+      Top = 136
+      Width = 344
       EditLabel.AnchorSideLeft.Control = edUT2
+      EditLabel.AnchorSideRight.Control = edUT2
+      EditLabel.AnchorSideRight.Side = asrBottom
       EditLabel.AnchorSideBottom.Control = edUT2
-      EditLabel.Left = 14
-      EditLabel.Height = 18
-      EditLabel.Top = 84
-      EditLabel.Width = 27
+      EditLabel.Left = 16
+      EditLabel.Height = 16
+      EditLabel.Top = 117
+      EditLabel.Width = 344
       EditLabel.Caption = 'UT2'
       EditLabel.ParentColor = False
       ReadOnly = True
@@ -107,16 +118,18 @@ object fmMain: TfmMain
       TabStop = False
     end
     object edUT0: TLabeledEdit
-      Left = 14
-      Height = 27
-      Top = 144
-      Width = 274
+      Left = 16
+      Height = 25
+      Top = 192
+      Width = 344
       EditLabel.AnchorSideLeft.Control = edUT0
+      EditLabel.AnchorSideRight.Control = edUT0
+      EditLabel.AnchorSideRight.Side = asrBottom
       EditLabel.AnchorSideBottom.Control = edUT0
-      EditLabel.Left = 14
-      EditLabel.Height = 18
-      EditLabel.Top = 123
-      EditLabel.Width = 27
+      EditLabel.Left = 16
+      EditLabel.Height = 16
+      EditLabel.Top = 173
+      EditLabel.Width = 344
       EditLabel.Caption = 'UT0'
       EditLabel.ParentColor = False
       ReadOnly = True
@@ -124,16 +137,18 @@ object fmMain: TfmMain
       TabStop = False
     end
     object edTCG: TLabeledEdit
-      Left = 312
-      Height = 27
-      Top = 104
-      Width = 274
+      Left = 384
+      Height = 25
+      Top = 136
+      Width = 344
       EditLabel.AnchorSideLeft.Control = edTCG
+      EditLabel.AnchorSideRight.Control = edTCG
+      EditLabel.AnchorSideRight.Side = asrBottom
       EditLabel.AnchorSideBottom.Control = edTCG
-      EditLabel.Left = 312
-      EditLabel.Height = 18
-      EditLabel.Top = 83
-      EditLabel.Width = 28
+      EditLabel.Left = 384
+      EditLabel.Height = 16
+      EditLabel.Top = 117
+      EditLabel.Width = 344
       EditLabel.Caption = 'TCG'
       EditLabel.ParentColor = False
       ReadOnly = True
@@ -141,16 +156,18 @@ object fmMain: TfmMain
       TabStop = False
     end
     object edTCB: TLabeledEdit
-      Left = 312
-      Height = 27
-      Top = 144
-      Width = 274
+      Left = 384
+      Height = 25
+      Top = 192
+      Width = 344
       EditLabel.AnchorSideLeft.Control = edTCB
+      EditLabel.AnchorSideRight.Control = edTCB
+      EditLabel.AnchorSideRight.Side = asrBottom
       EditLabel.AnchorSideBottom.Control = edTCB
-      EditLabel.Left = 312
-      EditLabel.Height = 18
-      EditLabel.Top = 123
-      EditLabel.Width = 27
+      EditLabel.Left = 384
+      EditLabel.Height = 16
+      EditLabel.Top = 173
+      EditLabel.Width = 344
       EditLabel.Caption = 'TCB'
       EditLabel.ParentColor = False
       ReadOnly = True
@@ -160,13 +177,13 @@ object fmMain: TfmMain
   end
   object deUTC: TDateEdit
     Left = 40
-    Height = 27
+    Height = 25
     Top = 32
-    Width = 272
+    Width = 144
     CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
     OKCaption = 'OK'
     CancelCaption = 'Cancel'
-    DateOrder = doNone
+    DateOrder = doYMd
     ButtonWidth = 23
     CharCase = ecNormal
     Glyph.Data = {
@@ -206,32 +223,117 @@ object fmMain: TfmMain
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
     }
     NumGlyphs = 0
-    MaxLength = 0
+    MaxLength = 10
     TabOrder = 1
   end
   object lbUTC: TLabel
     Left = 40
-    Height = 18
+    Height = 16
     Top = 15
-    Width = 28
+    Width = 27
     Caption = 'UTC'
     FocusControl = deUTC
     ParentColor = False
   end
   object edTime: TEdit
-    Left = 344
-    Height = 27
+    Left = 248
+    Height = 25
     Top = 32
-    Width = 120
+    Width = 136
     TabOrder = 2
   end
   object btCompute: TButton
-    Left = 488
+    Left = 632
     Height = 25
-    Top = 28
+    Top = 32
     Width = 120
     Caption = 'Compute'
     OnClick = btComputeClick
     TabOrder = 3
+  end
+  object btNow: TSpeedButton
+    Left = 384
+    Height = 22
+    Hint = 'Now!'
+    Top = 33
+    Width = 23
+    Glyph.Data = {
+      36090000424D3609000000000000360000002800000018000000180000000100
+      2000000000000009000064000000640000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00E0E4E3FFC3C3
+      C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFE0E4E3FFFFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C3C3C3FF969897FF8889
+      89FF858887FF848986FF858987FF888A89FF969897FFC3C3C3FFFFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00D5D5D4FF919291FF888D8BFFBCBEBDFFDEDE
+      DEFFE8E9E8FFE9EAE9FFE8E9E8FFDCDDDCFFBCBFBEFF8C918FFF929494FFD4D4
+      D4FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00C1C2C1FF8D908FFFA6A9A7FFDADCDAFFF0F1F0FFF8FA
+      F8FFF9FBFAFFBE6C38FFF8FBFAFFF5F7F5FFEFF0F0FFDBDDDCFFA3A7A4FF8A8C
+      8BFFC0C1C1FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00D6D5D5FF898C8AFF9FA3A2FFEFF0EFFFFFFFFFFFF5F7F6FFF3F5
+      F4FFF4F5F5FFBE6C38FFF1F3F3FFF1F3F2FFF3F5F5FFFFFFFFFFEDEEEDFF9FA3
+      A1FF8E8F8FFFD4D4D4FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00979897FFA0A4A2FFECEDEDFFFCFDFDFFE3E6E4FFBE6C38FFFAFA
+      FAFFFFFFFFFFFEFEFEFFF9FAFAFFF4F5F5FFBE6C38FFE3E8E6FFFCFDFCFFF0F0
+      F0FFA6A8A8FF909292FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00C3C3C3FF8F9493FFDBDEDDFFFFFFFFFFE2E6E4FFE5E9E6FFEEF1EFFFF3F5
+      F4FFF4F6F5FFF5F6F5FFF0F2F1FFEDF1EEFFF5F7F6FFEBEFEDFFE2E7E4FFFFFF
+      FFFFDCDCDCFF8A8F8CFFC3C3C3FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00E0E4
+      E3FF969897FFBBBEBDFFF1F2F1FFF3F6F5FFBE6C38FFDCE0DFFFE1E5E4FFD7DC
+      DBFFDDE2E0FFE9EDEBFFEBEEEDFFE7EBE9FFE9EDEBFFF1F4F2FFBE6C38FFF1F4
+      F3FFF0F1F0FFBDC1BFFF969897FFE0E4E3FFFFFFFF00FFFFFF00FFFFFF00C3C3
+      C3FF888B89FFD6D9D8FFF9FBF9FFE8EBE9FFDAE0DDFFD1D6D4FFC5C9C8FFC2C7
+      C5FFDCE0DDFFEAEEECFFE7EBE9FFE6EAE8FFE8ECEAFFE9EDEBFFE5E8E6FFE3E7
+      E6FFF3F6F4FFDFE1DFFF888B89FFC3C3C3FFFFFFFF00FFFFFF00FFFFFF00C3C3
+      C3FF868B89FFE4E5E4FFF4F7F4FFD3D6D4FFCACECDFFC5C9C7FFBEC2C0FFBEC2
+      C1FFD8DBDAFFE8ECEAFFA5A7A8FFA5A7A8FFA5A7A8FFA5A7A8FFDBDFDCFFDBDF
+      DCFFF1F3F1FFEAEBEAFF868B89FFC3C3C3FFFFFFFF00FFFFFF00FFFFFF00C3C3
+      C3FF858A88FFE6E7E6FFBE6C38FFBE6C38FFC0C3C3FFC0C6C4FFC7CCCAFFC9CE
+      CDFFCED2D1FF000000FF000000FF000000FF000000FFD3D7D5FFD3D7D5FFBE6C
+      38FFBE6C38FFEBECEBFF858A88FFC3C3C3FFFFFFFF00FFFFFF00FFFFFF00C3C3
+      C3FF868A88FFE5E6E5FFEBEFEEFFC9CECDFFC4C8C6FFC1C6C5FFC7CCCBFFCDD3
+      D1FFD1D6D4FF000000FFA5A7A8FFDEE3E0FFC8CCCBFFC9CDCCFFD5D9D8FFDADD
+      DDFFF3F5F4FFEAECEBFF868A88FFC3C3C3FFFFFFFF00FFFFFF00FFFFFF00C3C3
+      C3FF888B8AFFDBDCDBFFEFF2F1FFD6DAD8FFCACECCFFC0C4C3FFBFC3C2FFC5C9
+      C8FFD6D9D7FF000000FFA5A7A8FFD2D7D6FFD1D5D4FFE2E5E4FFE9ECEAFFDDE0
+      DFFFE7EAEAFFDFE1DFFF888B8AFFC3C3C3FFFFFFFF00FFFFFF00FFFFFF00E0E4
+      E3FF969797FFBDBFBEFFE9EBEAFFE8EAE9FFBE6C38FFC5CAC8FFC2C8C6FFC1C5
+      C4FFC2C6C5FF000000FFA5A7A8FFC4C8C7FFCDD2D1FFE5E9E7FFBE6C38FFEFF2
+      F1FFECEEEDFFBFC1C0FF969797FFE0E4E3FFFFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00C3C3C3FF8E9391FFD7DAD9FFFAFBFBFFD5D9D7FFD3D8D5FFC8CDCBFFC1C6
+      C5FFC0C5C3FF000000FFA5A7A8FFD9DDDBFFD7DBDAFFE0E4E3FFE3E7E4FFFFFF
+      FFFFDEDEDEFF8D9290FFC3C3C3FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00939695FFA8ABAAFFEFF0F1FFF5F6F6FFD9DDDBFFBE6C38FFCDD3
+      D1FFD1D7D5FF000000FFA5A7A8FFD5DAD9FFBE6C38FFDFE3E1FFFBFBFBFFEEEF
+      EFFFA5A7A8FF919392FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00D4D4D5FF8F9190FFA2A6A5FFEDEEEEFFFCFDFDFFEDF0EEFFE6E9
+      E7FFDCE2E0FF000000FFDFE1E0FFD7DADAFFEBEDECFFFFFFFFFFF3F4F3FFA3A6
+      A6FF8A8D8CFFD4D3D4FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00C0C1C0FF8B8E8DFFA4A7A5FFD9DAD9FFEDEFEEFFFDFD
+      FDFFF5F8F6FFBE6C38FFF7F8F7FFF3F4F4FFEFF0EFFFDADCDBFFA9ACAAFF8F91
+      90FFC0C1C0FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00D5D4D4FF949696FF919593FFBEC1C0FFD8DA
+      DAFFE5E6E6FFE6E8E7FFE5E6E5FFDCDDDDFFBEC1C0FF8E9391FF929594FFD4D4
+      D4FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C3C3C3FF959696FF858B
+      88FF858B88FF858B88FF858B88FF858B88FF959696FFC3C3C3FFFFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00E0E4E3FFE0E4
+      E3FF858B88FFE0E4E3FF858B88FFE0E4E3FFE0E4E3FFFFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00E0E4E3FF858B
+      88FF858B88FFE0E4E3FF858B88FF858B88FFE0E4E3FFFFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00E0E4E3FF858B
+      88FF858B88FF858B88FF858B88FF858B88FFE0E4E3FFFFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+    }
+    NumGlyphs = 0
+    OnClick = btNowClick
   end
 end

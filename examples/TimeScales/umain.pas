@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, EditBtn, almDateTime;
+  StdCtrls, EditBtn, Buttons, almDateTime;
 
 type
 
@@ -26,7 +26,9 @@ type
     edTCB: TLabeledEdit;
     lbUTC: TLabel;
     pnTimeScales: TPanel;
+    btNow: TSpeedButton;
     procedure btComputeClick(Sender: TObject);
+    procedure btNowClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -36,6 +38,7 @@ type
     { public declarations }
     ts: TTimeScales;
     procedure DisplayTimeScales;
+    procedure CurrentDateTime;
   end; 
 
 var
@@ -50,19 +53,20 @@ uses almBase;
 { TfmMain }
 
 procedure TfmMain.FormCreate(Sender: TObject);
-var
-  dt: TDateTime;
 begin
   ts:= TTimeScales.Create;
-  dt:= Now;
-  deUTC.Date:= dt;
-  edTime.Text:= FormatDateTime('hh:nn:ss.zzz',dt);
+  CurrentDateTime;
 end;
 
 procedure TfmMain.btComputeClick(Sender: TObject);
 begin
   ts.UTC:= DateTimeToJulianDate(deUTC.Date + StrToTime(edTime.Text));
   DisplayTimeScales;
+end;
+
+procedure TfmMain.btNowClick(Sender: TObject);
+begin
+  CurrentDateTime;
 end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
@@ -95,6 +99,15 @@ begin
   edUT1.Text:= JDFmt(ts.UT1);
   edUT2.Text:= JDFmt(ts.UT2);
   edUT0.Text:= JDFmt(ts.UT0);
+end;
+
+procedure TfmMain.CurrentDateTime;
+var
+  dt: TDateTime;
+begin
+  dt:= Now;
+  deUTC.Date:= dt;
+  edTime.Text:= FormatDateTime('hh:nn:ss.zzz',dt);
 end;
 
 

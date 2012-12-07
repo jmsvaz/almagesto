@@ -4,9 +4,5 @@ This example converts an UTC date and time to the time scales implemented in the
 
 Required packages: LCL and almagesto.
 
-Tested with the following Lazarus Release versions:
-- none
-
-Tested with the following Lazarus Development versions:
-- none
-
+Tested with the following Lazarus and FPC versions:
+- Lazarus 1.0.4 FPC 2.6.0 x86_64-linux-gtk2

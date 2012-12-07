@@ -4,9 +4,5 @@ This example draws a graphic of the time scales differences implemented in the c
 
 Required packages: LCL, TAChartLazarusPkg and almagesto.
 
-Tested with the following Lazarus Release versions:
-- none
-
-Tested with the following Lazarus Development versions:
-- Lazarus 0.9.29 r28833 FPC 2.4.3 i386-win32-win32/win64
-
+Tested with the following Lazarus and FPC versions:
+- Lazarus 1.0.4 FPC 2.6.0 x86_64-linux-gtk2
