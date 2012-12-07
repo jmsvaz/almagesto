@@ -17,15 +17,15 @@ The incomplete series of Bulletin D can be found at http://www.iers.org/nn_11252
 - NDUT1 should be incremented as a new DUT1 is annnounced;
 - DUT1_Array is the array of DUT1; a new row should be added as a new DUT1 is annnounced.
 
-The current IERS Bulletin D is Number 112 released at 2012-Jun-15:
-- From the 1 July 2012, 0h UTC until further notice, the value of DUT1 = +0.4 s
-- Bulletin D 113 should be issued in September 2012
+The current IERS Bulletin D is Number 113 released at 2012-Sep-21:
+- From the 25 October 2012, 0h UTC until further notice, the value of DUT1 = +0.3 s
+- Bulletin D 114 should be issued in December 2012
 }
 
 const
   MinDate = 2448427.5; // >= 1991-06-20
-  MaxDate = 2455523.5; // <  2010-11-22 (last modified)
-  NDUT1 = 81;
+  MaxDate = 2456268.5; // <  2012-12-07 (the day this file was modified)
+  NDUT1 = 82;
   DUT1_Array: array [1..NDUT1,1..2] of Single =
   // UT1-UTC (T) = A  (in seconds)
   //    T          A
@@ -110,4 +110,5 @@ const
     (2455869.5, -0.4),
     (2455966.5, -0.5),
     (2456057.5, -0.6),
-    (2456109.5, +0.4));
+    (2456109.5, +0.4),
+    (2456225.5, +0.3));
