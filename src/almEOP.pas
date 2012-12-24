@@ -1,6 +1,7 @@
 {
-    almEOP contains the routines to get the Earth Orientation Parameters
-    (EOP) and is part of Almagesto, a Free Pascal astronomical library.
+    almEOP is part of Almagesto, a Free Pascal astronomical library.
+    This file contains the routines to get the Earth Orientation Parameters
+    (EOP).
 
     Copyright (C) 2010 João Marcelo S. Vaz
 

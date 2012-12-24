@@ -1,6 +1,6 @@
 {
-    almDateTime contains the Date and Time manipulation routines and
-    is part of Almagesto, a Free Pascal astronomical library.
+    almDateTime is part of Almagesto, a Free Pascal astronomical library.
+    This file contains the Date and Time manipulation routines.
 
     Copyright (C) 2010 João Marcelo S. Vaz
 
@@ -2533,4 +2533,4 @@ begin
   Result := LT;
 end;
 }
-
+

@@ -1,6 +1,6 @@
 {
-    almCalendar contains the calendar classes and
-    is part of Almagesto, a Free Pascal astronomical library.
+    almCalendar is part of Almagesto, a Free Pascal astronomical library.
+    This file contains calendar manipulation routines.
 
     Copyright (C) 2011 João Marcelo S. Vaz
 
@@ -176,4 +176,4 @@ end;
 (******************************************************************************)
 
 end.
-
+
