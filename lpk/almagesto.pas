@@ -2,12 +2,12 @@
   This source is only used to compile and install the package.
  }
 
-unit almagesto; 
+unit almagesto;
 
 interface
 
 uses
-  almBase, almCalendar, almDateTime, almEOP, almEphemerides, almEPMModel;
+  almEPMModel, almEOP, almBase, almEphemerides, almCalendar, almDateTime;
 
 implementation
 

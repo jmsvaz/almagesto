@@ -6,10 +6,11 @@
     <AddToProjectUsesSection Value="True"/>
     <Author Value="João Marcelo S. Vaz"/>
     <CompilerOptions>
-      <Version Value="10"/>
+      <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value=".."/>
+        <IncludeFiles Value="\home\jota\Dev\repos\almagesto\src\"/>
+        <OtherUnitFiles Value="..;\home\jota\Dev\repos\almagesto\src\"/>
         <UnitOutputDirectory Value="..\lib\$(TargetCPU)\$(TargetOS)"/>
       </SearchPaths>
       <Linking>
@@ -29,39 +30,40 @@
     <Version Minor="1"/>
     <Files Count="9">
       <Item1>
-        <Filename Value="..\almBase.pas"/>
-        <UnitName Value="almBase"/>
+        <Filename Value="..\src\almEPMModel.pas"/>
+        <UnitName Value="almEPMModel"/>
       </Item1>
       <Item2>
-        <Filename Value="..\consts.inc"/>
+        <Filename Value="..\src\almEOP.pas"/>
+        <UnitName Value="almEOP"/>
       </Item2>
       <Item3>
-        <Filename Value="..\almCalendar.pas"/>
-        <UnitName Value="almcalendar"/>
+        <Filename Value="..\src\dat.inc"/>
+        <Type Value="Include"/>
       </Item3>
       <Item4>
-        <Filename Value="..\almDateTime.pas"/>
-        <UnitName Value="almDateTime"/>
+        <Filename Value="..\src\almBase.pas"/>
+        <UnitName Value="almBase"/>
       </Item4>
       <Item5>
-        <Filename Value="..\dat.inc"/>
+        <Filename Value="..\src\dut1.inc"/>
         <Type Value="Include"/>
       </Item5>
       <Item6>
-        <Filename Value="..\dut1.inc"/>
-        <Type Value="Include"/>
+        <Filename Value="..\src\almEphemerides.pas"/>
+        <UnitName Value="almEphemerides"/>
       </Item6>
       <Item7>
-        <Filename Value="..\almEOP.pas"/>
-        <UnitName Value="almEOP"/>
+        <Filename Value="..\src\consts.inc"/>
+        <Type Value="Include"/>
       </Item7>
       <Item8>
-        <Filename Value="..\almEphemerides.pas"/>
-        <UnitName Value="almEphemerides"/>
+        <Filename Value="..\src\almCalendar.pas"/>
+        <UnitName Value="almCalendar"/>
       </Item8>
       <Item9>
-        <Filename Value="..\almEPMModel.pas"/>
-        <UnitName Value="almEPMModel"/>
+        <Filename Value="..\src\almDateTime.pas"/>
+        <UnitName Value="almDateTime"/>
       </Item9>
     </Files>
     <RequiredPkgs Count="1">
