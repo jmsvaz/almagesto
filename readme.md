@@ -13,7 +13,7 @@ The library is tested with the latest stable Free Pascal Compiler (currently 2.6
 
 ## Installing
 
-Get the sources and add the directory to the _fpc.cfg_ file.
+Get the sources and add the _src_ directory to the _fpc.cfg_ file.
 
 If you use the Lazarus IDE, you may install a Lazarus package, located at the _lpk_ dir. This way, there's no need to manualy change the _fpc.cfg_ file.
 
