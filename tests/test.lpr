@@ -3,7 +3,8 @@ program test;
 {$mode objfpc}{$H+}
 
 uses
-  Interfaces, Forms, GuiTestRunner, testDateTime, testEphemerides;
+  Interfaces, Forms, GuiTestRunner, testDateTime, testEphemerides, 
+testLocalReferenceSystems;
 
 {$R *.res}
 

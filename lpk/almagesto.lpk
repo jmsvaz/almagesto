@@ -28,7 +28,7 @@
     <Description Value="Almagesto is a Free Pascal astronomical library"/>
     <License Value="Almagesto is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."/>
     <Version Minor="1"/>
-    <Files Count="9">
+    <Files Count="10">
       <Item1>
         <Filename Value="..\src\almEPMModel.pas"/>
         <UnitName Value="almEPMModel"/>
@@ -65,6 +65,10 @@
         <Filename Value="..\src\almDateTime.pas"/>
         <UnitName Value="almDateTime"/>
       </Item9>
+      <Item10>
+        <Filename Value="..\src\almLocalReferenceSystems.pas"/>
+        <UnitName Value="almLocalReferenceSystems"/>
+      </Item10>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>

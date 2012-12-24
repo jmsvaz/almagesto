@@ -7,7 +7,8 @@ unit almagesto;
 interface
 
 uses
-  almEPMModel, almEOP, almBase, almEphemerides, almCalendar, almDateTime;
+  almEPMModel, almEOP, almBase, almEphemerides, almCalendar, almDateTime, 
+  almLocalReferenceSystems;
 
 implementation
 

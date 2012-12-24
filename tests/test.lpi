@@ -45,7 +45,7 @@
         <PackageName Value="FCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="test.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -61,6 +61,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="testEphemerides"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="testLocalReferenceSystems.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="testLocalReferenceSystems"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
