@@ -59,7 +59,7 @@ begin
   LocalTime:= Now;
   Expected:= LocalTime - (1 - 3)/24;
   UTC:= LocalCivilTimeToUTC(LocalTime, -3, 1);
-  AssertEquals(Expected,UTC,0)
+  AssertEquals(Expected,UTC,0);
 end;
 
 procedure TTestTimeConversion.TestJulianDateConversion;

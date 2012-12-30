@@ -28,11 +28,39 @@ interface
 uses
   Classes, SysUtils, Math, almBase;
 
+type
+
+  // historical earth ellipsoids
+  TEarthEllipsoid = (eeWGS60,eeWGS66,eeGRS67,eeWGS72,eeGRS80,eeMERIT83,eeWGS84,eeIERS1989,eeIERS2003);
+
+
+// GetEarthEllipsoid returns historical earth ellipsoid parameters (a and f)
+procedure GetEarthEllipsoid(Ellipsoid: TEarthEllipsoid; out a,f: Double);
+
 //  GeodeticToGeocentric converts a Geodetic position wrt to a reference ellipsoid
 //       to a cartesian geocenric positon
 function GeodeticToGeocentric(Latitude, Longitude, Height, a, f: Double): TPosition;
 
 implementation
+
+const
+  EarthEllipsoid: array[TEarthEllipsoid,0..1] of Double =
+    ((6378165  , 1/298.3         ),
+     (6378145  , 1/298.25        ),
+     (6378160  , 1/298.2471674273),
+     (6378135  , 1/298.26        ),
+     (6378137  , 1/298.257222101 ),
+     (6378137  , 1/298.257       ),
+     (6378137  , 1/298.257223563 ),
+     (6378136  , 1/298.257       ),
+     (6378136.6, 1/298.25642     ));
+
+
+procedure GetEarthEllipsoid(Ellipsoid: TEarthEllipsoid; out a, f: Double);
+begin
+  a:= EarthEllipsoid[Ellipsoid,0];
+  f:= EarthEllipsoid[Ellipsoid,1];
+end;
 
 function GeodeticToGeocentric(Latitude, Longitude, Height, a, f: Double
   ): TPosition;
@@ -43,7 +71,7 @@ begin
   // Compute factors at the observer's longitude
   SinCos(Longitude,sinLon, cosLon);
   // Compute factors at the observer's latitude
-  SinCos(Latitude ,cosLat, sinLat);
+  SinCos(Latitude ,sinLat, cosLat);
 
   // Compute parameters relating to geodetic to geocentric conversion.
   DF2:= Sqr(1.0 - f);
