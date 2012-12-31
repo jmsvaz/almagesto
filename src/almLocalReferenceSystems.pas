@@ -1,6 +1,6 @@
 {
     almLocalReferenceSystems is part of Almagesto, a Free Pascal astronomical library.
-    This file contains localreference systems conversion routines.
+    This file contains local reference systems transformation routines.
 
     Copyright (C) 2012 João Marcelo S. Vaz
 
@@ -30,20 +30,67 @@ uses
 
 type
 
-  // historical earth ellipsoids
-  TEarthEllipsoid = (eeWGS60,eeWGS66,eeGRS67,eeWGS72,eeGRS80,eeMERIT83,eeWGS84,eeIERS1989,eeIERS2003);
+  { Earth reference ellipsoids
+    Reference ellipsoid is a mathematically-defined surface that approximates the geoid,
+    the truer figure of the Earth, or other planetary body. Because of their relative
+    simplicity, reference ellipsoids are used as a preferred surface on which geodetic
+    network computations are performed and point coordinates such as latitude, longitude,
+    and elevation are defined.
+    An ellipsoid of revolution is uniquely defined by two numbers. Geodesists, by
+    convention, use the semimajor axis and flattening. The size is represented by
+    the radius at the equator — the semimajor axis of the cross-sectional ellipse and
+    designated by the letter a. The shape of the ellipsoid is given by the flattening f,
+    which indicates how much the ellipsoid departs from spherical.
+  }
+  TEarthEllipsoid = (
+    eeWGS60,     //< World Geodetic System 1960
+    eeWGS66,     //< World Geodetic System 1966
+    eeGRS67,     //< Geodetic Reference System 1967
+    eeWGS72,     //< World Geodetic System 1972
+    eeGRS80,     //< Geodetic Reference System 1980
+    eeMERIT83,   //< MERIT 1983
+    eeWGS84,     //< World Geodetic System 1984
+    eeIERS1989,  //< IERS Conventions 1989
+    eeIERS2003); //< IERS Conventions 2003
 
 
-// GetEarthEllipsoid returns historical earth ellipsoid parameters (a and f)
+{ GetEarthEllipsoid returns Earth reference ellipsoids parameters (Earth equatorial radius
+  and flattening)
+     @param(Ellipsoid is the @link(TEarthEllipsoid) kind that you need the parameters)
+     @returns(a is a Double number with the Earth equatorial radius in meters)
+     @returns(f is a Double number with the Earth flattening value (a-b)/a)
+
+  sources:
+  @unorderedList(
+    @item(Explanatory Supplement to the Astronomical Almanac, P. Kenneth Seidelmann
+          (ed), University Science Books (1992), p220, Table 4.242.1)
+    @item(IERS Conventions (2003), Chapter 1, p12)
+  )
+}
 procedure GetEarthEllipsoid(Ellipsoid: TEarthEllipsoid; out a,f: Double);
 
-//  GeodeticToGeocentric converts a Geodetic position wrt to a reference ellipsoid
-//       to a cartesian geocenric positon
+{  GeodeticToGeocentric transform geodetic coordinates to geocentric for a reference
+   ellipsoid of specified form
+   @param(Latitude is the geodetic latititude in radians)
+   @param(Longitude is the geodeticlongitude measured eastward around the Earth in radians)
+   @param(Height is the height above ellipsoid in meters or in the same unit as @link(a))
+   @param(a is the Earth equatorial radius in meters or in the same unit as @link(Height))
+   @param(f is the Earth flattening value (a-b)/a)
+   @returns(a @link(TPosition) value with the geocentric coordinate vector in the same unit
+            as @link(a) and @link(Height))
+}
 function GeodeticToGeocentric(Latitude, Longitude, Height, a, f: Double): TPosition;
 
 implementation
 
 const
+  { values from Earth reference ellipsoids
+  sources:
+  @unorderedList(
+    @item(Explanatory Supplement to the Astronomical Almanac, P. Kenneth Seidelmann
+         (ed), University Science Books (1992), p220, Table 4.242.1)
+    @item(IERS Conventions (2003), Chapter 1, p12)
+  }
   EarthEllipsoid: array[TEarthEllipsoid,0..1] of Double =
     ((6378165  , 1/298.3         ),   // eeWGS60
      (6378145  , 1/298.25        ),   // eeWGS66
