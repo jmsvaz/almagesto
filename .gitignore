@@ -10,5 +10,6 @@
 *.dbg
 *.compiled
 lib
+docs
 backup
 !.gitignore
