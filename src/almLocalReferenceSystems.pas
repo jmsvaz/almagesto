@@ -1,6 +1,5 @@
 {
     almLocalReferenceSystems is part of Almagesto, a Free Pascal astronomical library.
-    This file contains local reference systems transformation routines.
 
     Copyright (C) 2012 João Marcelo S. Vaz
 
@@ -16,9 +15,10 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 }
 
+{almLocalReferenceSystems contains local reference systems transformation routines.
+}
 unit almLocalReferenceSystems;
 
 {$mode objfpc}{$H+}
@@ -30,7 +30,8 @@ uses
 
 type
 
-  { Earth reference ellipsoids
+  { Earth reference ellipsoids.
+
     Reference ellipsoid is a mathematically-defined surface that approximates the geoid,
     the truer figure of the Earth, or other planetary body. Because of their relative
     simplicity, reference ellipsoids are used as a preferred surface on which geodetic
@@ -55,7 +56,7 @@ type
 
 
 { GetEarthEllipsoid returns Earth reference ellipsoids parameters (Earth equatorial radius
-  and flattening)
+  and flattening).
      @param(Ellipsoid is the @link(TEarthEllipsoid) kind that you need the parameters)
      @returns(a is a Double number with the Earth equatorial radius in meters)
      @returns(f is a Double number with the Earth flattening value (a-b)/a)
@@ -66,11 +67,12 @@ type
           (ed), University Science Books (1992), p220, Table 4.242.1)
     @item(IERS Conventions (2003), Chapter 1, p12)
   )
+  @seealso(TEarthEllipsoid)
 }
 procedure GetEarthEllipsoid(Ellipsoid: TEarthEllipsoid; out a,f: Double);
 
 {  GeodeticToGeocentric transform geodetic coordinates to geocentric for a reference
-   ellipsoid of specified form
+   ellipsoid of specified form.
    @param(Latitude is the geodetic latititude in radians)
    @param(Longitude is the geodeticlongitude measured eastward around the Earth in radians)
    @param(Height is the height above ellipsoid in meters or in the same unit as @link(a))
