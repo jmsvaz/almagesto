@@ -24,9 +24,9 @@ type
     procedure TestIERS2003;
   end;
 
-{ TTestGeodetic }
+{ TTestGeodeticTransform }
 
-  TTestGeodetic= class(TTestCase)
+  TTestGeodeticTransform = class(TTestCase)
   private
     a,f: Double;
   protected
@@ -123,9 +123,9 @@ begin
   AssertEquals(1/298.25642,f,0);
 end;
 
-{ TTestGeodetic }
+{ TTestGeodeticTransform }
 
-procedure TTestGeodetic.SetUp;
+procedure TTestGeodeticTransform.SetUp;
 begin
   inherited SetUp;
   // using WGS84 ellipsoid
@@ -133,7 +133,7 @@ begin
   f:= 1/298.257223563;
 end;
 
-procedure TTestGeodetic.TestZeroLatLong;
+procedure TTestGeodeticTransform.TestZeroLatLong;
 var
   output: TPosition;
 begin
@@ -144,7 +144,7 @@ begin
   AssertEquals(0,output.Z,0);
 end;
 
-procedure TTestGeodetic.TestNorthPole;
+procedure TTestGeodeticTransform.TestNorthPole;
 var
   output: TPosition;
 begin
@@ -158,7 +158,7 @@ end;
 
 initialization
   RegisterTest(TTestEllipsoid);
-  RegisterTest(TTestGeodetic);
+  RegisterTest(TTestGeodeticTransform);
 
 end.
 
