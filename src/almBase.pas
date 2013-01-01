@@ -55,8 +55,8 @@ type
     Accel: TAcceleration
   end;
 
-  TSolarSystemBody = (stSun,       // Sun
-                      plMercury,   // Planets
+  TSolarSystemBody = (stSun,       //< Sun
+                      plMercury,   //< Planets
                       plVenus,
                       plEarth,
                       plMars,
@@ -64,7 +64,7 @@ type
                       plSaturn,
                       plUranus,
                       plNeptune,
-                      dpCeres,     // Dwarf planets
+                      dpCeres,     //< Dwarf planets
                       dpPluto,
                       dpHaumea,
                       dpMakemake,
