@@ -9,9 +9,9 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <IncludeFiles Value="\home\jota\Dev\repos\almagesto\src\"/>
-        <OtherUnitFiles Value="..;\home\jota\Dev\repos\almagesto\src\"/>
-        <UnitOutputDirectory Value="..\lib\$(TargetCPU)\$(TargetOS)"/>
+        <IncludeFiles Value="..\src"/>
+        <OtherUnitFiles Value="..\src"/>
+        <UnitOutputDirectory Value="..\src\lib\$(TargetCPU)\$(TargetOS)"/>
       </SearchPaths>
       <Linking>
         <Debugging>
