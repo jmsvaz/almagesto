@@ -30,7 +30,7 @@ SOURCESDIR=../src
 PASDOC_OPTIONS=--include $(SOURCESDIR) $(SOURCESDIR)/*.pas \
   -DFPC  \
   --title "Almagesto Documentation" --write-uses-list  --auto-abstract \
-  --introduction=../docintro.txt
+  --introduction=$(DOCSDIR)/docintro.txt
 
 GRAPHVIZ_COMMANDS=dot -Grankdir=LR -Tpng -oGVClasses.png GVClasses.dot; \
                   dot -Grankdir=LR -Tpng -oGVUses.png GVUses.dot
