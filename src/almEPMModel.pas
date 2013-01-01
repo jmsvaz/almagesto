@@ -1,6 +1,5 @@
 {
     almEPMModel is part of Almagesto, a Free Pascal astronomical library.
-    This file contains the EPM Model classes.
 
     Copyright (C) 2011 João Marcelo S. Vaz
 
@@ -18,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
+// This unit has the EPM Model classes
 unit almEPMModel;
 
 {$mode objfpc}{$H+}

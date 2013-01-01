@@ -1,6 +1,5 @@
 {
     almCalendar is part of Almagesto, a Free Pascal astronomical library.
-    This file contains calendar manipulation routines.
 
     Copyright (C) 2011 João Marcelo S. Vaz
 
@@ -18,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
+//  This unit has calendar manipulation routines.
 unit almCalendar;
 
 {$mode objfpc}{$H+}

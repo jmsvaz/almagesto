@@ -1,8 +1,7 @@
 {
     almDateTime is part of Almagesto, a Free Pascal astronomical library.
-    This file contains the Date and Time manipulation routines.
 
-    Copyright (C) 2010 João Marcelo S. Vaz
+    Copyright (C) 2010,2013 João Marcelo S. Vaz
 
     Almagesto is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +21,7 @@
 
 }
 
+//  This unit has Date and Time manipulation routines.
 unit almDateTime;
 
 {$mode objfpc}{$H+}

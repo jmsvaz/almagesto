@@ -1,6 +1,5 @@
 {
     almBase is part of Almagesto, a Free Pascal astronomical library.
-    This contains the basic classes, types and routines.
 
     Copyright (C) 2011 João Marcelo S. Vaz
 
@@ -18,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
+//  This unit has the basic classes, types and routines.
 unit almBase;
 
 {$mode objfpc}{$H+}

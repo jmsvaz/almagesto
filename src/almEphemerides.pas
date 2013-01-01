@@ -1,6 +1,5 @@
 {
     almEphemerides is part of Almagesto, a Free Pascal astronomical library.
-    This file contains the Ephemerides classes.
 
     Copyright (C) 2011 João Marcelo S. Vaz
 
@@ -18,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
+//  This unit contains the Ephemerides classes.
 unit almEphemerides;
 
 {$mode objfpc}{$H+}

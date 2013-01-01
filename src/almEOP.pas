@@ -1,7 +1,5 @@
 {
     almEOP is part of Almagesto, a Free Pascal astronomical library.
-    This file contains the routines to get the Earth Orientation Parameters
-    (EOP).
 
     Copyright (C) 2010 João Marcelo S. Vaz
 
@@ -17,8 +15,10 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 }
+
+// This unit has the routines to get the Earth Orientation Parameters (EOP)
+
 unit almEOP;
 
 {$mode objfpc}{$H+}

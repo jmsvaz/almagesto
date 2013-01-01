@@ -17,8 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
-{almLocalReferenceSystems contains local reference systems transformation routines.
-}
+// This unit has local reference systems transformation routines
 unit almLocalReferenceSystems;
 
 {$mode objfpc}{$H+}
