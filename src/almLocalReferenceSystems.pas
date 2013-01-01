@@ -65,7 +65,6 @@ const
 { GetEarthEllipsoid returns Earth reference ellipsoids parameters (Earth equatorial radius
   and flattening).
      @param(Ellipsoid is the @link(TEarthEllipsoid) ellipsoid that you need the parameters.
-            @link(DefaultEarthEllipsoid) is the default value)
      @returns(a is a Double number with the Earth equatorial radius in meters)
      @returns(f is a Double number with the Earth flattening value (a-b)/a)
 
@@ -78,6 +77,19 @@ const
   @seealso(TEarthEllipsoid)
 }
 procedure GetEarthEllipsoid(Ellipsoid: TEarthEllipsoid; out a,f: Double);
+{ GetEarthEllipsoid returns the @link(DefaultEarthEllipsoid) Earth reference ellipsoid
+  parameters (Earth equatorial radius and flattening).
+     @returns(a is a Double number with the Earth equatorial radius in meters)
+     @returns(f is a Double number with the Earth flattening value (a-b)/a)
+
+  sources:
+  @unorderedList(
+    @item(Explanatory Supplement to the Astronomical Almanac, P. Kenneth Seidelmann
+          (ed), University Science Books (1992), p220, Table 4.242.1)
+    @item(IERS Conventions (2003), Chapter 1, p12)
+  )
+  @seealso(TEarthEllipsoid)
+}
 procedure GetEarthEllipsoid(out a,f: Double);
 
 {  GeodeticToGeocentric transform geodetic coordinates to geocentric for a reference
