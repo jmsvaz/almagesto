@@ -5,7 +5,7 @@ unit testLocalReferenceSystems;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry;
+  Classes, SysUtils, fpcunit, testregistry,almLocalReferenceSystems;
 
 type
 
@@ -26,6 +26,7 @@ type
     procedure TestWGS84;
     procedure TestIERS1989;
     procedure TestIERS2003;
+    procedure TestDefaultEllipsoidValue;
   end;
 
 { TTestGeodeticTransform }
@@ -38,11 +39,13 @@ type
   published
     procedure TestZeroLatLong;
     procedure TestNorthPole;
+    procedure TestTEarthEllipsoidCalling;
+    procedure TestTEarthEllipsoidDefaultCalling;
   end;
 
 implementation
 
-uses almBase, almLocalReferenceSystems;
+uses almBase;
 
 { TTestEllipsoid }
 
@@ -163,14 +166,23 @@ begin
   AssertEquals(1/298.25642,f,0);
 end;
 
+procedure TTestEllipsoid.TestDefaultEllipsoidValue;
+var
+  a1,f1, a2,f2: Double;
+begin
+  GetEarthEllipsoid(DefaultEarthEllipsoid,a1,f1);
+  GetEarthEllipsoid(a2,f2);
+  AssertEquals(a1,a2,0);
+  AssertEquals(f1,f2,0);
+end;
+
 { TTestGeodeticTransform }
 
 procedure TTestGeodeticTransform.SetUp;
 begin
   inherited SetUp;
-  // using WGS84 ellipsoid
-  a:= 6378137;
-  f:= 1/298.257223563;
+  // using default ellipsoid
+  GetEarthEllipsoid(DefaultEarthEllipsoid,a,f);
 end;
 
 procedure TTestGeodeticTransform.TestZeroLatLong;
@@ -190,10 +202,32 @@ var
 begin
   // at North pole (Lat=90º,Long=Height=0, we have x=y=0 and z= a.(1-f)
   output:= GeodeticToGeocentric(Pi/2,0,0,a,f);
-  // as we compute sin(pi/2), we have to use 1e-9 as error
+  // as we compute sin(pi/2) and fpc doesn't return ZERO, we have to use 1e-9 as an error delta
   AssertEquals(0,output.X,1e-9);
   AssertEquals(0,output.Y,1e-9);
   AssertEquals(a*(1-f),output.Z,1e-9);
+end;
+
+procedure TTestGeodeticTransform.TestTEarthEllipsoidCalling;
+var
+  actual, expected: TPosition;
+begin
+  actual:= GeodeticToGeocentric(0,0,0,a,f);
+  expected:= GeodeticToGeocentric(0,0,0,DefaultEarthEllipsoid);
+  AssertEquals(expected.X,actual.X,0);
+  AssertEquals(expected.Y,actual.Y,0);
+  AssertEquals(expected.Z,actual.Z,0);
+end;
+
+procedure TTestGeodeticTransform.TestTEarthEllipsoidDefaultCalling;
+var
+  actual, expected: TPosition;
+begin
+  actual:= GeodeticToGeocentric(0,0,0,DefaultEarthEllipsoid);
+  expected:= GeodeticToGeocentric(0,0,0);
+  AssertEquals(expected.X,actual.X,0);
+  AssertEquals(expected.Y,actual.Y,0);
+  AssertEquals(expected.Z,actual.Z,0);
 end;
 
 initialization

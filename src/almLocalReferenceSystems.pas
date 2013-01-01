@@ -57,10 +57,15 @@ type
     eeIERS1989,  //< IERS Conventions 1989
     eeIERS2003); //< IERS Conventions 2003
 
+const
+  {Earth reference ellipsoid used at the current date
+  }
+  DefaultEarthEllipsoid = eeWGS84;
 
 { GetEarthEllipsoid returns Earth reference ellipsoids parameters (Earth equatorial radius
   and flattening).
-     @param(Ellipsoid is the @link(TEarthEllipsoid) kind that you need the parameters)
+     @param(Ellipsoid is the @link(TEarthEllipsoid) ellipsoid that you need the parameters.
+            @link(DefaultEarthEllipsoid) is the default value)
      @returns(a is a Double number with the Earth equatorial radius in meters)
      @returns(f is a Double number with the Earth flattening value (a-b)/a)
 
@@ -73,6 +78,7 @@ type
   @seealso(TEarthEllipsoid)
 }
 procedure GetEarthEllipsoid(Ellipsoid: TEarthEllipsoid; out a,f: Double);
+procedure GetEarthEllipsoid(out a,f: Double);
 
 {  GeodeticToGeocentric transform geodetic coordinates to geocentric for a reference
    ellipsoid of specified form.
@@ -85,6 +91,18 @@ procedure GetEarthEllipsoid(Ellipsoid: TEarthEllipsoid; out a,f: Double);
             as a and Height)
 }
 function GeodeticToGeocentric(Latitude, Longitude, Height, a, f: Double): TPosition;
+
+{  GeodeticToGeocentric transform geodetic coordinates to geocentric for a reference
+   ellipsoid of specified form.
+   @param(Latitude is the geodetic latititude in radians)
+   @param(Longitude is the geodeticlongitude measured eastward around the Earth in radians)
+   @param(Height is the height above ellipsoid in the same unit as a)
+   @param(Ellipsoid is the @link(TEarthEllipsoid) ellipsoid that you need the parameters.
+          @link(DefaultEarthEllipsoid) is the default value)
+   @returns(a @link(TPosition) value with the geocentric coordinate vector in the same unit
+            as a and Height)
+}
+function GeodeticToGeocentric(Latitude, Longitude, Height: Double; Ellipsoid: TEarthEllipsoid = DefaultEarthEllipsoid): TPosition;
 
 implementation
 
@@ -118,6 +136,11 @@ begin
   f:= EarthEllipsoid[Ellipsoid,1];
 end;
 
+procedure GetEarthEllipsoid(out a, f: Double);
+begin
+  GetEarthEllipsoid(DefaultEarthEllipsoid,a,f);
+end;
+
 function GeodeticToGeocentric(Latitude, Longitude, Height, a, f: Double
   ): TPosition;
 var
@@ -141,6 +164,15 @@ begin
   Result.Y:= ach * cosLat * sinLon;
   Result.Z:= ash * sinLat;
 
+end;
+
+function GeodeticToGeocentric(Latitude, Longitude, Height: Double;
+  Ellipsoid: TEarthEllipsoid): TPosition;
+var
+  a,f: Double;
+begin
+  GetEarthEllipsoid(Ellipsoid,a,f);
+  Result:= GeodeticToGeocentric(Latitude, Longitude, Height, a, f);
 end;
 
 end.
