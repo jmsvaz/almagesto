@@ -159,7 +159,7 @@ type
   //  This function is used to compute UT2
   function JulianDateToBesselianEpoch(JD: TJulianDate): Double;
 
-  function LocalCivilTimeToUTC(LocalCivilTime: TJulianDate; TimeZone: Single; DayLightSavings: Single): TJulianDate;
+  function LocalCivilTimeToUTC(LocalCivilTime: TJulianDate; TimeZone: Double; DayLightSavings: Double): TJulianDate;
   function UTCToLocalCivilTime(UTC: TJulianDate; TimeZone: Single; DayLightSavings: Single): TJulianDate;
 
 implementation
@@ -2470,7 +2470,7 @@ begin
   Result:= 1900 + (JD - B1900)/TropicalDaysPerYear;
 end;
 
-function LocalCivilTimeToUTC(LocalCivilTime: TJulianDate; TimeZone: Single; DayLightSavings: Single): TJulianDate;
+function LocalCivilTimeToUTC(LocalCivilTime: TJulianDate; TimeZone: Double; DayLightSavings: Double): TJulianDate;
 begin
  Result:= LocalCivilTime - (DaylightSavings + TimeZone)/HoursPerDay;
 end;
