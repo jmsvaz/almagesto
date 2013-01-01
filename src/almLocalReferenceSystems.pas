@@ -44,9 +44,13 @@ type
   }
   TEarthEllipsoid = (
     eeWGS60,     //< World Geodetic System 1960
+    eeIAU64,     //< IAU 1964
     eeWGS66,     //< World Geodetic System 1966
+    eeSA69,      //< South American 1969
     eeGRS67,     //< Geodetic Reference System 1967
     eeWGS72,     //< World Geodetic System 1972
+    eeIAU75,     //< IAU 1975
+    eeIAU76,     //< IAU 1976
     eeGRS80,     //< Geodetic Reference System 1980
     eeMERIT83,   //< MERIT 1983
     eeWGS84,     //< World Geodetic System 1984
@@ -94,9 +98,13 @@ const
   }
   EarthEllipsoid: array[TEarthEllipsoid,0..1] of Double =
     ((6378165  , 1/298.3         ),   // eeWGS60
+     (6378160  , 1/298.25        ),   // eeIAU64
      (6378145  , 1/298.25        ),   // eeWGS66
+     (6378160  , 1/298.25        ),   // eeSA69
      (6378160  , 1/298.2471674273),   // eeGRS67
      (6378135  , 1/298.26        ),   // eeWGS72
+     (6378140  , 1/298.256       ),   // eeIAU75
+     (6378140  , 1/298.257       ),   // eeIAU76
      (6378137  , 1/298.257222101 ),   // eeGRS80
      (6378137  , 1/298.257       ),   // eeMERIT83
      (6378137  , 1/298.257223563 ),   // eeWGS84

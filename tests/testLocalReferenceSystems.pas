@@ -14,9 +14,13 @@ type
   TTestEllipsoid= class(TTestCase)
   published
     procedure TestWGS60;
+    procedure TestIAU64;
     procedure TestWGS66;
+    procedure TestSA69;
     procedure TestGRS67;
     procedure TestWGS72;
+    procedure TestIAU75;
+    procedure TestIAU76;
     procedure TestGRS80;
     procedure TestMERIT83;
     procedure TestWGS84;
@@ -51,12 +55,30 @@ begin
   AssertEquals(1/298.3,f,0);
 end;
 
+procedure TTestEllipsoid.TestIAU64;
+var
+  a,f: Double;
+begin
+  GetEarthEllipsoid(eeIAU64,a,f);
+  AssertEquals(6378160,a,0);
+  AssertEquals(1/298.25,f,0)
+end;
+
 procedure TTestEllipsoid.TestWGS66;
 var
   a,f: Double;
 begin
   GetEarthEllipsoid(eeWGS66,a,f);
   AssertEquals(6378145,a,0);
+  AssertEquals(1/298.25,f,0);
+end;
+
+procedure TTestEllipsoid.TestSA69;
+var
+  a,f: Double;
+begin
+  GetEarthEllipsoid(eeSA69,a,f);
+  AssertEquals(6378160,a,0);
   AssertEquals(1/298.25,f,0);
 end;
 
@@ -76,6 +98,24 @@ begin
   GetEarthEllipsoid(eeWGS72,a,f);
   AssertEquals(6378135,a,0);
   AssertEquals(1/298.26,f,0);
+end;
+
+procedure TTestEllipsoid.TestIAU75;
+var
+  a,f: Double;
+begin
+  GetEarthEllipsoid(eeIAU75,a,f);
+  AssertEquals(6378140,a,0);
+  AssertEquals(1/298.256,f,0);
+end;
+
+procedure TTestEllipsoid.TestIAU76;
+var
+  a,f: Double;
+begin
+  GetEarthEllipsoid(eeIAU76,a,f);
+  AssertEquals(6378140,a,0);
+  AssertEquals(1/298.257,f,0);
 end;
 
 procedure TTestEllipsoid.TestGRS80;
