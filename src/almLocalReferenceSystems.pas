@@ -78,11 +78,11 @@ procedure GetEarthEllipsoid(Ellipsoid: TEarthEllipsoid; out a,f: Double);
    ellipsoid of specified form.
    @param(Latitude is the geodetic latititude in radians)
    @param(Longitude is the geodeticlongitude measured eastward around the Earth in radians)
-   @param(Height is the height above ellipsoid in meters or in the same unit as @link(a))
-   @param(a is the Earth equatorial radius in meters or in the same unit as @link(Height))
+   @param(Height is the height above ellipsoid in the same unit as a)
+   @param(a is the Earth equatorial radius in meters)
    @param(f is the Earth flattening value (a-b)/a)
    @returns(a @link(TPosition) value with the geocentric coordinate vector in the same unit
-            as @link(a) and @link(Height))
+            as a and Height)
 }
 function GeodeticToGeocentric(Latitude, Longitude, Height, a, f: Double): TPosition;
 
