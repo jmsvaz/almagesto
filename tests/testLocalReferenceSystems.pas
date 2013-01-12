@@ -39,6 +39,7 @@ type
   published
     procedure TestZeroLatLong;
     procedure TestNorthPole;
+    procedure TestSomeCoordinate;
     procedure TestTEarthEllipsoidCalling;
     procedure TestTEarthEllipsoidDefaultCalling;
   end;
@@ -200,12 +201,31 @@ procedure TTestGeodeticTransform.TestNorthPole;
 var
   output: TPosition;
 begin
-  // at North pole (Lat=90º,Long=Height=0, we have x=y=0 and z= a.(1-f)
+  // at North pole (Lat=90º,Long=0º,Height=0, we have x=0,y=0 and z= a.(1-f)
   output:= GeodeticToGeocentric(Pi/2,0,0,a,f);
-  // as we compute sin(pi/2) and fpc doesn't return ZERO, we have to use 1e-9 as an error delta
+  // as sin(pi/2) doesn't return ZERO, we have to use 1e-9 as an error delta
   AssertEquals(0,output.X,1e-9);
   AssertEquals(0,output.Y,1e-9);
   AssertEquals(a*(1-f),output.Z,1e-9);
+end;
+
+procedure TTestGeodeticTransform.TestSomeCoordinate;
+var
+  output: TPosition;
+  Lat,Long,Height,f_a,f_f,error: Double;
+begin
+  // using SOFA v20120301_a "t_gd2gc" testing values
+  Lat:=-0.5;
+  Long:=3.1;
+  Height:=2500;
+  f_a:=6378136.0;
+  f_f:=0.0033528;
+  error:= 1e-9;
+  // call function
+  output:= GeodeticToGeocentric(Lat,Long,Height,f_a,f_f);
+  AssertEquals(-5598999.6665116328,output.X,error);
+  AssertEquals(233011.63514630572,output.Y,error);
+  AssertEquals(-3040909.0517314132,output.Z,error);
 end;
 
 procedure TTestGeodeticTransform.TestTEarthEllipsoidCalling;
