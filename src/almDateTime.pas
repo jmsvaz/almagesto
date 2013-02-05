@@ -320,39 +320,6 @@ begin
 end;
 
 
-
-
-
-
-{
-
-IERS Bull. A UT1-UTC values from file "finals2000A.all"
-
-U = -0,025 + (Year - 2000)/100
-
-Delta T = -75522*U^4 - 1391,6*U^3 - 230,14*U^2 + 16,923*U + 64,396
- 01/01/2000 to 12/02/2004 - IERS Bull. A: DUT1 error < 0,0355 s
- 13/02/2004 to 15/02/2005 - IERS Prediction: DUT1 error < 0,0338 s
-
-U = -0,025 + (Year - 2000)/100
-
-Delta T = 5E+07*U^6 + 2E+06*U^5 - 108562*U^4 - 3229,3*U^3 - 227,78*U^2 + 17,219*U + 64,396
- 01/01/2000 to 12/02/2004 - IERS Bull. A: DUT1 error < 0,0358 s
- 13/02/2004 to 15/02/2005 - IERS Prediction: DUT1 error < 0,0368 s
-
-U = (Year - 2000)/100
-Delta T = 513956*U^6 + 301072*U^5 + 47541*U^4 - 714,62*U^3 - 597,04*U^2 + 38,304*U + 63,861
-
- 01/01/2000 to 12/02/2004 - IERS Bull. A: DUT1 error < 0,13 s
- 13/02/2004 to 15/02/2005 - IERS Prediction: DUT1 error < 0,13 s
-
- 04/04/1973 to 12/02/2004 - IERS Bull. A: DUT1 error < 0,25 s
- 12/07/1985 to 12/02/2004 - IERS Bull. A: DUT1 error < 0,2 s
- 24/11/1989 to 12/02/2004 - IERS Bull. A: DUT1 error < 0,182 s
- 17/11/1990 to 12/02/2004 - IERS Bull. A: DUT1 error < 0,16 s
-
-}
-
 function DeltaT(UT1: TJulianDate): Double;
 {   Delta T = TT - UT1
 
