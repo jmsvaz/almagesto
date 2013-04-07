@@ -18,8 +18,7 @@ procedure PrecessionIAU1976;
 //  (as for the FK5 catalog)
 //  P = Rz(ChiA).Rx(-OmegaA).Rz(-PsiA).Rx(Eps0)
 //  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in radians)
-//  uses: TDB, DegToRad
-//  used by: InfoChanged
+//  uses: TDB
 var
   t: Extended;
 begin
@@ -36,9 +35,8 @@ end;
 procedure PrecessionIAU2000;
 //  reference: McCarthy & Petit, IERS Conventions (2003), p. 45, IERS Technical Note 32, November 2003
 //  P = Rz(ChiA).Rx(-OmegaA).Rz(-PsiA).Rx(Eps0)
-//  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in Degrees)
-//  uses: TT, DegToRad
-//  used by: InfoChanged
+//  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in radians)
+//  uses: TT
 var
   t: Extended;
 begin
@@ -60,9 +58,8 @@ end;
 procedure PrecessionIAU2006;
 //  reference: Capitaine et al, Astron. Astrophys. 412, 567-586 (2003)
 //  P = Rz(ChiA).Rx(-OmegaA).Rz(-PsiA).Rx(Eps0)
-//  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in Degrees)
-//  uses: TT, DegToRad
-//  used by: InfoChanged
+//  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in radians)
+//  uses: TT
 var
   t: Extended;
 begin
@@ -77,15 +74,14 @@ begin
 
 end;
 
-procedure TOrientationFrame.Nutation_IAU1980;
+procedure NutationIAU1980;
 //  REFERENCE:  Seidelmann, P.K. (1982) Celestial Mechanics 27, 79-106 (IAU 1980 Theory of Nutation)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the two Nutation angles in longitude and obliquity, with
 //  respect to the equinox and ecliptic of date, using the IAU 1980 Nutation model
 //  N = Rx(-(EpsA + DeltaEps)).Rz(-DeltaPsi).Rx(EpsA)
-//  result = Nutation Angles (DeltaPsi, DeltaEps) (in Degrees)
-//  uses: TDB, DegToRad
-//  used by: InfoChanged
+//  result = Nutation Angles (DeltaPsi, DeltaEps) (in arcsecs)
+//  uses: TDB
 const
   NE0 = 106;
   NutationCoeffs_80: array[1..NE0,1..9] of Integer =
@@ -251,9 +247,8 @@ procedure TOrientationFrame.Nutation_IAU2000B;
 //  This routine computes the two Nutation angles in longitude and obliquity, with
 //  respect to the equinox and ecliptic of date, using the IAU 2000B Theory of Nutation Model
 //  N = Rx(-(EpsA + DeltaEps)).Rz(-DeltaPsi).Rx(EpsA)
-//  result = Nutation Angles (DeltaPsi, DeltaEps) (in Degrees)
-//  uses: TT, DegToRad
-//  used by: InfoChanged
+//  result = Nutation Angles (DeltaPsi, DeltaEps) (in arcsecs)
+//  uses: TT
 const
 //  Number of terms in the luni-solar nutation model
   NLS = 77;
