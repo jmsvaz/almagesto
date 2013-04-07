@@ -28,8 +28,8 @@ uses
   Classes, SysUtils;
 
 // Julian Calendar functions
-procedure JulianDateToJulianCalendar(JulianDate: Extended; var Year,Month,Day: Integer);
-function JulianCalendarToJulianDate(Year, Month, Day: Integer): Extended;
+procedure JulianDateToJulianCalendar(JulianDate: Extended; var Year,Month,Day: Integer); overload;
+function JulianCalendarToJulianDate(Year, Month, Day: Integer): Extended; overload;
 function JulianLeapYear(Year: Integer): Boolean;
 
 // Gregorian Calendar functions
