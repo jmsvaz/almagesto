@@ -5,11 +5,21 @@ unit almEarth;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, almBase;
 
 implementation
 
-procedure PrecessionIAU1976;
+uses Math;
+
+// Eps0: Obliquity of ecliptic at epoch
+// EpsA: Obliquity of the ecliptic at date = Mean Obliquity
+// PsiA: Precession in longitude, referred to the ecliptic of epoch
+// OmegaA: Precession in obliquity, referred to the ecliptic of epoch
+// ChiA: Planetary precession along the Equator
+// DeltaPsi: Nutation in longitude
+// DeltaEps: Nutation in obliquity
+
+procedure PrecessionIAU1976(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 //  reference: Lieske, J., et al. (1977). Astron. & Astrophys. 58, 1-16. (IAU 1976 Precession Model)
 //             Lieske, J. (1979). Astron. & Astrophys. 73, 282-284.
 //
@@ -22,40 +32,47 @@ procedure PrecessionIAU1976;
 var
   t: Extended;
 begin
-  t:= (TDB.AsFloat - J2000)/JulianDaysPerCentury;
+  t:= (TDB - J2000)/JulianDaysPerCentury;
 
 //  Precession angles (Lieske et al. 1977)
-  fEps0  := 84381.448; // obliquity of ecliptic at J2000.0 (in arcseconds)
-  fEpsA  := Eps0 + (-   46.8150 + (- 0.00059 + (  0.001813)*t)*t)*t;
-  fPsiA  :=        (  5038.7784 + (- 1.07259 + (- 0.001147)*t)*t)*t;
-  fChiA  :=        (    10.5526 + (- 2.38064 + (- 0.001125)*t)*t)*t;
-  fOmegaA:= Eps0 + (              (  0.05127 + (- 0.007726)*t)*t)*t;
+  Eps0  := 84381.448; // obliquity of ecliptic at J2000.0 (in arcseconds)
+  EpsA  := Eps0 + (-   46.8150 + (- 0.00059 + (  0.001813)*t)*t)*t;
+  PsiA  :=        (  5038.7784 + (- 1.07259 + (- 0.001147)*t)*t)*t;
+  ChiA  :=        (    10.5526 + (- 2.38064 + (- 0.001125)*t)*t)*t;
+  OmegaA:= Eps0 + (              (  0.05127 + (- 0.007726)*t)*t)*t;
+
+//  change to radians
+  Eps0  := Eps0*RadiansPerArcSecond;
+  EpsA  := EpsA*RadiansPerArcSecond;
+  PsiA  := PsiA*RadiansPerArcSecond;
+  ChiA  := ChiA*RadiansPerArcSecond;
+  OmegaA:= OmegaA*RadiansPerArcSecond;
 end;
 
-procedure PrecessionIAU2000;
+procedure PrecessionIAU2000(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 //  reference: McCarthy & Petit, IERS Conventions (2003), p. 45, IERS Technical Note 32, November 2003
 //  P = Rz(ChiA).Rx(-OmegaA).Rz(-PsiA).Rx(Eps0)
 //  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in radians)
-//  uses: TT
+//  uses: TDB
 var
   t: Extended;
+const
+// IAU 2000 precession corrections
+// reference: McCarthy & Petit, IERS Conventions (2003), p. 43, IERS Technical Note 32, November 2003
+  dPsiA = -0.29965; // correction for the precession rate of the equator in longitude (in arcseconds/century)
+  dOmegaA = -0.02524; // correction for the precession rate of the equator in obliquity (in arcseconds/century)
 begin
-  t:= (TT.AsFloat - J2000)/JulianDaysPerCentury;
-
 //  Precession angles (Lieske et al. 1977), but using TT instead of TDB (IERS Conventions 2003)
-  fEps0  := 84381.448; // obliquity of ecliptic at J2000.0 (in arcseconds)
-  fEpsA  := Eps0 + (-   46.8150 + (- 0.00059 + (  0.001813)*t)*t)*t;
-  fPsiA  :=        (  5038.7784 + (- 1.07259 + (- 0.001147)*t)*t)*t;
-  fChiA  :=        (    10.5526 + (- 2.38064 + (- 0.001125)*t)*t)*t;
-  fOmegaA:= Eps0 + (              (  0.05127 + (- 0.007726)*t)*t)*t;
+  PrecessionIAU1976(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
 
 //  Apply IAU 2000 precession corrections.
-  fPsiA  := PsiA  + (dPsiA)*t;
-  fEpsA  := EpsA  + (dOmegaA)*t;
-  fOmegaA:= OmegaA  + (dOmegaA)*t;
+  t:= (TDB - J2000)/JulianDaysPerCentury;
+  PsiA  := PsiA  + (dPsiA)*t*RadiansPerArcSecond;
+  EpsA  := EpsA  + (dOmegaA)*t*RadiansPerArcSecond;
+  OmegaA:= OmegaA  + (dOmegaA)*t*RadiansPerArcSecond;
 end;
 
-procedure PrecessionIAU2006;
+procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 //  reference: Capitaine et al, Astron. Astrophys. 412, 567-586 (2003)
 //  P = Rz(ChiA).Rx(-OmegaA).Rz(-PsiA).Rx(Eps0)
 //  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in radians)
@@ -63,18 +80,24 @@ procedure PrecessionIAU2006;
 var
   t: Extended;
 begin
-  t:= (TT.AsFloat - J2000)/JulianDaysPerCentury;
+  t:= (TDB - J2000)/JulianDaysPerCentury;
 
 //  Precession angles (Capitaine et al. 2003)
-  fEps0  := 84381.406; // obliquity of ecliptic at J2000.0 (in arcseconds)
-  fEpsA  := Eps0 + (-   46.836769 + (- 0.0001831 + (  0.00200340 - 0.000000576*t)*t)*t)*t;
-  fPsiA  :=        (  5038.481507 + (- 1.0790069 + (- 0.00114045 + 0.000132851*t)*t)*t)*t;
-  fChiA  :=        (    10.556403 + (- 2.3814292 + (- 0.00121197 + 0.000170663*t)*t)*t)*t;
-  fOmegaA:= Eps0 + (-    0.025754 + (  0.0512623 + (- 0.00772503 - 0.000000467*t)*t)*t)*t;
+  Eps0  := 84381.406; // obliquity of ecliptic at J2000.0 (in arcseconds)
+  EpsA  := Eps0 + (-   46.836769 + (- 0.0001831 + (  0.00200340 - 0.000000576*t)*t)*t)*t;
+  PsiA  :=        (  5038.481507 + (- 1.0790069 + (- 0.00114045 + 0.000132851*t)*t)*t)*t;
+  ChiA  :=        (    10.556403 + (- 2.3814292 + (- 0.00121197 + 0.000170663*t)*t)*t)*t;
+  OmegaA:= Eps0 + (-    0.025754 + (  0.0512623 + (- 0.00772503 - 0.000000467*t)*t)*t)*t;
 
+//  change to radians
+  Eps0  := Eps0*RadiansPerArcSecond;
+  EpsA  := EpsA*RadiansPerArcSecond;
+  PsiA  := PsiA*RadiansPerArcSecond;
+  ChiA  := ChiA*RadiansPerArcSecond;
+  OmegaA:= OmegaA*RadiansPerArcSecond;
 end;
 
-procedure NutationIAU1980;
+procedure NutationIAU1980(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  REFERENCE:  Seidelmann, P.K. (1982) Celestial Mechanics 27, 79-106 (IAU 1980 Theory of Nutation)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the two Nutation angles in longitude and obliquity, with
@@ -199,7 +222,7 @@ var
   FundamentalArguments: array [1..5] of Extended;
   j, i: Integer;
 begin
-  t:= (TDB.AsFloat - J2000)/JulianDaysPerCentury;
+  t:= (TDB - J2000)/JulianDaysPerCentury;
 
 //    l = mean anomaly of the Moon
   FundamentalArguments[1]:=  2.3555483935439407 + t*(8328.691422883896  + t*(1.517951635553957e-4   + 3.1028075591010306e-7 * t));
@@ -213,14 +236,14 @@ begin
   FundamentalArguments[5]:= 2.1824386243609943 + t*(-33.75704593375351 + t*(3.614285992671591e-5   + 3.878509448876288e-8 * t));
 // put in 2Pi range
   for i:= 1 to 5 do
-    FundamentalArguments[i]:= fmod(FundamentalArguments[i],RadiansPerTurn);
+    FundamentalArguments[i]:= fmod(FundamentalArguments[i],RadiansPerRev);
 
   //  Change time argument from centuries to millennia.
   t:= t/10;
 
 //  Initialize nutation components.
-  fDeltaPsi:= 0;
-  fDeltaEps:= 0;
+  DeltaPsi:= 0;
+  DeltaEps:= 0;
   // Argument = Soma(Nj.Fj)
   // DelPsi = Soma[(Ai + Ai'.T).sin(Argument)]
   // DelEps = Soma[(Bi + Bi'.T).cos(Argument)]
@@ -233,15 +256,18 @@ begin
         Argument:= Argument + NutationCoeffs_80[i,j] * FundamentalArguments[j];
       // Accumulate current nutation term
       SinCos(Argument,sinArg,cosArg);
-      fDeltaPsi:= fDeltaPsi + (NutationCoeffs_80[i,6] + NutationCoeffs_80[i,7]*t)*sinArg;
-      fDeltaEps:= fDeltaEps + (NutationCoeffs_80[i,8] + NutationCoeffs_80[i,9]*t)*cosArg;
+      DeltaPsi:= DeltaPsi + (NutationCoeffs_80[i,6] + NutationCoeffs_80[i,7]*t)*sinArg;
+      DeltaEps:= DeltaEps + (NutationCoeffs_80[i,8] + NutationCoeffs_80[i,9]*t)*cosArg;
     end;
 //    change to arcsecs
-  fDeltaPsi:= fDeltaPsi/10000;
-  fDeltaEps:= fDeltaEps/10000;
+  DeltaPsi:= DeltaPsi/10000;
+  DeltaEps:= DeltaEps/10000;
+//    change to radians
+  DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
+  DeltaEps:= DeltaEps*RadiansPerArcSecond;
 end;
 
-procedure TOrientationFrame.Nutation_IAU2000B;
+procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  REFERENCE:   (IAU 2000B Theory of Nutation Model)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the two Nutation angles in longitude and obliquity, with
@@ -423,7 +449,7 @@ var
   Argument, sinArg, cosArg: Extended;
   j, i: Integer;
 begin
-  t:= (TT.AsFloat - J2000)/JulianDaysPerCentury;
+  t:= (TDB - J2000)/JulianDaysPerCentury;
 
   // Fundamental (Delaunay) arguments from Simon et al. (1994)
   //    l = mean anomaly of the Moon (in arcseconds)
@@ -441,8 +467,8 @@ begin
     FundamentalArguments[i]:= RadiansPerArcSecond*FundamentalArguments[i];
 
 //  Initialize nutation components.
-  fDeltaPsi:= 0;
-  fDeltaEps:= 0;
+  DeltaPsi:= 0;
+  DeltaEps:= 0;
   //  Sum the luni-solar nutation terms, ending with the biggest.
   for i:= NLS downto 1 do
     begin
@@ -452,17 +478,20 @@ begin
         Argument:= Argument + NALS[i,j] * FundamentalArguments[j];
       //   Accumulate current nutation term.
       SinCos(Argument,sinArg,cosArg);
-      fDeltaPsi:= fDeltaPsi + (CLS[i,1] + CLS[i,2]*t)*sinArg + CLS[i,3]* cosArg;
-      fDeltaEps:= fDeltaEps + (CLS[i,4] + CLS[i,5]*t)*cosArg + CLS[i,6]* sinArg;
+      DeltaPsi:= DeltaPsi + (CLS[i,1] + CLS[i,2]*t)*sinArg + CLS[i,3]* cosArg;
+      DeltaEps:= DeltaEps + (CLS[i,4] + CLS[i,5]*t)*cosArg + CLS[i,6]* sinArg;
     end;
 //    change to arcsecs
-  fDeltaPsi:= fDeltaPsi/1e7;
-  fDeltaEps:= fDeltaEps/1e7;
+  DeltaPsi:= DeltaPsi/1e7;
+  DeltaEps:= DeltaEps/1e7;
 
 //  Fixed offset to correct for missing terms in truncated series (planetary nutation)
-  fDeltaPsi:= fDeltaPsi - 0.135/MilliArcSecondsPerArcSecond;
-  fDeltaEps:= fDeltaEps + 0.388/MilliArcSecondsPerArcSecond;
+  DeltaPsi:= DeltaPsi - 0.135/MilliArcSecondsPerArcSecond;
+  DeltaEps:= DeltaEps + 0.388/MilliArcSecondsPerArcSecond;
 
+//    change to radians
+  DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
+  DeltaEps:= DeltaEps*RadiansPerArcSecond;
 end;
 
 
