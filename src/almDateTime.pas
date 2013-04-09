@@ -199,63 +199,7 @@ uses Math;
 }
 
 
-const
-
-
-
-// number of Julian days in one year
-  JulianDaysPerYear       = 365.25;
-// number of Julian days in one century
-  JulianDaysPerCentury    = 100*JulianDaysPerYear;
-// number of Julian days in one millenium
-    JulianDaysPerMillenium    = 1000*JulianDaysPerYear;
-// number of Tropical days in one year
-  TropicalDaysPerYear     = 365.242198781;
-// number of Tropical days in one century
-  TropicalDaysPerCentury  = 100*TropicalDaysPerYear;
-
-
-
-
-
-
-function fmod(X, Range: Double): Double;
-  begin
-    if Range = 0 then
-      Result:= 0
-    else
-      begin
-        Result:= Range*Frac(X/Range);
-        while Result < 0 do
-          Result:= Result + Range;
-      end;
-  end;
-
-  function fmod(X, Max, Min: Double): Double;
-  var
-    range: Extended;
-  begin
-    if Max < Min then
-      begin
-        range:= Min;
-        Min:= Max;
-        Max:= range;
-      end;
-    range:= Max - Min;
-    if Range = 0 then
-      Result:= 0
-    else
-      begin
-        Result:= range*Frac(X/range);
-        while Result < Min do
-          Result:= Result + range;
-      end;
-  end;
-
-
-
 { TTimeScales }
-
 
 constructor TTimeScales.Create(aUTC: TJulianDate; aDUT1: TJulianDate);
 begin

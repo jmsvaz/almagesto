@@ -113,6 +113,17 @@ const
   // Julian Date on 2000 January 1, 0h
     JulianDate2000 = 2451544.5;
 
+  // number of Julian days in one year
+    JulianDaysPerYear       = 365.25;
+  // number of Julian days in one century
+    JulianDaysPerCentury    = 100*JulianDaysPerYear;
+  // number of Julian days in one millenium
+      JulianDaysPerMillenium    = 1000*JulianDaysPerYear;
+  // number of Tropical days in one year
+    TropicalDaysPerYear     = 365.242198781;
+  // number of Tropical days in one century
+    TropicalDaysPerCentury  = 100*TropicalDaysPerYear;
+
   //number of radians in one revolution
     RadiansPerRev = 2*Pi;
   //number of degrees in one revolution
@@ -159,9 +170,46 @@ const
   //number of radians in one arcsecond
     RadiansPerArcSecond    = RadiansPerDegree/ArcSecondsPerDegree;
 
+
+function fmod(X, Range: Extended): Extended;
+function fmod(X, Max, Min: Extended): Extended;
+
 {$I consts.inc}
 
 implementation
+
+function fmod(X, Range: Extended): Extended;
+begin
+  if Range = 0 then
+    Result:= 0
+  else
+    begin
+      Result:= Range*Frac(X/Range);
+      while Result < 0 do
+        Result:= Result + Range;
+    end;
+end;
+
+function fmod(X, Max, Min: Extended): Extended;
+var
+  range: Extended;
+begin
+  if Max < Min then
+    begin
+      range:= Min;
+      Min:= Max;
+      Max:= range;
+    end;
+  range:= Max - Min;
+  if Range = 0 then
+    Result:= 0
+  else
+    begin
+      Result:= range*Frac(X/range);
+      while Result < Min do
+        Result:= Result + range;
+    end;
+end;
 
 end.
 
