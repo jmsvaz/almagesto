@@ -27,6 +27,10 @@ interface
 uses
   Classes, SysUtils, almBase;
 
+procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
+
+
+
 implementation
 
 uses Math;
@@ -104,10 +108,10 @@ begin
 
 //  Precession angles (Capitaine et al. 2003)
   Eps0  := 84381.406; // obliquity of ecliptic at J2000.0 (in arcseconds)
-  EpsA  := Eps0 + (-   46.836769 + (- 0.0001831 + (  0.00200340 - 0.000000576*t)*t)*t)*t;
-  PsiA  :=        (  5038.481507 + (- 1.0790069 + (- 0.00114045 + 0.000132851*t)*t)*t)*t;
-  ChiA  :=        (    10.556403 + (- 2.3814292 + (- 0.00121197 + 0.000170663*t)*t)*t)*t;
-  OmegaA:= Eps0 + (-    0.025754 + (  0.0512623 + (- 0.00772503 - 0.000000467*t)*t)*t)*t;
+  EpsA  := Eps0 + (-   46.836769 + (- 0.0001831 + (  0.00200340 + (- 0.000000576 - 0.0000000434*t)*t)*t)*t)*t;
+  PsiA  :=        (  5038.481507 + (- 1.0790069 + (- 0.00114045 + (  0.000132851 - 0.0000000951*t)*t)*t)*t)*t;
+  ChiA  :=        (    10.556403 + (- 2.3814292 + (- 0.00121197 + (  0.000170663 - 0.0000000560*t)*t)*t)*t)*t;
+  OmegaA:= Eps0 + (-    0.025754 + (  0.0512623 + (- 0.00772503 + (- 0.000000467 + 0.0000003337*t)*t)*t)*t)*t;
 
 //  change to radians
   Eps0  := Eps0*RadiansPerArcSecond;
