@@ -169,7 +169,8 @@ const
     RadiansPerHour         = RadiansPerRev/HoursPerDay;
   //number of radians in one arcsecond
     RadiansPerArcSecond    = RadiansPerDegree/ArcSecondsPerDegree;
-
+  //number of arcseconds in one radian
+    ArcSecondsPerRadian    = 1/RadiansPerArcSecond;
 
 function fmod(X, Range: Extended): Extended;
 function fmod(X, Max, Min: Extended): Extended;

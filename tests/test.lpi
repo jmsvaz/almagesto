@@ -45,7 +45,7 @@
         <PackageName Value="FCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="5">
       <Unit0>
         <Filename Value="test.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -66,6 +66,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="testLocalReferenceSystems"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="testEarthOrientation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="testEarthOrientation"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
