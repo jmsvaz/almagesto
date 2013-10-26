@@ -29,6 +29,9 @@ uses
 
 procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 
+procedure NutationIAU1980(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+
 
 
 implementation
