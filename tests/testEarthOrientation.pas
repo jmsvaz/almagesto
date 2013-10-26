@@ -14,8 +14,8 @@ type
   TTestEarthOrientation= class(TTestCase)
   published
     procedure TestPrecessionIAU2006;
-    procedure TestNutationIAU2000B;
     procedure TestNutationIAU1980;
+    procedure TestNutationIAU2000B;
   end;
 
 implementation
