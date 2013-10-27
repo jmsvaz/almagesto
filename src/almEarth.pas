@@ -31,12 +31,15 @@ procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: D
 
 procedure NutationIAU1980(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+procedure NutationIAU2000A(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 
 
 
 implementation
 
 uses Math;
+
+{$I almEarth.inc}
 
 // Eps0: Obliquity of ecliptic at epoch
 // EpsA: Obliquity of the ecliptic at date = Mean Obliquity
@@ -132,117 +135,6 @@ procedure NutationIAU1980(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  N = Rx(-(EpsA + DeltaEps)).Rz(-DeltaPsi).Rx(EpsA)
 //  result = Nutation Angles (DeltaPsi, DeltaEps) (in arcsecs)
 //  uses: TDB
-const
-  NE0 = 106;
-  NutationCoeffs_80: array[1..NE0,1..9] of Integer =
-//              Multiple of        Longitude     Obliquity
-//          L   L'  F   D Omega    Ai      Ai'     Bi   Bi'
-     (     (0,  0,  0,  0,  1, -171996, -1742,  92025,  89),
-           (0,  0,  0,  0,  2,    2062,     2,   -895,   5),
-          (-2,  0,  2,  0,  1,      46,     0,    -24,   0),
-           (2,  0, -2,  0,  0,      11,     0,      0,   0),
-          (-2,  0,  2,  0,  2,      -3,     0,      1,   0),
-           (1, -1,  0, -1,  0,      -3,     0,      0,   0),
-           (0, -2,  2, -2,  1,      -2,     0,      1,   0),
-           (2,  0, -2,  0,  1,       1,     0,      0,   0),
-           (0,  0,  2, -2,  2,  -13187,   -16,   5736, -31),
-           (0,  1,  0,  0,  0,    1426,   -34,     54,  -1),
-           (0,  1,  2, -2,  2,    -517,    12,    224,  -6),
-           (0, -1,  2, -2,  2,     217,    -5,    -95,   3),
-           (0,  0,  2, -2,  1,     129,     1,    -70,   0),
-           (2,  0,  0, -2,  0,      48,     0,      1,   0),
-           (0,  0,  2, -2,  0,     -22,     0,      0,   0),
-           (0,  2,  0,  0,  0,      17,    -1,      0,   0),
-           (0,  1,  0,  0,  1,     -15,     0,      9,   0),
-           (0,  2,  2, -2,  2,     -16,     1,      7,   0),
-           (0, -1,  0,  0,  1,     -12,     0,      6,   0),
-          (-2,  0,  0,  2,  1,      -6,     0,      3,   0),
-           (0, -1,  2, -2,  1,      -5,     0,      3,   0),
-           (2,  0,  0, -2,  1,       4,     0,     -2,   0),
-           (0,  1,  2, -2,  1,       4,     0,     -2,   0),
-           (1,  0,  0, -1,  0,      -4,     0,      0,   0),
-           (2,  1,  0, -2,  0,       1,     0,      0,   0),
-           (0,  0, -2,  2,  1,       1,     0,      0,   0),
-           (0,  1, -2,  2,  0,      -1,     0,      0,   0),
-           (0,  1,  0,  0,  2,       1,     0,      0,   0),
-          (-1,  0,  0,  1,  1,       1,     0,      0,   0),
-           (0,  1,  2, -2,  0,      -1,     0,      0,   0),
-           (0,  0,  2,  0,  2,   -2274,    -2,    977,  -5),
-           (1,  0,  0,  0,  0,     712,     1,     -7,   0),
-           (0,  0,  2,  0,  1,    -386,    -4,    200,   0),
-           (1,  0,  2,  0,  2,    -301,     0,    129,  -1),
-           (1,  0,  0, -2,  0,    -158,     0,     -1,   0),
-          (-1,  0,  2,  0,  2,     123,     0,    -53,   0),
-           (0,  0,  0,  2,  0,      63,     0,     -2,   0),
-           (1,  0,  0,  0,  1,      63,     1,    -33,   0),
-          (-1,  0,  0,  0,  1,     -58,    -1,     32,   0),
-          (-1,  0,  2,  2,  2,     -59,     0,     26,   0),
-           (1,  0,  2,  0,  1,     -51,     0,     27,   0),
-           (0,  0,  2,  2,  2,     -38,     0,     16,   0),
-           (2,  0,  0,  0,  0,      29,     0,     -1,   0),
-           (1,  0,  2, -2,  2,      29,     0,    -12,   0),
-           (2,  0,  2,  0,  2,     -31,     0,     13,   0),
-           (0,  0,  2,  0,  0,      26,     0,     -1,   0),
-          (-1,  0,  2,  0,  1,      21,     0,    -10,   0),
-          (-1,  0,  0,  2,  1,      16,     0,     -8,   0),
-           (1,  0,  0, -2,  1,     -13,     0,      7,   0),
-          (-1,  0,  2,  2,  1,     -10,     0,      5,   0),
-           (1,  1,  0, -2,  0,      -7,     0,      0,   0),
-           (0,  1,  2,  0,  2,       7,     0,     -3,   0),
-           (0, -1,  2,  0,  2,      -7,     0,      3,   0),
-           (1,  0,  2,  2,  2,      -8,     0,      3,   0),
-           (1,  0,  0,  2,  0,       6,     0,      0,   0),
-           (2,  0,  2, -2,  2,       6,     0,     -3,   0),
-           (0,  0,  0,  2,  1,      -6,     0,      3,   0),
-           (0,  0,  2,  2,  1,      -7,     0,      3,   0),
-           (1,  0,  2, -2,  1,       6,     0,     -3,   0),
-           (0,  0,  0, -2,  1,      -5,     0,      3,   0),
-           (1, -1,  0,  0,  0,       5,     0,      0,   0),
-           (2,  0,  2,  0,  1,      -5,     0,      3,   0),
-           (0,  1,  0, -2,  0,      -4,     0,      0,   0),
-           (1,  0, -2,  0,  0,       4,     0,      0,   0),
-           (0,  0,  0,  1,  0,      -4,     0,      0,   0),
-           (1,  1,  0,  0,  0,      -3,     0,      0,   0),
-           (1,  0,  2,  0,  0,       3,     0,      0,   0),
-           (1, -1,  2,  0,  2,      -3,     0,      1,   0),
-          (-1, -1,  2,  2,  2,      -3,     0,      1,   0),
-          (-2,  0,  0,  0,  1,      -2,     0,      1,   0),
-           (3,  0,  2,  0,  2,      -3,     0,      1,   0),
-           (0, -1,  2,  2,  2,      -3,     0,      1,   0),
-           (1,  1,  2,  0,  2,       2,     0,     -1,   0),
-          (-1,  0,  2, -2,  1,      -2,     0,      1,   0),
-           (2,  0,  0,  0,  1,       2,     0,     -1,   0),
-           (1,  0,  0,  0,  2,      -2,     0,      1,   0),
-           (3,  0,  0,  0,  0,       2,     0,      0,   0),
-           (0,  0,  2,  1,  2,       2,     0,     -1,   0),
-          (-1,  0,  0,  0,  2,       1,     0,     -1,   0),
-           (1,  0,  0, -4,  0,      -1,     0,      0,   0),
-          (-2,  0,  2,  2,  2,       1,     0,     -1,   0),
-          (-1,  0,  2,  4,  2,      -2,     0,      1,   0),
-           (2,  0,  0, -4,  0,      -1,     0,      0,   0),
-           (1,  1,  2, -2,  2,       1,     0,     -1,   0),
-           (1,  0,  2,  2,  1,      -1,     0,      1,   0),
-          (-2,  0,  2,  4,  2,      -1,     0,      1,   0),
-          (-1,  0,  4,  0,  2,       1,     0,      0,   0),
-           (1, -1,  0, -2,  0,       1,     0,      0,   0),
-           (2,  0,  2, -2,  1,       1,     0,     -1,   0),
-           (2,  0,  2,  2,  2,      -1,     0,      0,   0),
-           (1,  0,  0,  2,  1,      -1,     0,      0,   0),
-           (0,  0,  4, -2,  2,       1,     0,      0,   0),
-           (3,  0,  2, -2,  2,       1,     0,      0,   0),
-           (1,  0,  2, -2,  0,      -1,     0,      0,   0),
-           (0,  1,  2,  0,  1,       1,     0,      0,   0),
-          (-1, -1,  0,  2,  1,       1,     0,      0,   0),
-           (0,  0, -2,  0,  1,      -1,     0,      0,   0),
-           (0,  0,  2, -1,  2,      -1,     0,      0,   0),
-           (0,  1,  0,  2,  0,      -1,     0,      0,   0),
-           (1,  0, -2, -2,  0,      -1,     0,      0,   0),
-           (0, -1,  2,  0,  1,      -1,     0,      0,   0),
-           (1,  1,  0, -2,  1,      -1,     0,      0,   0),
-           (1,  0, -2,  2,  0,      -1,     0,      0,   0),
-           (2,  0,  0,  2,  0,       1,     0,      0,   0),
-           (0,  0,  2,  4,  2,      -1,     0,      0,   0),
-           (0,  1,  0,  1,  0,       1,     0,      0,   0) );
 var
   t: Extended;
   Argument, sinArg, cosArg: Extended;
@@ -271,24 +163,28 @@ begin
 //  Initialize nutation components.
   DeltaPsi:= 0;
   DeltaEps:= 0;
-  // Argument = Soma(Nj.Fj)
-  // DelPsi = Soma[(Ai + Ai'.T).sin(Argument)]
-  // DelEps = Soma[(Bi + Bi'.T).cos(Argument)]
+  // Argument = Summation(Nj.Fj)
+  // DelPsi = Summation[(Ai + Ai'.T).sin(Argument)]
+  // DelEps = Summation[(Bi + Bi'.T).cos(Argument)]
   //  Sum the nutation terms, ending with the biggest
-  for i:= NE0 downto 1 do
+  for i:= High(NutationIAU1980_Coeffs) downto Low(NutationIAU1980_Coeffs) do
     begin
       //   Form argument for current term
       Argument:= 0;
       for j:= 1 to 5 do
-        Argument:= Argument + NutationCoeffs_80[i,j] * FundamentalArguments[j];
+        Argument:= Argument + NutationIAU1980_Coeffs[i,j] * FundamentalArguments[j];
       // Accumulate current nutation term
       SinCos(Argument,sinArg,cosArg);
-      DeltaPsi:= DeltaPsi + (NutationCoeffs_80[i,6] + NutationCoeffs_80[i,7]*t)*sinArg;
-      DeltaEps:= DeltaEps + (NutationCoeffs_80[i,8] + NutationCoeffs_80[i,9]*t)*cosArg;
+      DeltaPsi:= DeltaPsi +
+                 (NutationIAU1980_Coeffs[i,6] +
+                  NutationIAU1980_Coeffs[i,7]*t)*sinArg;
+      DeltaEps:= DeltaEps +
+                 (NutationIAU1980_Coeffs[i,8] +
+                  NutationIAU1980_Coeffs[i,9]*t)*cosArg;
     end;
 //    change to arcsecs
-  DeltaPsi:= DeltaPsi/10000;
-  DeltaEps:= DeltaEps/10000;
+  DeltaPsi:= DeltaPsi*1e-4;
+  DeltaEps:= DeltaEps*1e-4;
 //    change to radians
   DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
   DeltaEps:= DeltaEps*RadiansPerArcSecond;
@@ -302,173 +198,6 @@ procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  N = Rx(-(EpsA + DeltaEps)).Rz(-DeltaPsi).Rx(EpsA)
 //  result = Nutation Angles (DeltaPsi, DeltaEps) (in arcsecs)
 //  uses: TT
-const
-//  Number of terms in the luni-solar nutation model
-  NLS = 77;
-//  Coefficients for fundamental arguments
-  NALS: array[1..NLS,1..5] of Integer =
-//              L     L'    F     D     Om
-          (    (0,    0,    0,    0,    1),
-               (0,    0,    2,   -2,    2),
-               (0,    0,    2,    0,    2),
-               (0,    0,    0,    0,    2),
-               (0,    1,    0,    0,    0),
-               (0,    1,    2,   -2,    2),
-               (1,    0,    0,    0,    0),
-               (0,    0,    2,    0,    1),
-               (1,    0,    2,    0,    2),
-               (0,   -1,    2,   -2,    2),
-               (0,    0,    2,   -2,    1),
-              (-1,    0,    2,    0,    2),
-              (-1,    0,    0,    2,    0),
-               (1,    0,    0,    0,    1),
-              (-1,    0,    0,    0,    1),
-              (-1,    0,    2,    2,    2),
-               (1,    0,    2,    0,    1),
-              (-2,    0,    2,    0,    1),
-               (0,    0,    0,    2,    0),
-               (0,    0,    2,    2,    2),
-               (0,   -2,    2,   -2,    2),
-              (-2,    0,    0,    2,    0),
-               (2,    0,    2,    0,    2),
-               (1,    0,    2,   -2,    2),
-              (-1,    0,    2,    0,    1),
-               (2,    0,    0,    0,    0),
-               (0,    0,    2,    0,    0),
-               (0,    1,    0,    0,    1),
-              (-1,    0,    0,    2,    1),
-               (0,    2,    2,   -2,    2),
-               (0,    0,   -2,    2,    0),
-               (1,    0,    0,   -2,    1),
-               (0,   -1,    0,    0,    1),
-              (-1,    0,    2,    2,    1),
-               (0,    2,    0,    0,    0),
-               (1,    0,    2,    2,    2),
-              (-2,    0,    2,    0,    0),
-               (0,    1,    2,    0,    2),
-               (0,    0,    2,    2,    1),
-               (0,   -1,    2,    0,    2),
-               (0,    0,    0,    2,    1),
-               (1,    0,    2,   -2,    1),
-               (2,    0,    2,   -2,    2),
-              (-2,    0,    0,    2,    1),
-               (2,    0,    2,    0,    1),
-               (0,   -1,    2,   -2,    1),
-               (0,    0,    0,   -2,    1),
-              (-1,   -1,    0,    2,    0),
-               (2,    0,    0,   -2,    1),
-               (1,    0,    0,    2,    0),
-               (0,    1,    2,   -2,    1),
-               (1,   -1,    0,    0,    0),
-              (-2,    0,    2,    0,    2),
-               (3,    0,    2,    0,    2),
-               (0,   -1,    0,    2,    0),
-               (1,   -1,    2,    0,    2),
-               (0,    0,    0,    1,    0),
-              (-1,   -1,    2,    2,    2),
-              (-1,    0,    2,    0,    0),
-               (0,   -1,    2,    2,    2),
-              (-2,    0,    0,    0,    1),
-               (1,    1,    2,    0,    2),
-               (2,    0,    0,    0,    1),
-              (-1,    1,    0,    1,    0),
-               (1,    1,    0,    0,    0),
-               (1,    0,    2,    0,    0),
-              (-1,    0,    2,   -2,    1),
-               (1,    0,    0,    0,    2),
-              (-1,    0,    0,    1,    0),
-               (0,    0,    2,    1,    2),
-              (-1,    0,    2,    4,    2),
-              (-1,    1,    0,    1,    1),
-               (0,   -2,    2,   -2,    1),
-               (1,    0,    2,    2,    1),
-              (-2,    0,    2,    2,    2),
-              (-1,    0,    0,    0,    2),
-               (1,    1,    2,   -2,    2));
-
-//  Luni-Solar nutation coefficients, unit 1e-7 arcseconds
-    CLS: array[1..NLS,1..6] of Extended =
-//                  longitude      |       obliquity
-//          sin,     t*sin,    cos |   cos,   t*cos,   sin
-    (( -172064161, -174666,  33386, 92052331,  9086, 15377),
-     (  -13170906,   -1675, -13696,  5730336, -3015, -4587),
-     (   -2276413,    -234,   2796,   978459,  -485,  1374),
-     (    2074554,     207,   -698,  -897492,   470,  -291),
-     (    1475877,   -3633,  11817,    73871,  -184, -1924),
-     (    -516821,    1226,   -524,   224386,  -677,  -174),
-     (     711159,      73,   -872,    -6750,     0,   358),
-     (    -387298,    -367,    380,   200728,    18,   318),
-     (    -301461,     -36,    816,   129025,   -63,   367),
-     (     215829,    -494,    111,   -95929,   299,   132),
-     (     128227,     137,    181,   -68982,    -9,    39),
-     (     123457,      11,     19,   -53311,    32,    -4),
-     (     156994,      10,   -168,    -1235,     0,    82),
-     (      63110,      63,     27,   -33228,     0,    -9),
-     (     -57976,     -63,   -189,    31429,     0,   -75),
-     (     -59641,     -11,    149,    25543,   -11,    66),
-     (     -51613,     -42,    129,    26366,     0,    78),
-     (      45893,      50,     31,   -24236,   -10,    20),
-     (      63384,      11,   -150,    -1220,     0,    29),
-     (     -38571,      -1,    158,    16452,   -11,    68),
-     (      32481,       0,      0,   -13870,     0,     0),
-     (     -47722,       0,    -18,      477,     0,   -25),
-     (     -31046,      -1,    131,    13238,   -11,    59),
-     (      28593,       0,     -1,   -12338,    10,    -3),
-     (      20441,      21,     10,   -10758,     0,    -3),
-     (      29243,       0,    -74,     -609,     0,    13),
-     (      25887,       0,    -66,     -550,     0,    11),
-     (     -14053,     -25,     79,     8551,    -2,   -45),
-     (      15164,      10,     11,    -8001,     0,    -1),
-     (     -15794,      72,    -16,     6850,   -42,    -5),
-     (      21783,       0,     13,     -167,     0,    13),
-     (     -12873,     -10,    -37,     6953,     0,   -14),
-     (     -12654,      11,     63,     6415,     0,    26),
-     (     -10204,       0,     25,     5222,     0,    15),
-     (      16707,     -85,    -10,      168,    -1,    10),
-     (      -7691,       0,     44,     3268,     0,    19),
-     (     -11024,       0,    -14,      104,     0,     2),
-     (       7566,     -21,    -11,    -3250,     0,    -5),
-     (      -6637,     -11,     25,     3353,     0,    14),
-     (      -7141,      21,      8,     3070,     0,     4),
-     (      -6302,     -11,      2,     3272,     0,     4),
-     (       5800,      10,      2,    -3045,     0,    -1),
-     (       6443,       0,     -7,    -2768,     0,    -4),
-     (      -5774,     -11,    -15,     3041,     0,    -5),
-     (      -5350,       0,     21,     2695,     0,    12),
-     (      -4752,     -11,     -3,     2719,     0,    -3),
-     (      -4940,     -11,    -21,     2720,     0,    -9),
-     (       7350,       0,     -8,      -51,     0,     4),
-     (       4065,       0,      6,    -2206,     0,     1),
-     (       6579,       0,    -24,     -199,     0,     2),
-     (       3579,       0,      5,    -1900,     0,     1),
-     (       4725,       0,     -6,      -41,     0,     3),
-     (      -3075,       0,     -2,     1313,     0,    -1),
-     (      -2904,       0,     15,     1233,     0,     7),
-     (       4348,       0,    -10,      -81,     0,     2),
-     (      -2878,       0,      8,     1232,     0,     4),
-     (      -4230,       0,      5,      -20,     0,    -2),
-     (      -2819,       0,      7,     1207,     0,     3),
-     (      -4056,       0,      5,       40,     0,    -2),
-     (      -2647,       0,     11,     1129,     0,     5),
-     (      -2294,       0,    -10,     1266,     0,    -4),
-     (       2481,       0,     -7,    -1062,     0,    -3),
-     (       2179,       0,     -2,    -1129,     0,    -2),
-     (       3276,       0,      1,       -9,     0,     0),
-     (      -3389,       0,      5,       35,     0,    -2),
-     (       3339,       0,    -13,     -107,     0,     1),
-     (      -1987,       0,     -6,     1073,     0,    -2),
-     (      -1981,       0,      0,      854,     0,     0),
-     (       4026,       0,   -353,     -553,     0,  -139),
-     (       1660,       0,     -5,     -710,     0,    -2),
-     (      -1521,       0,      9,      647,     0,     4),
-     (       1314,       0,      0,     -700,     0,     0),
-     (      -1283,       0,      0,      672,     0,     0),
-     (      -1331,       0,      8,      663,     0,     4),
-     (       1383,       0,     -2,     -594,     0,    -2),
-     (       1405,       0,      4,     -610,     0,     2),
-     (       1290,       0,      0,     -556,     0,     0));
-
-
 var
   t: Extended;
   FundamentalArguments: array [1..5] of Extended;
@@ -496,20 +225,26 @@ begin
   DeltaPsi:= 0;
   DeltaEps:= 0;
   //  Sum the luni-solar nutation terms, ending with the biggest.
-  for i:= NLS downto 1 do
+  for i:= High(NutationIAU2000B_Coeffs) downto Low(NutationIAU2000B_Coeffs) do
     begin
       //   Form argument for current term.
       Argument:= 0;
       for j:= 1 to 5 do
-        Argument:= Argument + NALS[i,j] * FundamentalArguments[j];
+        Argument:= Argument + NutationIAU2000B_Coeffs[i,j] * FundamentalArguments[j];
       SinCos(Argument,sinArg,cosArg);
       //   Accumulate current nutation term.
-      DeltaPsi:= DeltaPsi + (CLS[i,1] + CLS[i,2]*t)*sinArg + CLS[i,3]* cosArg;
-      DeltaEps:= DeltaEps + (CLS[i,4] + CLS[i,5]*t)*cosArg + CLS[i,6]* sinArg;
+      DeltaPsi:= DeltaPsi +
+                 (NutationIAU2000B_Coeffs[i,6] +
+                  NutationIAU2000B_Coeffs[i,7]*t)*sinArg +
+                  NutationIAU2000B_Coeffs[i,8]* cosArg;
+      DeltaEps:= DeltaEps +
+                 (NutationIAU2000B_Coeffs[i,9] +
+                  NutationIAU2000B_Coeffs[i,10]*t)*cosArg +
+                  NutationIAU2000B_Coeffs[i,11]* sinArg;
     end;
 //    change to arcsecs
-  DeltaPsi:= DeltaPsi/1e7;
-  DeltaEps:= DeltaEps/1e7;
+  DeltaPsi:= DeltaPsi*1e-7;
+  DeltaEps:= DeltaEps*1e-7;
 
 //  Fixed offset to correct for missing terms in truncated series (planetary nutation)
   DeltaPsi:= DeltaPsi - 0.135/MilliArcSecondsPerArcSecond;
@@ -520,42 +255,24 @@ begin
   DeltaEps:= DeltaEps*RadiansPerArcSecond;
 end;
 
-{
 procedure NutationIAU2000A(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  REFERENCE:  IAU 2000A Theory of Nutation Model
-//              IERS Conventions (2010)
+//              IERS Conventions (2003)
 //  This routine computes the two Nutation angles in longitude and obliquity, with
 //  respect to the equinox and ecliptic of date, using the IAU 2000A Theory of Nutation Model
 //  N = Rx(-(EpsA + DeltaEps)).Rz(-DeltaPsi).Rx(EpsA)
 //  result = Nutation Angles (DeltaPsi, DeltaEps) (in arcsecs)
 //  uses: TDB
-const
-//  Number of terms in the luni-solar nutation model
-  NLS = 77;
-//  Coefficients for fundamental arguments
-  NALS: array[1..NLS,1..5] of Integer =
-//         L     L'    F     D     Om
-     (    (0,    0,    0,    0,    1),
-          (1,    1,    2,   -2,    2));
-
-//  Luni-Solar nutation coefficients, unit 1e-7 arcseconds
-CLS: array[1..NLS,1..6] of Extended =
-//                  longitude      |       obliquity
-//          sin,     t*sin,    cos |   cos,   t*cos,   sin
-     (( -172064161, -174666,  33386, 92052331,  9086, 15377),
-
 var
   t: Extended;
   FundamentalArguments: array [1..14] of Extended;
   Argument, sinArg, cosArg: Extended;
+  dPsiLS, dEpsLS, dPsiPL, dEpsPL: Double;
   j, i: Integer;
 begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
 
-  //  Change time argument from centuries to millennia.
-//  t:= t/10;
-
-  // Fundamental (Delaunay) arguments from Simon et al. (1994)
+   // Fundamental (Delaunay) arguments from Simon et al. (1994)
   //    l = mean anomaly of the Moon (in arcseconds)
   FundamentalArguments[1]:= 134.96340251*ArcSecondsPerDegree + (1717915923.217800 +
                              (31.879200 + (0.05163500 - 0.0002447000*t)*t)*t)*t;
@@ -596,38 +313,61 @@ begin
   FundamentalArguments[14]:= (0.024381750 + 0.00000538691 * t) * t;
 
 // put in 2Pi range
-  for i:= 1 to 13 do
-    FundamentalArguments[i]:= fmod(FundamentalArguments[i],RadiansPerTurn);
+  for i:= 1 to 14 do
+    FundamentalArguments[i]:= fmod(FundamentalArguments[i],RadiansPerRev);
 
-//  Initialize nutation components.
-  DeltaPsi:= 0;
-  DeltaEps:= 0;
-// TODO: implementar IAU 2000A Theory of Nutation
-{
+//  Initialize Luni-Solar nutation components
+  dPsiLS:= 0;
+  dEpsLS:= 0;
 //  Sum the luni-solar nutation terms, ending with the biggest.
-  for i:= NLS downto 1 do
-    begin
-      //   Form argument for current term.
-      Argument:= 0;
-      for j:= 1 to 5 do
-        Argument:= Argument + NALS[i,j] * FundamentalArguments[j];
-      //   Accumulate current nutation term.
-      SinCos(Argument,sinArg,cosArg);
-      DeltaPsi:= DeltaPsi + (CLS[i,1] + CLS[i,2]*t)*sinArg + CLS[i,3]* cosArg;
-      DeltaEps:= DeltaEps + (CLS[i,4] + CLS[i,5]*t)*cosArg + CLS[i,6]* sinArg;
-    end;
+ for i:= High(NutationIAU2000A_LSCoeffs) downto Low(NutationIAU2000A_LSCoeffs) do
+   begin
+     //   Form argument for current term.
+     Argument:= 0;
+     for j:= 1 to 5 do
+       Argument:= Argument + NutationIAU2000A_LSCoeffs[i,j] * FundamentalArguments[j];
+     SinCos(Argument,sinArg,cosArg);
+     //   Accumulate current nutation term.
+     dPsiLS:= dPsiLS +
+              (NutationIAU2000A_LSCoeffs[i,6] + NutationIAU2000A_LSCoeffs[i,7]*t)*sinArg +
+              (NutationIAU2000A_LSCoeffs[i,8] + NutationIAU2000A_LSCoeffs[i,9]*t)*cosArg;
+     dEpsLS:= dEpsLS +
+              (NutationIAU2000A_LSCoeffs[i,10] + NutationIAU2000A_LSCoeffs[i,11]*t)*cosArg +
+              (NutationIAU2000A_LSCoeffs[i,12] + NutationIAU2000A_LSCoeffs[i,13]*t)*sinArg;
+   end;
+
+//  Initialize Planetary nutation components
+  dPsiPL:= 0;
+  dEpsPL:= 0;
+//  Sum the planetary nutation terms, ending with the biggest.
+ for i:= High(NutationIAU2000A_PLCoeffs) downto Low(NutationIAU2000A_PLCoeffs) do
+   begin
+     //   Form argument for current term.
+     Argument:= 0;
+     for j:= 1 to 14 do
+       Argument:= Argument + NutationIAU2000A_PLCoeffs[i,j] * FundamentalArguments[j];
+     SinCos(Argument,sinArg,cosArg);
+     //   Accumulate current nutation term.
+     dPsiPL:= dPsiPL +
+              NutationIAU2000A_PLCoeffs[i,15]*sinArg +
+              NutationIAU2000A_PLCoeffs[i,16]*cosArg;
+     dEpsPL:= dEpsPL +
+              NutationIAU2000A_PLCoeffs[i,17]*cosArg +
+              NutationIAU2000A_PLCoeffs[i,18]*sinArg;
+   end;
+
+//  Add Luni-Solar and Planetar components
+  DeltaPsi:= dPsiLS + dPsiPL;
+  DeltaEps:= dEpsLS + dEpsPL;
+
 //    change to arcsecs
-  DeltaPsi:= DeltaPsi/1e-4;
-  DeltaEps:= DeltaEps/1e-4;
+  DeltaPsi:= DeltaPsi*1e-7;
+  DeltaEps:= DeltaEps*1e-7;
 
 //    change to radians
   DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
   DeltaEps:= DeltaEps*RadiansPerArcSecond;
-}
-
 end;
-}
-
 
 end.
 
