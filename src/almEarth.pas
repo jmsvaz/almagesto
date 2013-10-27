@@ -312,10 +312,6 @@ begin
   //    Pa = general precession on longitude
   FundamentalArguments[14]:= (0.024381750 + 0.00000538691 * t) * t;
 
-// put in 2Pi range
-  for i:= 1 to 14 do
-    FundamentalArguments[i]:= fmod(FundamentalArguments[i],RadiansPerRev);
-
 //  Initialize Luni-Solar nutation components
   dPsiLS:= 0;
   dEpsLS:= 0;
@@ -356,7 +352,7 @@ begin
               NutationIAU2000A_PLCoeffs[i,18]*sinArg;
    end;
 
-//  Add Luni-Solar and Planetar components
+//  Add Luni-Solar and Planetary components
   DeltaPsi:= dPsiLS + dPsiPL;
   DeltaEps:= dEpsLS + dEpsPL;
 

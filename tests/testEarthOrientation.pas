@@ -93,7 +93,7 @@ begin
 
   TDB:= 2400000.5 + 53736.0;
   ExpectedDeltaPsi:= -0.9632552291148362783e-5;
-  ExpectedDeltaEps:= 0.4063197106621159367e-4;
+  ExpectedDeltaEps:=  0.4063197106621159367e-4;
 
   NutationIAU2000B(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
