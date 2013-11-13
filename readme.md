@@ -9,7 +9,7 @@ Almagesto is a Free Pascal Astronomical Library.
 - [Free Pascal Compiler] (http://www.freepascal.org/)
 - [Lazarus IDE] (http://www.lazarus.freepascal.org/) (optional)
 
-The library is tested with the latest stable Free Pascal Compiler (currently 2.6.2) and Lazarus IDE (currently 1.0.8).
+The library is tested with the latest stable Free Pascal Compiler (currently 2.6.2) and Lazarus IDE (currently 1.0.12).
 
 ## Installing
 
