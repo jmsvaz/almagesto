@@ -4,7 +4,7 @@ program test;
 
 uses
   Interfaces, Forms, GuiTestRunner, testDateTime, testEphemerides, 
-testLocalReferenceSystems, testEarthOrientation;
+testLocalReferenceSystems, testEarthOrientation, testCalendar;
 
 {$R *.res}
 
@@ -14,4 +14,4 @@ begin
   Application.CreateForm(TGuiTestRunner, TestRunner);
   Application.Run;
 end.
-
+

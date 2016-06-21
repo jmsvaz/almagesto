@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="9"/>
@@ -45,32 +45,31 @@
         <PackageName Value="FCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="test.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="test"/>
       </Unit0>
       <Unit1>
-        <Filename Value="testdatetime.pas"/>
+        <Filename Value="testDateTime.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="testDateTime"/>
       </Unit1>
       <Unit2>
         <Filename Value="testEphemerides.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="testEphemerides"/>
       </Unit2>
       <Unit3>
         <Filename Value="testLocalReferenceSystems.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="testLocalReferenceSystems"/>
       </Unit3>
       <Unit4>
         <Filename Value="testEarthOrientation.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="testEarthOrientation"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="testCalendar.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -90,12 +89,6 @@
         </Win32>
       </Options>
     </Linking>
-    <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="5">

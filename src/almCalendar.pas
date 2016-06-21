@@ -37,6 +37,12 @@ procedure JulianDateToGregorianCalendar(JulianDate: Extended; var Year,Month,Day
 function GregorianCalendarToJulianDate(Year, Month, Day: Integer): Extended;
 function GregorianLeapYear(Year: Integer): Boolean;
 
+type
+  TFixedDateEpochType = (fdeJulianDate, fdeRataDie, fdeDateTime);
+
+var
+  FixedDateEpochType: TFixedDateEpochType = fdeJulianDate;
+
 implementation
 
 uses Math;
@@ -176,4 +182,4 @@ end;
 (******************************************************************************)
 
 end.
-
+
