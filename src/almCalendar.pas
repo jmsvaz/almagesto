@@ -27,6 +27,13 @@ interface
 uses
   Classes, SysUtils;
 
+function FixedDateToJulianDate(FixedDate: Extended): Extended;
+function JulianDateToFixedDate(JulianDate: Extended): Extended;
+function FixedDateToRataDie(FixedDate: Extended): Extended;
+function RataDieToFixedDate(RataDie: Extended): Extended;
+function FixedDateToDateTime(FixedDate: Extended): Extended;
+function DateTimeToFixedDate(DateTime: Extended): Extended;
+
 // Julian Calendar functions
 procedure JulianDateToJulianCalendar(JulianDate: Extended; var Year,Month,Day: Integer); overload;
 function JulianCalendarToJulianDate(Year, Month, Day: Integer): Extended; overload;
@@ -39,6 +46,11 @@ function GregorianLeapYear(Year: Integer): Boolean;
 
 type
   TFixedDateEpochType = (fdeJulianDate, fdeRataDie, fdeDateTime);
+
+function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): Extended;
+function JulianDateEpoch: Extended;
+function RataDieEpoch: Extended;
+function DateTimeEpoch: Extended;
 
 var
   FixedDateEpochType: TFixedDateEpochType = fdeJulianDate;
@@ -68,6 +80,66 @@ function CalAMod(x, y: Integer): Integer; overload;
 begin
   Result:= y + CalMod(x, -y);
 end;
+
+function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): Extended;
+begin
+  case FixedDateEpochType of
+    fdeJulianDate: Result:= 1721424.5;
+    fdeRataDie: Result:= 0;
+    fdeDateTime: Result:= 693594.5;
+  end;
+end;
+
+// JulianDate Epoch is Noon, January 1, 4713 BCE (Julian)
+function JulianDateEpoch: Extended;
+begin
+  Result:= -1721424.5 - FixedDateEpoch(FixedDateEpochType);
+end;
+
+// RataDie Epoch is Midnight, January 1, 1 (Gregorian)
+function RataDieEpoch: Extended;
+begin
+  Result:= 0 - FixedDateEpoch(FixedDateEpochType);
+end;
+
+// DateTime Epoch is Midnight, January 1, 1 (Gregorian)
+function DateTimeEpoch: Extended;
+begin
+  Result:= 693594.5 - FixedDateEpoch(FixedDateEpochType);
+end;
+
+function FixedDateToJulianDate(FixedDate: Extended): Extended;
+begin
+  Result:= FixedDate - JulianDateEpoch;
+end;
+
+function JulianDateToFixedDate(JulianDate: Extended): Extended;
+begin
+  Result:= JulianDate + JulianDateEpoch;
+end;
+
+function FixedDateToRataDie(FixedDate: Extended): Extended;
+begin
+  Result:= FixedDate - RataDieEpoch;
+end;
+
+function RataDieToFixedDate(RataDie: Extended): Extended;
+begin
+  Result:= RataDie + RataDieEpoch;
+end;
+
+function FixedDateToDateTime(FixedDate: Extended): Extended;
+begin
+  Result:= FixedDate - DateTimeEpoch;
+end;
+
+function DateTimeToFixedDate(DateTime: Extended): Extended;
+begin
+  Result:= DateTime + DateTimeEpoch;
+end;
+
+
+
 
 (******************************************************************************)
 (*                       Julian Calendar functions                            *)
@@ -179,6 +251,7 @@ function GregorianLeapYear(Year: Integer): Boolean;
 begin
   Result:= ( (CalMod(Year,4) = 0) and ( (CalMod(Year,100) <> 0) or (CalMod(Year,400) = 0) ) )
 end;
+
 (******************************************************************************)
 
 end.
