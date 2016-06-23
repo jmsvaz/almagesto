@@ -81,31 +81,45 @@ begin
   Result:= y + CalMod(x, -y);
 end;
 
+const
+  JulianDateEpochInRataDie = -1721424.5;
+  RataDieEpochInRataDie = 0;
+  DateTimeEpochInRataDie = 693594.5;
+
 function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): Extended;
 begin
   case FixedDateEpochType of
-    fdeJulianDate: Result:= 1721424.5;
-    fdeRataDie: Result:= 0;
-    fdeDateTime: Result:= 693594.5;
+    fdeJulianDate: Result:= JulianDateEpochInRataDie;
+    fdeRataDie: Result:= RataDieEpochInRataDie;
+    fdeDateTime: Result:= DateTimeEpochInRataDie;
   end;
 end;
 
-// JulianDate Epoch is Noon, January 1, 4713 BCE (Julian)
+{ Julian Date Epoch is:
+ JulianDate: 0
+ RataDie: -1721424.5
+ Julian Calendar: Noon, January 1, 4713 BCE (-4712)
+ Gregorian Calendar: Noon, November 24, -4713
+}
 function JulianDateEpoch: Extended;
 begin
-  Result:= -1721424.5 - FixedDateEpoch(FixedDateEpochType);
+  Result:= JulianDateEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
-// RataDie Epoch is Midnight, January 1, 1 (Gregorian)
-function RataDieEpoch: Extended;
+{ Rata Die Epoch is:
+ RataDie: 0
+ JulianDate: 1721424.5
+ Julian Calendar:
+ Gregorian Calendar: Midnight, December 31, 0
+} function RataDieEpoch: Extended;
 begin
-  Result:= 0 - FixedDateEpoch(FixedDateEpochType);
+  Result:= RataDieEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
-// DateTime Epoch is Midnight, January 1, 1 (Gregorian)
+// DateTime Epoch is Midnight, December 30, 1899 (Gregorian)
 function DateTimeEpoch: Extended;
 begin
-  Result:= 693594.5 - FixedDateEpoch(FixedDateEpochType);
+  Result:= DateTimeEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
 function FixedDateToJulianDate(FixedDate: Extended): Extended;
