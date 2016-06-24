@@ -27,33 +27,46 @@ interface
 uses
   Classes, SysUtils;
 
+type
+  TFixedDate = Extended;
+
 // Fixed Date Calendar (Julian Date, Rata Die and TDateTime) functions
-function FixedDateToJulianDate(FixedDate: Extended): Extended;
-function JulianDateToFixedDate(JulianDate: Extended): Extended;
-function FixedDateToRataDie(FixedDate: Extended): Extended;
-function RataDieToFixedDate(RataDie: Extended): Extended;
-function FixedDateToDateTime(FixedDate: Extended): Extended;
-function DateTimeToFixedDate(DateTime: Extended): Extended;
+function FixedDateToJulianDate(FixedDate: TFixedDate): TFixedDate;
+function JulianDateToFixedDate(JulianDate: TFixedDate): TFixedDate;
+function FixedDateToRataDie(FixedDate: TFixedDate): TFixedDate;
+function RataDieToFixedDate(RataDie: TFixedDate): TFixedDate;
+function FixedDateToDateTime(FixedDate: TFixedDate): TFixedDate;
+function DateTimeToFixedDate(DateTime: TFixedDate): TFixedDate;
 
 // Julian Calendar functions
-procedure FixedDateToJulianCalendar(FixedDate: Extended; out Year,Month,Day: Integer); overload;
-function JulianCalendarToFixedDate(Year, Month, Day: Integer): Extended; overload;
+procedure FixedDateToJulianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer); overload;
+function JulianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate; overload;
 function JulianLeapYear(Year: Integer): Boolean;
 
 // Gregorian Calendar functions
-procedure FixedDateToGregorianCalendar(FixedDate: Extended; out Year,Month,Day: Integer);
-function GregorianCalendarToFixedDate(Year, Month, Day: Integer): Extended;
+procedure FixedDateToGregorianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
+function GregorianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
 function GregorianLeapYear(Year: Integer): Boolean;
+
+// Mayan Calendar functions
+type
+  TMayanCorrelation = (mcGoodmanMartinezThompson,mcSpinden);
+function MayanLongCountToFixedDate(Baktun, Katun, Tun, Uinal, Kin: Integer; MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
+procedure FixedDateToMayanLongCount(FixedDate: TFixedDate; out Baktun, Katun, Tun, Uinal, Kin: Integer; MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson);
+procedure FixedDateToMayanHaab(FixedDate: TFixedDate; out Day, Month: Integer; MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson);
+procedure FixedDateToMayanTzolkin(FixedDate: TFixedDate; out Number, Name: Integer; MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson);
+
 
 type
   TFixedDateEpochType = (fdeJulianDate, fdeRataDie, fdeDateTime);
 
-function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): Extended;
-function JulianDateEpoch: Extended;
-function RataDieEpoch: Extended;
-function DateTimeEpoch: Extended;
-function JulianCalendarEpoch: Extended;
-function GregorianCalendarEpoch: Extended;
+function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): TFixedDate;
+function JulianDateEpoch: TFixedDate;
+function RataDieEpoch: TFixedDate;
+function DateTimeEpoch: TFixedDate;
+function JulianCalendarEpoch: TFixedDate;
+function GregorianCalendarEpoch: TFixedDate;
+function MayanEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
 
 var
   FixedDateEpochType: TFixedDateEpochType = fdeJulianDate;
@@ -99,6 +112,7 @@ const
   Gregorian Calendar: Noon, November 24, -4713
 }
   JulianDateEpochInRataDie = -1721424.5;
+
 { Rata Die Epoch is:
   RataDie: 0
   JulianDate: 1721424.5
@@ -106,22 +120,34 @@ const
   Gregorian Calendar: Midnight, December 31, 0
 }
   RataDieEpochInRataDie = 0;
+
   // DateTime Epoch is Midnight, December 30, 1899 (Gregorian)
   DateTimeEpochInRataDie = 693594.5;
+
 { Julian Calendar Epoch is:
   RataDie: -1
-  Julian Calendar: Noon, January 1, 1 CE
-  Gregorian Calendar: Noon, December 30, 0
+  Julian Calendar: Midnight, January 1, 1 CE
+  Gregorian Calendar: Midnight, December 30, 0
 }
   JulianCalendarEpochInRataDie = -1;
+
 { Gregorian Calendar Epoch is:
   RataDie: 1
-  Julian Calendar: Noon, January 3, 1 CE
-  Gregorian Calendar: Noon, January 1, 1 CE
+  Julian Calendar: Midnight, January 3, 1 CE
+  Gregorian Calendar: Midnight, January 1, 1 CE
 }
   GregorianCalendarEpochInRataDie = 1;
 
-function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): Extended;
+{ Mayan Long Count Calendar Epoch depends on the precise correlation between the
+  Western calendars and the Long Count calendar. The generally accepted
+  correlation constant is the Modified Thompson 2, "Goodman–Martinez–Thompson",
+  or GMT correlation of JD 584282.5.
+}
+  Mayan_GoodmanMartinezThompsonInRataDie = -1137142;    //   06/sep/3114 BCE (Julian calendar)
+  Mayan_SpindenInJulianDate              = 489383.5;    //   11/nov/3374 BCE (Julian calendar)
+
+
+function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): TFixedDate;
 begin
   case FixedDateEpochType of
     fdeJulianDate: Result:= JulianDateEpochInRataDie;
@@ -130,30 +156,41 @@ begin
   end;
 end;
 
-function JulianDateEpoch: Extended;
+function JulianDateEpoch: TFixedDate;
 begin
   Result:= JulianDateEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
-function RataDieEpoch: Extended;
+function RataDieEpoch: TFixedDate;
 begin
   Result:= RataDieEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
-function DateTimeEpoch: Extended;
+function DateTimeEpoch: TFixedDate;
 begin
   Result:= DateTimeEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
-function JulianCalendarEpoch: Extended;
+function JulianCalendarEpoch: TFixedDate;
 begin
   Result:= JulianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
-function GregorianCalendarEpoch: Extended;
+function GregorianCalendarEpoch: TFixedDate;
 begin
   Result:= GregorianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
+
+function MayanEpoch(MayanCorrelation: TMayanCorrelation): TFixedDate;
+begin
+  case MayanCorrelation of
+    mcGoodmanMartinezThompson:
+      Result:= Mayan_GoodmanMartinezThompsonInRataDie  - FixedDateEpoch(FixedDateEpochType);
+    mcSpinden:
+      Result:= JulianDateToFixedDate(Mayan_SpindenInJulianDate);
+  end;
+end;
+
 (******************************************************************************)
 
 
@@ -162,32 +199,32 @@ end;
 (*                          Fixed Date functions                              *)
 (*                   Julian Date, Rata Die and TDateTime                      *)
 
-function FixedDateToJulianDate(FixedDate: Extended): Extended;
+function FixedDateToJulianDate(FixedDate: TFixedDate): TFixedDate;
 begin
   Result:= FixedDate - JulianDateEpoch;
 end;
 
-function JulianDateToFixedDate(JulianDate: Extended): Extended;
+function JulianDateToFixedDate(JulianDate: TFixedDate): TFixedDate;
 begin
   Result:= JulianDate + JulianDateEpoch;
 end;
 
-function FixedDateToRataDie(FixedDate: Extended): Extended;
+function FixedDateToRataDie(FixedDate: TFixedDate): TFixedDate;
 begin
   Result:= FixedDate - RataDieEpoch;
 end;
 
-function RataDieToFixedDate(RataDie: Extended): Extended;
+function RataDieToFixedDate(RataDie: TFixedDate): TFixedDate;
 begin
   Result:= RataDie + RataDieEpoch;
 end;
 
-function FixedDateToDateTime(FixedDate: Extended): Extended;
+function FixedDateToDateTime(FixedDate: TFixedDate): TFixedDate;
 begin
   Result:= FixedDate - DateTimeEpoch;
 end;
 
-function DateTimeToFixedDate(DateTime: Extended): Extended;
+function DateTimeToFixedDate(DateTime: TFixedDate): TFixedDate;
 begin
   Result:= DateTime + DateTimeEpoch;
 end;
@@ -203,7 +240,7 @@ end;
 {Fixed Date of Julian Calendar starting epoch (at preceding midnight)
   Julian: 01/jan/01 CE - Gregorian: 30/dec/01 BCE
 }
-function JulianCalendarToFixedDate(Year, Month, Day: Integer): Extended; overload;
+function JulianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate; overload;
 var
   c: Integer;
 begin
@@ -217,7 +254,7 @@ begin
   Result:= Result + JulianCalendarEpoch;
 end;
 
-procedure FixedDateToJulianCalendar(FixedDate: Extended; out Year, Month,
+procedure FixedDateToJulianCalendar(FixedDate: TFixedDate; out Year, Month,
   Day: Integer);
 var
   c: Integer;
@@ -252,7 +289,7 @@ end;
 {Fixed of Gregorian Calendar starting epoch (at preceding midnight)
   Gregorian: 01/jan/01 CE - Julian: 03/jan/01 CE
 }
-function GregorianCalendarToFixedDate(Year, Month, Day: Integer): Extended;
+function GregorianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
 var
   c: Integer;
 begin
@@ -267,7 +304,7 @@ begin
   Result:= Result + GregorianCalendarEpoch;
 end;
 
-function FixedDateToGregorianYear(FixedDate: Extended): Integer;
+function FixedDateToGregorianYear(FixedDate: TFixedDate): Integer;
 var
   d0, n400, d1, n100, d2, n4, d3, n1: Integer;
 begin
@@ -284,7 +321,7 @@ begin
     Inc(Result);
 end;
 
-procedure FixedDateToGregorianCalendar(FixedDate: Extended; out Year, Month,
+procedure FixedDateToGregorianCalendar(FixedDate: TFixedDate; out Year, Month,
   Day: Integer);
 var
   c: Integer;
@@ -303,6 +340,60 @@ end;
 function GregorianLeapYear(Year: Integer): Boolean;
 begin
   Result:= ( (CalMod(Year,4) = 0) and ( (CalMod(Year,100) <> 0) or (CalMod(Year,400) = 0) ) )
+end;
+
+
+
+(******************************************************************************)
+(*                        Mayan Calendar functions                            *)
+(*                                                                            *)
+
+function MayanLongCountToFixedDate(Baktun, Katun, Tun, Uinal, Kin: Integer;
+  MayanCorrelation: TMayanCorrelation): TFixedDate;
+begin
+  Result:= (((Baktun*20 + Katun)*20 + Tun)*18 + Uinal)*20 + Kin;
+  Result:= Result + MayanEpoch(MayanCorrelation);
+end;
+
+procedure FixedDateToMayanLongCount(FixedDate: TFixedDate; out Baktun, Katun,
+  Tun, Uinal, Kin: Integer; MayanCorrelation: TMayanCorrelation);
+var
+  Days: Integer;
+begin
+  Days:= Floor(FixedDate - MayanEpoch(MayanCorrelation));
+  Baktun:= Floor(Days/144000);
+  Days:= CalMod(Days,144000);
+  Katun:= Floor(Days/7200);
+  Days:= CalMod(Days,7200);
+  Tun:= Floor(Days/360);
+  Days:= CalMod(Days,360);
+  Uinal:= Floor(Days/20);
+  Kin:= CalMod(Days,20);
+end;
+
+procedure FixedDateToMayanHaab(FixedDate: TFixedDate; out Day, Month: Integer;
+  MayanCorrelation: TMayanCorrelation);
+var
+  Days: Integer;
+begin
+  Days:= Floor(FixedDate - MayanEpoch(MayanCorrelation));
+  // on starting epoch of Mayan Long Count it was '8 Cumku' (8-18)
+  Days:= Days + 348; // there are 348 days to '8 Cumku'
+  Days:= CalMod(Days,365);
+  Month:= 1 + Floor(Days/20);
+  Day:= CalMod(Days,20);
+end;
+
+procedure FixedDateToMayanTzolkin(FixedDate: TFixedDate; out Number,
+  Name: Integer; MayanCorrelation: TMayanCorrelation);
+var
+  Days: Integer;
+begin
+  Days:= Floor(FixedDate - MayanEpoch(MayanCorrelation));
+  // on starting epoch of Mayan Long Count it was '4 Ahau' (4-20)
+  Days:= Days + 160; // there are 160 days to '4 Ahau'
+  Name:= CalAMod(Days,20);
+  Number:= CalAMod(Days,13);
 end;
 
 (******************************************************************************)
