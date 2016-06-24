@@ -63,10 +63,14 @@ type
     procedure SetUp; override;
     procedure TearDown; override;
   published
+    procedure TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+    procedure TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
     procedure TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
     procedure TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
     procedure TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
     procedure TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+    procedure TestJulianCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToJulianCalendarEpochWhenFixedDateIsRataDie;
   end;
 
 implementation
@@ -85,7 +89,7 @@ begin
   inherited TearDown;
 end;
 
-procedure TTestJulianCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+procedure TTestJulianCalendar.TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
 var
   Expected: Extended;
 begin
@@ -94,13 +98,31 @@ begin
   AssertEquals(Expected,JulianCalendarToFixedDate(-586,7,30),0);
 end;
 
-procedure TTestJulianCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+procedure TTestJulianCalendar.TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
 var
   Year,Month,Day: Integer;
 begin
   FixedDateEpochType:= fdeRataDie;
   FixedDateToJulianCalendar(-214193,Year,Month,Day);
   AssertTrue((Year=-586) and (Month=7) and (Day=30));
+end;
+
+procedure TTestJulianCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -61387;
+  AssertEquals(Expected,JulianCalendarToFixedDate(-168,12,8),0);
+end;
+
+procedure TTestJulianCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToJulianCalendar(-61387,Year,Month,Day);
+  AssertTrue((Year=-168) and (Month=12) and (Day=8));
 end;
 
 procedure TTestJulianCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
@@ -119,6 +141,24 @@ begin
   FixedDateEpochType:= fdeRataDie;
   FixedDateToJulianCalendar(601716,Year,Month,Day);
   AssertTrue((Year=1648) and (Month=5) and (Day=31));
+end;
+
+procedure TTestJulianCalendar.TestJulianCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -1;
+  AssertEquals(Expected,JulianCalendarToFixedDate(1,1,1),0);
+end;
+
+procedure TTestJulianCalendar.TestFixedDateToJulianCalendarEpochWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToJulianCalendar(-1,Year,Month,Day);
+  AssertTrue((Year=1) and (Month=1) and (Day=1));
 end;
 
 { TTestFixedDateDateTimeConversion }
