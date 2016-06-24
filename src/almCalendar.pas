@@ -61,7 +61,9 @@ implementation
 
 uses Math;
 
-// helper routines
+(******************************************************************************)
+(*                             helper routines                                *)
+(*                                                                            *)
 
 function CalMod(x, y: Extended): Extended; overload;
 begin
@@ -82,6 +84,11 @@ function CalAMod(x, y: Integer): Integer; overload;
 begin
   Result:= y + CalMod(x, -y);
 end;
+(******************************************************************************)
+
+(******************************************************************************)
+(*                         Calendar Epoch routines                            *)
+(*                                                                            *)
 
 const
 { Julian Date Epoch is:
@@ -146,8 +153,13 @@ function GregorianCalendarEpoch: Extended;
 begin
   Result:= GregorianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
+(******************************************************************************)
 
 
+
+(******************************************************************************)
+(*                          Fixed Date functions                              *)
+(*                   Julian Date, Rata Die and TDateTime                      *)
 
 function FixedDateToJulianDate(FixedDate: Extended): Extended;
 begin
@@ -178,6 +190,7 @@ function DateTimeToFixedDate(DateTime: Extended): Extended;
 begin
   Result:= DateTime + DateTimeEpoch;
 end;
+(******************************************************************************)
 
 
 
@@ -186,7 +199,7 @@ end;
 (*                       Julian Calendar functions                            *)
 (*                                                                            *)
 
-{Julian Date of Julian Calendar starting epoch (at preceding midnight)
+{Fixed Date of Julian Calendar starting epoch (at preceding midnight)
   Julian: 01/jan/01 CE - Gregorian: 30/dec/01 BCE
 }
 function JulianCalendarToFixedDate(Year, Month, Day: Integer): Extended; overload;
@@ -224,10 +237,10 @@ function JulianLeapYear(Year: Integer): Boolean;
 // this function doesn't use de BCE notation, i.e,
 //     years are  ...  -2,    -1,     0,     1,    2,    3  ...
 //     that means ... 3 BCE, 2 BCE, 1 BCE, 1 CE, 2 CE, 3 CE ...
-// and before 9 CE, doesn't use the historical leap year
+// and doesn't use the historical leap year before 9 CE
+// tha would be 45, 42, 39, 36, 33, 30, 27, 24, 21, 18, 15, 12, 9
 begin
   Result:= (CalMod(Year,4) = 0);
-//    Result:= (-Year in [45, 42, 39, 36, 33, 30, 27, 24, 21, 18, 15, 12, 9]) or (Year = 8);  // -Year = Year BC
 end;
 (******************************************************************************)
 
@@ -235,7 +248,7 @@ end;
 (*                    Gregorian Calendar functions                            *)
 (*                                                                            *)
 
-{Julian Date of Gregorian Calendar starting epoch (at preceding midnight)
+{Fixed of Gregorian Calendar starting epoch (at preceding midnight)
   Gregorian: 01/jan/01 CE - Julian: 03/jan/01 CE
 }
 function GregorianCalendarToJulianDate(Year, Month, Day: Integer): Extended;
