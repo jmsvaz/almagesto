@@ -55,7 +55,71 @@ type
   published
   end;
 
+  { TTestJulianCalendar }
+
+  TTestJulianCalendar= class(TTestCase)
+  protected
+    OldFixedDateEpochType: TFixedDateEpochType;
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+    procedure TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+  end;
+
 implementation
+
+{ TTestJulianCalendar }
+
+procedure TTestJulianCalendar.SetUp;
+begin
+  inherited SetUp;
+  OldFixedDateEpochType:= FixedDateEpochType;
+end;
+
+procedure TTestJulianCalendar.TearDown;
+begin
+  FixedDateEpochType:= OldFixedDateEpochType;
+  inherited TearDown;
+end;
+
+procedure TTestJulianCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -214193;
+  AssertEquals(Expected,JulianCalendarToFixedDate(-586,7,30),0);
+end;
+
+procedure TTestJulianCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToJulianCalendar(-214193,Year,Month,Day);
+  AssertTrue((Year=-586) and (Month=7) and (Day=30));
+end;
+
+procedure TTestJulianCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 601716;
+  AssertEquals(Expected,JulianCalendarToFixedDate(1648,5,31),0);
+end;
+
+procedure TTestJulianCalendar.TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToJulianCalendar(601716,Year,Month,Day);
+  AssertTrue((Year=1648) and (Month=5) and (Day=31));
+end;
 
 { TTestFixedDateDateTimeConversion }
 
@@ -249,6 +313,7 @@ initialization
   RegisterTest(TTestFixedDateJulianDateConversion);
   RegisterTest(TTestFixedDateRataDieConversion);
   RegisterTest(TTestFixedDateDateTimeConversion);
+  RegisterTest(TTestJulianCalendar);
 
 end.
 

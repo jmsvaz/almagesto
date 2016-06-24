@@ -1,7 +1,7 @@
 {
     almCalendar is part of Almagesto, a Free Pascal astronomical library.
 
-    Copyright (C) 2011 João Marcelo S. Vaz
+    Copyright (C) 2011,2016 João Marcelo S. Vaz
 
     Almagesto is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,12 +35,12 @@ function FixedDateToDateTime(FixedDate: Extended): Extended;
 function DateTimeToFixedDate(DateTime: Extended): Extended;
 
 // Julian Calendar functions
-procedure JulianDateToJulianCalendar(JulianDate: Extended; var Year,Month,Day: Integer); overload;
-function JulianCalendarToJulianDate(Year, Month, Day: Integer): Extended; overload;
+procedure FixedDateToJulianCalendar(JulianDate: Extended; out Year,Month,Day: Integer); overload;
+function JulianCalendarToFixedDate(Year, Month, Day: Integer): Extended; overload;
 function JulianLeapYear(Year: Integer): Boolean;
 
 // Gregorian Calendar functions
-procedure JulianDateToGregorianCalendar(JulianDate: Extended; var Year,Month,Day: Integer);
+procedure JulianDateToGregorianCalendar(JulianDate: Extended; out Year,Month,Day: Integer);
 function GregorianCalendarToJulianDate(Year, Month, Day: Integer): Extended;
 function GregorianLeapYear(Year: Integer): Boolean;
 
@@ -51,6 +51,8 @@ function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): Extended;
 function JulianDateEpoch: Extended;
 function RataDieEpoch: Extended;
 function DateTimeEpoch: Extended;
+function JulianCalendarEpoch: Extended;
+function GregorianCalendarEpoch: Extended;
 
 var
   FixedDateEpochType: TFixedDateEpochType = fdeJulianDate;
@@ -85,6 +87,8 @@ const
   JulianDateEpochInRataDie = -1721424.5;
   RataDieEpochInRataDie = 0;
   DateTimeEpochInRataDie = 693594.5;
+  JulianCalendarEpochInRataDie = -1;
+  GregorianCalendarEpochInRataDie = 1;
 
 function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): Extended;
 begin
@@ -121,6 +125,18 @@ function DateTimeEpoch: Extended;
 begin
   Result:= DateTimeEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
+
+function JulianCalendarEpoch: Extended;
+begin
+  Result:= JulianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
+end;
+
+function GregorianCalendarEpoch: Extended;
+begin
+  Result:= GregorianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
+end;
+
+
 
 function FixedDateToJulianDate(FixedDate: Extended): Extended;
 begin
@@ -162,9 +178,7 @@ end;
 {Julian Date of Julian Calendar starting epoch (at preceding midnight)
   Julian: 01/jan/01 CE - Gregorian: 30/dec/01 BCE
 }
-const JulianCalendarEpoch = 1721423.5;
-
-function JulianCalendarToJulianDate(Year, Month, Day: Integer): Extended; overload;
+function JulianCalendarToFixedDate(Year, Month, Day: Integer): Extended; overload;
 var
   c: Integer;
 begin
@@ -178,19 +192,20 @@ begin
   Result:= Result + JulianCalendarEpoch;
 end;
 
-procedure JulianDateToJulianCalendar(JulianDate: Extended; var Year, Month, Day: Integer); overload;
+procedure FixedDateToJulianCalendar(JulianDate: Extended; out Year, Month,
+  Day: Integer);
 var
   c: Integer;
 begin
   Year:= Floor((4*Floor(JulianDate - JulianCalendarEpoch) + 1464)/1461);
   c:= 0;
-  if (JulianDate - JulianCalendarToJulianDate(Year,3,1)) >= 0 then
+  if (JulianDate - JulianCalendarToFixedDate(Year,3,1)) >= 0 then
     if JulianLeapYear(Year) then
       c:= 1
     else
       c:= 2;
-  Month:= Floor((12*(Floor(JulianDate - JulianCalendarToJulianDate(Year,1,1)) + c) + 373)/367);
-  Day:=  Floor(JulianDate - JulianCalendarToJulianDate(Year,Month,1)) + 1;
+  Month:= Floor((12*(Floor(JulianDate - JulianCalendarToFixedDate(Year,1,1)) + c) + 373)/367);
+  Day:=  Floor(JulianDate - JulianCalendarToFixedDate(Year,Month,1)) + 1;
 end;
 
 function JulianLeapYear(Year: Integer): Boolean;
@@ -212,8 +227,6 @@ end;
 {Julian Date of Gregorian Calendar starting epoch (at preceding midnight)
   Gregorian: 01/jan/01 CE - Julian: 03/jan/01 CE
 }
-const GregorianCalendarEpoch = 1721425.5;
-
 function GregorianCalendarToJulianDate(Year, Month, Day: Integer): Extended;
 var
   c: Integer;
@@ -246,7 +259,8 @@ begin
     Inc(Result);
 end;
 
-procedure JulianDateToGregorianCalendar(JulianDate: Extended; var Year, Month, Day: Integer);
+procedure JulianDateToGregorianCalendar(JulianDate: Extended; out Year, Month,
+  Day: Integer);
 var
   c: Integer;
 begin
