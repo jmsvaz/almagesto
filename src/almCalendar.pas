@@ -27,6 +27,7 @@ interface
 uses
   Classes, SysUtils;
 
+// Fixed Date Calendar (Julian Date, Rata Die and TDateTime) functions
 function FixedDateToJulianDate(FixedDate: Extended): Extended;
 function JulianDateToFixedDate(JulianDate: Extended): Extended;
 function FixedDateToRataDie(FixedDate: Extended): Extended;
@@ -35,13 +36,13 @@ function FixedDateToDateTime(FixedDate: Extended): Extended;
 function DateTimeToFixedDate(DateTime: Extended): Extended;
 
 // Julian Calendar functions
-procedure FixedDateToJulianCalendar(JulianDate: Extended; out Year,Month,Day: Integer); overload;
+procedure FixedDateToJulianCalendar(FixedDate: Extended; out Year,Month,Day: Integer); overload;
 function JulianCalendarToFixedDate(Year, Month, Day: Integer): Extended; overload;
 function JulianLeapYear(Year: Integer): Boolean;
 
 // Gregorian Calendar functions
-procedure JulianDateToGregorianCalendar(JulianDate: Extended; out Year,Month,Day: Integer);
-function GregorianCalendarToJulianDate(Year, Month, Day: Integer): Extended;
+procedure FixedDateToGregorianCalendar(FixedDate: Extended; out Year,Month,Day: Integer);
+function GregorianCalendarToFixedDate(Year, Month, Day: Integer): Extended;
 function GregorianLeapYear(Year: Integer): Boolean;
 
 type
@@ -216,20 +217,20 @@ begin
   Result:= Result + JulianCalendarEpoch;
 end;
 
-procedure FixedDateToJulianCalendar(JulianDate: Extended; out Year, Month,
+procedure FixedDateToJulianCalendar(FixedDate: Extended; out Year, Month,
   Day: Integer);
 var
   c: Integer;
 begin
-  Year:= Floor((4*Floor(JulianDate - JulianCalendarEpoch) + 1464)/1461);
+  Year:= Floor((4*Floor(FixedDate - JulianCalendarEpoch) + 1464)/1461);
   c:= 0;
-  if (JulianDate - JulianCalendarToFixedDate(Year,3,1)) >= 0 then
+  if (FixedDate - JulianCalendarToFixedDate(Year,3,1)) >= 0 then
     if JulianLeapYear(Year) then
       c:= 1
     else
       c:= 2;
-  Month:= Floor((12*(Floor(JulianDate - JulianCalendarToFixedDate(Year,1,1)) + c) + 373)/367);
-  Day:=  Floor(JulianDate - JulianCalendarToFixedDate(Year,Month,1)) + 1;
+  Month:= Floor((12*(Floor(FixedDate - JulianCalendarToFixedDate(Year,1,1)) + c) + 373)/367);
+  Day:=  Floor(FixedDate - JulianCalendarToFixedDate(Year,Month,1)) + 1;
 end;
 
 function JulianLeapYear(Year: Integer): Boolean;
@@ -251,7 +252,7 @@ end;
 {Fixed of Gregorian Calendar starting epoch (at preceding midnight)
   Gregorian: 01/jan/01 CE - Julian: 03/jan/01 CE
 }
-function GregorianCalendarToJulianDate(Year, Month, Day: Integer): Extended;
+function GregorianCalendarToFixedDate(Year, Month, Day: Integer): Extended;
 var
   c: Integer;
 begin
@@ -266,11 +267,11 @@ begin
   Result:= Result + GregorianCalendarEpoch;
 end;
 
-function JulianDateToGregorianYear(JulianDate: Extended): Integer;
+function FixedDateToGregorianYear(FixedDate: Extended): Integer;
 var
   d0, n400, d1, n100, d2, n4, d3, n1: Integer;
 begin
-  d0:= Floor(JulianDate - GregorianCalendarEpoch);
+  d0:= Floor(FixedDate - GregorianCalendarEpoch);
   n400:= Floor(d0/146097);
   d1:= CalMod(d0,146097);
   n100:= Floor(d1/36524);
@@ -283,20 +284,20 @@ begin
     Inc(Result);
 end;
 
-procedure JulianDateToGregorianCalendar(JulianDate: Extended; out Year, Month,
+procedure FixedDateToGregorianCalendar(FixedDate: Extended; out Year, Month,
   Day: Integer);
 var
   c: Integer;
 begin
-  Year:= JulianDateToGregorianYear(JulianDate);
+  Year:= FixedDateToGregorianYear(FixedDate);
   c:= 0;
-  if (JulianDate - GregorianCalendarToJulianDate(Year,3,1)) >= 0 then
+  if (FixedDate - GregorianCalendarToFixedDate(Year,3,1)) >= 0 then
     if GregorianLeapYear(Year) then
       c:= 1
     else
       c:= 2;
-  Month:= Floor((12*(Floor(JulianDate - GregorianCalendarToJulianDate(Year,1,1)) + c) + 373)/367);
-  Day:= Floor(JulianDate - GregorianCalendarToJulianDate(Year,Month,1)) + 1;
+  Month:= Floor((12*(Floor(FixedDate - GregorianCalendarToFixedDate(Year,1,1)) + c) + 373)/367);
+  Day:= Floor(FixedDate - GregorianCalendarToFixedDate(Year,Month,1)) + 1;
 end;
 
 function GregorianLeapYear(Year: Integer): Boolean;
