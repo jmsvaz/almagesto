@@ -73,7 +73,111 @@ type
     procedure TestFixedDateToJulianCalendarEpochWhenFixedDateIsRataDie;
   end;
 
+  { TTestGregorianCalendar }
+
+  TTestGregorianCalendar= class(TTestCase)
+  protected
+    OldFixedDateEpochType: TFixedDateEpochType;
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+    procedure TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+    procedure TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+    procedure TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+    procedure TestGregorianCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToGregorianCalendarEpochWhenFixedDateIsRataDie;
+  end;
+
 implementation
+
+{ TTestGregorianCalendar }
+
+procedure TTestGregorianCalendar.SetUp;
+begin
+  inherited SetUp;
+  OldFixedDateEpochType:= FixedDateEpochType;
+end;
+
+procedure TTestGregorianCalendar.TearDown;
+begin
+  FixedDateEpochType:= OldFixedDateEpochType;
+  inherited TearDown;
+end;
+
+procedure TTestGregorianCalendar.TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -214193;
+  AssertEquals(Expected,GregorianCalendarToFixedDate(-586,7,24),0);
+end;
+
+procedure TTestGregorianCalendar.TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToGregorianCalendar(-214193,Year,Month,Day);
+  AssertTrue((Year=-586) and (Month=7) and (Day=24));
+end;
+
+procedure TTestGregorianCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -61387;
+  AssertEquals(Expected,GregorianCalendarToFixedDate(-168,12,5),0);
+end;
+
+procedure TTestGregorianCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToGregorianCalendar(-61387,Year,Month,Day);
+  AssertTrue((Year=-168) and (Month=12) and (Day=5));
+end;
+
+procedure TTestGregorianCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 601716;
+  AssertEquals(Expected,GregorianCalendarToFixedDate(1648,6,10),0);
+end;
+
+procedure TTestGregorianCalendar.TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToGregorianCalendar(601716,Year,Month,Day);
+  AssertTrue((Year=1648) and (Month=6) and (Day=10));
+end;
+
+procedure TTestGregorianCalendar.TestGregorianCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 1;
+  AssertEquals(Expected,GregorianCalendarToFixedDate(1,1,1),0);
+end;
+
+procedure TTestGregorianCalendar.TestFixedDateToGregorianCalendarEpochWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToGregorianCalendar(1,Year,Month,Day);
+  AssertTrue((Year=1) and (Month=1) and (Day=1));
+end;
 
 { TTestJulianCalendar }
 
@@ -354,6 +458,7 @@ initialization
   RegisterTest(TTestFixedDateRataDieConversion);
   RegisterTest(TTestFixedDateDateTimeConversion);
   RegisterTest(TTestJulianCalendar);
+  RegisterTest(TTestGregorianCalendar);
 
 end.
 
