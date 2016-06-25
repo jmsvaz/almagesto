@@ -30,13 +30,21 @@ uses
 type
   TFixedDate = Extended;
 
-// Fixed Date Calendar (Julian Date, Rata Die and TDateTime) functions
+// Fixed Date calendars (Julian Date, Rata Die and TDateTime) functions
 function FixedDateToJulianDate(FixedDate: TFixedDate): TFixedDate;
 function JulianDateToFixedDate(JulianDate: TFixedDate): TFixedDate;
 function FixedDateToRataDie(FixedDate: TFixedDate): TFixedDate;
 function RataDieToFixedDate(RataDie: TFixedDate): TFixedDate;
 function FixedDateToDateTime(FixedDate: TFixedDate): TFixedDate;
 function DateTimeToFixedDate(DateTime: TFixedDate): TFixedDate;
+
+// Days of the week functions (Sunday is 0 and Saturday is 6)
+function DayOfWeekFromFixed(FixedDate: TFixedDate): Integer;
+function KDayOnOrBefore(k: Integer; FixedDate: TFixedDate): TFixedDate;
+function KDayOnOrAfter(k: Integer; FixedDate: TFixedDate): TFixedDate;
+function KDayNearest(k: Integer; FixedDate: TFixedDate): TFixedDate;
+function KDayBefore(k: Integer; FixedDate: TFixedDate): TFixedDate;
+function KDayAfter(k: Integer; FixedDate: TFixedDate): TFixedDate;
 
 // Julian Calendar functions
 procedure FixedDateToJulianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer); overload;
@@ -51,6 +59,7 @@ function GregorianLeapYear(Year: Integer): Boolean;
 // Mayan Calendar functions
 type
   TMayanCorrelation = (mcGoodmanMartinezThompson,mcSpinden);
+
 function MayanLongCountToFixedDate(Baktun, Katun, Tun, Uinal, Kin: Integer; MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
 procedure FixedDateToMayanLongCount(FixedDate: TFixedDate; out Baktun, Katun, Tun, Uinal, Kin: Integer; MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson);
 procedure FixedDateToMayanHaab(FixedDate: TFixedDate; out Day, Month: Integer; MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson);
@@ -228,6 +237,43 @@ function DateTimeToFixedDate(DateTime: TFixedDate): TFixedDate;
 begin
   Result:= DateTime + DateTimeEpoch;
 end;
+
+function DayOfWeekFromFixed(FixedDate: TFixedDate): Integer;
+var
+  day: Integer;
+const
+  Sunday = 0;
+begin
+  day:= Trunc(FixedDate - RataDieEpoch - Sunday);
+  Result:= CalMod(day,7);
+end;
+
+function KDayOnOrBefore(k: Integer; FixedDate: TFixedDate): TFixedDate;
+begin
+  Result:= FixedDate - DayOfWeekFromFixed(FixedDate - k);
+end;
+
+function KDayOnOrAfter(k: Integer; FixedDate: TFixedDate): TFixedDate;
+begin
+  Result:= KDayOnOrBefore(k, FixedDate + 6);
+end;
+
+function KDayNearest(k: Integer; FixedDate: TFixedDate): TFixedDate;
+begin
+  Result:= KDayOnOrBefore(k, FixedDate + 3);
+end;
+
+function KDayBefore(k: Integer; FixedDate: TFixedDate): TFixedDate;
+begin
+  Result:= KDayOnOrBefore(k, FixedDate - 1);
+end;
+
+function KDayAfter(k: Integer; FixedDate: TFixedDate): TFixedDate;
+begin
+  Result:= KDayOnOrBefore(k, FixedDate + 7);
+end;
+
+
 (******************************************************************************)
 
 

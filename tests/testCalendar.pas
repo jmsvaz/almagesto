@@ -55,6 +55,21 @@ type
   published
   end;
 
+  { TTestWeekDay }
+
+  TTestWeekDay= class(TTestCase)
+  protected
+    OldFixedDateEpochType: TFixedDateEpochType;
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure NegativeFixedDateWhenFixedDateIsRataDie;
+    procedure PositiveFixedDateWhenFixedDateIsRataDie;
+    procedure PositiveFixedDateWhenFixedDateIsJulianDate;
+    procedure PositiveFixedDateWhenFixedDateIsDateTime;
+  end;
+
+
   { TTestJulianCalendar }
 
   TTestJulianCalendar= class(TTestCase)
@@ -111,6 +126,56 @@ type
 
 
 implementation
+
+{ TTestWeekDay }
+
+procedure TTestWeekDay.SetUp;
+begin
+  inherited SetUp;
+  OldFixedDateEpochType:= FixedDateEpochType;
+end;
+
+procedure TTestWeekDay.TearDown;
+begin
+  FixedDateEpochType:= OldFixedDateEpochType;
+  inherited TearDown;
+end;
+
+procedure TTestWeekDay.NegativeFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 0;
+  AssertEquals(Expected,DayOfWeekFromFixed(-214193));
+end;
+
+procedure TTestWeekDay.PositiveFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 3;
+  AssertEquals(Expected,DayOfWeekFromFixed(601716));
+end;
+
+procedure TTestWeekDay.PositiveFixedDateWhenFixedDateIsJulianDate;
+var
+  Expected: Integer;
+begin
+  FixedDateEpochType:= fdeJulianDate;
+  Expected:= 3;
+  AssertEquals(Expected,DayOfWeekFromFixed(2323140.5));
+end;
+
+procedure TTestWeekDay.PositiveFixedDateWhenFixedDateIsDateTime;
+var
+  Expected: Integer;
+begin
+  FixedDateEpochType:= fdeDateTime;
+  Expected:= 6;
+  AssertEquals(Expected,DayOfWeekFromFixed(EncodeDate(2016,6,25)));
+end;
 
 { TTestMayanCalendar }
 
@@ -559,6 +624,7 @@ end;
 
 
 initialization
+  RegisterTest(TTestWeekDay);
   RegisterTest(TTestFixedDateJulianDateConversion);
   RegisterTest(TTestFixedDateRataDieConversion);
   RegisterTest(TTestFixedDateDateTimeConversion);
