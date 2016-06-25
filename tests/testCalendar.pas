@@ -151,30 +151,27 @@ begin
 end;
 
 procedure TTestWeekDay.PositiveFixedDateWhenFixedDateIsRataDie;
-var
-  Expected: Integer;
+const
+  Wednesday = 3;
 begin
   FixedDateEpochType:= fdeRataDie;
-  Expected:= 3;
-  AssertEquals(Expected,DayOfWeekFromFixed(601716));
+  AssertEquals(Wednesday,DayOfWeekFromFixed(601716));
 end;
 
 procedure TTestWeekDay.PositiveFixedDateWhenFixedDateIsJulianDate;
-var
-  Expected: Integer;
+const
+  Wednesday = 3;
 begin
   FixedDateEpochType:= fdeJulianDate;
-  Expected:= 3;
-  AssertEquals(Expected,DayOfWeekFromFixed(2323140.5));
+  AssertEquals(Wednesday,DayOfWeekFromFixed(2323140.5));
 end;
 
 procedure TTestWeekDay.PositiveFixedDateWhenFixedDateIsDateTime;
-var
-  Expected: Integer;
+const
+  Saturday = 6;
 begin
   FixedDateEpochType:= fdeDateTime;
-  Expected:= 6;
-  AssertEquals(Expected,DayOfWeekFromFixed(EncodeDate(2016,6,25)));
+  AssertEquals(Saturday,DayOfWeekFromFixed(EncodeDate(2016,6,25)));
 end;
 
 { TTestMayanCalendar }

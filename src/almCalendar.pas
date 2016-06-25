@@ -238,12 +238,22 @@ begin
   Result:= DateTime + DateTimeEpoch;
 end;
 
+(******************************************************************************)
+
+
+
+
+(******************************************************************************)
+(*                          Weekdays functions                                *)
+(*                                                                            *)
+
 function DayOfWeekFromFixed(FixedDate: TFixedDate): Integer;
 var
   day: Integer;
 const
   Sunday = 0;
 begin
+  // Rata Die Epoch is Sunday
   day:= Trunc(FixedDate - RataDieEpoch - Sunday);
   Result:= CalMod(day,7);
 end;
