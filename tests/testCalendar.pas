@@ -53,6 +53,14 @@ type
     procedure SetUp; override;
     procedure TearDown; override;
   published
+    procedure TestDateTimeToFixedDateWhenFixedDateIsRataDie;
+    procedure TestNegativeDateTimeToFixedDateWhenFixedDateIsRataDie;
+    procedure TestDateTimeToNegativeFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToDateTimeWhenFixedDateIsRataDie;
+    procedure TestNegativeFixedDateToDateTimeWhenFixedDateIsRataDie;
+    procedure TestFixedDateToNegativeDateTimeWhenFixedDateIsRataDie;
+    procedure TestDateTimeToFixedDateWhenFixedDateisDateTime;
+    procedure TestFixedDateToDateTimeWhenFixedDateisDateTime;
   end;
 
   { TTestWeekDay }
@@ -444,6 +452,78 @@ procedure TTestFixedDateDateTimeConversion.TearDown;
 begin
   FixedDateEpochType:= OldFixedDateEpochType;
   inherited TearDown;
+end;
+
+procedure TTestFixedDateDateTimeConversion.TestDateTimeToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 708842;
+  AssertEquals(Expected,DateTimeToFixedDate(15248),0);
+end;
+
+procedure TTestFixedDateDateTimeConversion.TestNegativeDateTimeToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 544676;
+  AssertEquals(Expected,DateTimeToFixedDate(-148918),0);
+end;
+
+procedure TTestFixedDateDateTimeConversion.TestDateTimeToNegativeFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -214193;
+  AssertEquals(Expected,DateTimeToFixedDate(-907787),0);
+end;
+
+procedure TTestFixedDateDateTimeConversion.TestFixedDateToDateTimeWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 15248;
+  AssertEquals(Expected,FixedDateToDateTime(708842),0);
+end;
+
+procedure TTestFixedDateDateTimeConversion.TestNegativeFixedDateToDateTimeWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -907787;
+  AssertEquals(Expected,FixedDateToDateTime(-214193),0);
+end;
+
+procedure TTestFixedDateDateTimeConversion.TestFixedDateToNegativeDateTimeWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -148918;
+  AssertEquals(Expected,FixedDateToDateTime(544676),0);
+end;
+
+procedure TTestFixedDateDateTimeConversion.TestDateTimeToFixedDateWhenFixedDateisDateTime;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeDateTime;
+  Expected:= 214193;
+  AssertEquals(Expected,DateTimeToFixedDate(Expected),0);
+end;
+
+procedure TTestFixedDateDateTimeConversion.TestFixedDateToDateTimeWhenFixedDateisDateTime;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeDateTime;
+  Expected:= 214193;
+  AssertEquals(Expected,FixedDateToDateTime(Expected),0);
 end;
 
 

@@ -131,7 +131,7 @@ const
   RataDieEpochInRataDie = 0;
 
   // DateTime Epoch is Midnight, December 30, 1899 (Gregorian)
-  DateTimeEpochInRataDie = 693594.5;
+  DateTimeEpochInRataDie = 693594;
 
 { Julian Calendar Epoch is:
   RataDie: -1
