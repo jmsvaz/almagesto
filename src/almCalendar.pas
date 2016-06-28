@@ -49,6 +49,8 @@ function KDayAfter(k: Integer; FixedDate: TFixedDate): TFixedDate;
 // Julian Calendar functions
 procedure FixedDateToJulianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer); overload;
 function JulianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate; overload;
+procedure FixedDateToJulianCalendar(FixedDate: TFixedDate; out Year, Month, Event, Count: Integer; out Leap: Boolean); overload;
+function JulianCalendarToFixedDate(Year, Month, Event, Count: Integer; Leap: Boolean): TFixedDate; overload;
 function JulianLeapYear(Year: Integer): Boolean;
 
 // Gregorian Calendar functions
@@ -130,7 +132,10 @@ const
 }
   RataDieEpochInRataDie = 0;
 
-  // DateTime Epoch is Midnight, December 30, 1899 (Gregorian)
+{ DateTime Epoch is
+  RataDie: 693594
+  Gregorian Calendar: Midnight, December 30, 1899
+}
   DateTimeEpochInRataDie = 693594;
 
 { Julian Calendar Epoch is:
@@ -324,6 +329,99 @@ begin
       c:= 2;
   Month:= Floor((12*(Floor(FixedDate - JulianCalendarToFixedDate(Year,1,1)) + c) + 373)/367);
   Day:=  Floor(FixedDate - JulianCalendarToFixedDate(Year,Month,1)) + 1;
+end;
+
+function IdesOfMonth(Month: Integer): Integer;
+begin
+  case Month of
+    3,5,7,10: // march, may, july, october
+      Result:= 15;
+  else
+      Result:= 13;
+  end;
+end;
+
+function NonesOfMonth(Month: Integer): Integer;
+begin
+  Result:= IdesOfMonth(Month) - 8;
+end;
+
+
+
+procedure FixedDateToJulianCalendar(FixedDate: TFixedDate; out Year, Month,
+  Event, Count: Integer; out Leap: Boolean);
+var
+  Day: Integer;
+begin
+  FixedDateToJulianCalendar(FixedDate, Year, Month, Day);
+
+  if Day = 1 then
+    begin
+      Event:= 1; // Kalendae
+      Count:= 1;
+      Leap:= False;
+    end
+  else
+    if Day <= NonesOfMonth(Month) then
+      begin
+        Event:= 2; // Nonae
+        Count:= NonesOfMonth(Month) - Day + 1;
+        Leap:= False;
+      end
+    else
+      if Day <= IdesOfMonth(Month) then
+        begin
+          Event:= 3; // Idus
+          Count:= IdesOfMonth(Month) - Day + 1;
+          Leap:= False;
+        end
+      else
+        if ((Month <> 2 ) or not JulianLeapYear(Year)) then
+          begin
+            Month:= CalAMod((Month + 1), 12);
+            if (Month = 1) then
+              if (Year <> -1) then
+                Year:= Year + 1
+              else
+                Year:= 1;
+            Event:= 1; // Kalendae
+            Count:= Floor(JulianCalendarToFixedDate(Year, Month, 1, 1, False) - FixedDate) + 1;
+            Leap:= False;
+          end
+        else
+          if Day < 25 then
+            begin
+              Month:= 3; // March
+              Event:= 1; // Kalendae
+              Count:= 30 - Day;
+              Leap:= False;
+            end
+          else
+            begin
+              Month:= 3; // March
+              Event:= 1; // Kalendae
+              Count:= 31 - Day;
+              Leap:= (Day = 25);
+            end;
+end;
+
+function JulianCalendarToFixedDate(Year, Month, Event, Count: Integer;
+  Leap: Boolean): TFixedDate;
+begin
+  Result:= 0;
+  case Event of
+    1:  // Kalendae
+      Result:= JulianCalendarToFixedDate(Year, Month, 1);
+    2:  // Nonae
+      Result:= JulianCalendarToFixedDate(Year, Month, NonesOfMonth(Month));
+    3:  // Idus
+      Result:= JulianCalendarToFixedDate(Year, Month, IdesOfMonth(Month));
+  end;
+  Result:= Result - Count;
+  if not (JulianLeapYear(Year) and (Month = 3) and (Event = 1) and (Count >= 6) and (Count <= 16)) then
+    Result:= Result + 1;
+  if Leap then
+    Result:= Result + 1;
 end;
 
 function JulianLeapYear(Year: Integer): Boolean;

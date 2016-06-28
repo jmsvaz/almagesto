@@ -374,7 +374,8 @@ var
 begin
   FixedDateEpochType:= fdeRataDie;
   Expected:= -214193;
-  AssertEquals(Expected,JulianCalendarToFixedDate(-586,7,30),0);
+  AssertEquals('Year-Month-Day Nomenclature',Expected,JulianCalendarToFixedDate(-586,7,30),0);
+  AssertEquals('Roman Nomenclature',Expected,JulianCalendarToFixedDate(-586,8,1,3,False),0);
 end;
 
 procedure TTestJulianCalendar.TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
@@ -383,7 +384,8 @@ var
 begin
   FixedDateEpochType:= fdeRataDie;
   FixedDateToJulianCalendar(-214193,Year,Month,Day);
-  AssertTrue((Year=-586) and (Month=7) and (Day=30));
+  AssertTrue('Year-Month-Day Nomenclature',(Year=-586) and (Month=7) and (Day=30));
+  Fail('Roman Nomenclature');
 end;
 
 procedure TTestJulianCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
@@ -392,7 +394,8 @@ var
 begin
   FixedDateEpochType:= fdeRataDie;
   Expected:= -61387;
-  AssertEquals(Expected,JulianCalendarToFixedDate(-168,12,8),0);
+  AssertEquals('Year-Month-Day Nomenclature',Expected,JulianCalendarToFixedDate(-168,12,8),0);
+  AssertEquals('Roman Nomenclature',Expected,JulianCalendarToFixedDate(-168,12,3,6,False),0);
 end;
 
 procedure TTestJulianCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
@@ -401,7 +404,8 @@ var
 begin
   FixedDateEpochType:= fdeRataDie;
   FixedDateToJulianCalendar(-61387,Year,Month,Day);
-  AssertTrue((Year=-168) and (Month=12) and (Day=8));
+  AssertTrue('Year-Month-Day Nomenclature',(Year=-168) and (Month=12) and (Day=8));
+  Fail('Roman Nomenclature');
 end;
 
 procedure TTestJulianCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
@@ -410,7 +414,8 @@ var
 begin
   FixedDateEpochType:= fdeRataDie;
   Expected:= 601716;
-  AssertEquals(Expected,JulianCalendarToFixedDate(1648,5,31),0);
+  AssertEquals('Year-Month-Day Nomenclature',Expected,JulianCalendarToFixedDate(1648,5,31),0);
+  AssertEquals('Roman Nomenclature',Expected,JulianCalendarToFixedDate(1648,6,1,2,False),0);
 end;
 
 procedure TTestJulianCalendar.TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
@@ -419,7 +424,8 @@ var
 begin
   FixedDateEpochType:= fdeRataDie;
   FixedDateToJulianCalendar(601716,Year,Month,Day);
-  AssertTrue((Year=1648) and (Month=5) and (Day=31));
+  AssertTrue('Year-Month-Day Nomenclature',(Year=1648) and (Month=5) and (Day=31));
+  Fail('Roman Nomenclature');
 end;
 
 procedure TTestJulianCalendar.TestJulianCalendarEpochToFixedDateWhenFixedDateIsRataDie;
