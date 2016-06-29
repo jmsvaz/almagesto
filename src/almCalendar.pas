@@ -70,6 +70,10 @@ procedure FixedDateToMayanLongCount(FixedDate: TFixedDate; out Baktun, Katun, Tu
 procedure FixedDateToMayanHaab(FixedDate: TFixedDate; out Day, Month: Integer; MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson);
 procedure FixedDateToMayanTzolkin(FixedDate: TFixedDate; out Number, Name: Integer; MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson);
 
+// Aztec Calendar functions
+procedure FixedDateToAztecXihuitl(FixedDate: TFixedDate; out Day, Month: Integer);
+procedure FixedDateToAztecTonalpohualli(FixedDate: TFixedDate; out Number, Name: Integer);
+
 
 type
   TFixedDateEpochType = (fdeJulianDate, fdeRataDie, fdeDateTime);
@@ -83,6 +87,8 @@ function GregorianCalendarEpoch: TFixedDate;
 function MayanLongCountEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
 function MayanHaabEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
 function MayanTzolkinEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
+function AztecXihuitlEpoch: TFixedDate;
+function AztecTonalpohualliEpoch: TFixedDate;
 
 var
   FixedDateEpochType: TFixedDateEpochType = fdeJulianDate;
@@ -169,6 +175,10 @@ const
   Mayan_GoodmanMartinezThompsonInRataDie = -1137142;    //   06/sep/3114 BCE (Julian calendar)
   Mayan_SpindenInJulianDate              = 489383.5;    //   11/nov/3374 BCE (Julian calendar)
 
+{ The precise correlation between Aztec dates and Rata Die is based on the recorded
+  Aztec dates of the fall of Mexico City to Hernan Cortes in August 13, 1521 (Julian)
+}
+  AztecCorrelationInRataDie = 555403;
 
 function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): TFixedDate;
 begin
@@ -225,6 +235,20 @@ function MayanTzolkinEpoch(MayanCorrelation: TMayanCorrelation): TFixedDate;
 begin
   // on starting epoch of Mayan Long Count it was '4 Ahau' (4-20) and there are 160 days to '4 Ahau'
   Result:= MayanLongCountEpoch(MayanCorrelation) - 160;
+end;
+
+function AztecXihuitlEpoch: TFixedDate;
+begin
+  // on the fall of Mexico City it was '2 Xocotlhuetzi' (2-11) and there are 201 days to '2 Xocotlhuetzi'
+  Result:= AztecCorrelationInRataDie - FixedDateEpoch(FixedDateEpochType);
+  Result:= Result - 201;
+end;
+
+function AztecTonalpohualliEpoch: TFixedDate;
+begin
+  // on the fall of Mexico City it was '1 Coatl' (1-5) and there are 104 days to '1 Coatl'
+  Result:= AztecCorrelationInRataDie - FixedDateEpoch(FixedDateEpochType);
+  Result:= Result - 104;
 end;
 
 (******************************************************************************)
@@ -569,25 +593,53 @@ end;
 procedure FixedDateToMayanHaab(FixedDate: TFixedDate; out Day, Month: Integer;
   MayanCorrelation: TMayanCorrelation);
 var
-  Days: Integer;
+  Count: Integer;
 begin
-  Days:= Floor(FixedDate - MayanHaabEpoch(MayanCorrelation));
-  Days:= CalMod(Days,365);
-  Month:= 1 + Floor(Days/20);
-  Day:= CalMod(Days,20);
+  Count:= CalMod(Floor(FixedDate - MayanHaabEpoch(MayanCorrelation)),365);
+  Month:= 1 + Floor(Count/20);
+  Day:= CalMod(Count,20);
 end;
 
 procedure FixedDateToMayanTzolkin(FixedDate: TFixedDate; out Number,
   Name: Integer; MayanCorrelation: TMayanCorrelation);
 var
-  Days: Integer;
+  Count: Integer;
 begin
-  Days:= Floor(FixedDate - MayanTzolkinEpoch(MayanCorrelation));
-  Name:= CalAMod(Days,20);
-  Number:= CalAMod(Days,13);
+  Count:= Floor(FixedDate - MayanTzolkinEpoch(MayanCorrelation));
+  Name:= CalAMod(Count,20);
+  Number:= CalAMod(Count,13);
 end;
 
 (******************************************************************************)
+
+
+(******************************************************************************)
+(*                        Aztec Calendar functions                            *)
+(*                                                                            *)
+
+procedure FixedDateToAztecXihuitl(FixedDate: TFixedDate; out Day, Month: Integer
+  );
+var
+  Count: Integer;
+begin
+  Count:= CalMod(Floor(FixedDate - AztecXihuitlEpoch),365);
+  Month:= 1 + Floor(Count/20);
+  Day:= CalMod(Count,20) + 1;
+end;
+
+procedure FixedDateToAztecTonalpohualli(FixedDate: TFixedDate; out Number,
+  Name: Integer);
+var
+  Count: Integer;
+begin
+  Count:= Floor(FixedDate - AztecTonalpohualliEpoch) + 1;
+  Name:= CalAMod(Count,20);
+  Number:= CalAMod(Count,13);
+end;
+
+(******************************************************************************)
+
+
 
 end.
 

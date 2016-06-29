@@ -132,8 +132,72 @@ type
     procedure TestPositiveFixedDateToTzolkinWhenFixedDateIsRataDie;
   end;
 
+  { TTestAztecCalendar }
+
+  TTestAztecCalendar = class(TTestCase)
+  protected
+    OldFixedDateEpochType: TFixedDateEpochType;
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestNegativeFixedDateToXihuitlWhenFixedDateIsRataDie;
+    procedure TestPositiveFixedDateToXihuitlWhenFixedDateIsRataDie;
+    procedure TestNegativeFixedDateToTonalpohualliWhenFixedDateIsRataDie;
+    procedure TestPositiveFixedDateToTonalpohualliWhenFixedDateIsRataDie;
+  end;
+
 
 implementation
+
+{ TTestAztecCalendar }
+
+procedure TTestAztecCalendar.SetUp;
+begin
+  inherited SetUp;
+  OldFixedDateEpochType:= FixedDateEpochType;
+end;
+
+procedure TTestAztecCalendar.TearDown;
+begin
+  FixedDateEpochType:= OldFixedDateEpochType;
+  inherited TearDown;
+end;
+
+procedure TTestAztecCalendar.TestNegativeFixedDateToXihuitlWhenFixedDateIsRataDie;
+var
+  Day, Month: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToAztecXihuitl(-214193,Day, Month);
+  AssertTrue((Month=2) and (Day=6));
+end;
+
+procedure TTestAztecCalendar.TestPositiveFixedDateToXihuitlWhenFixedDateIsRataDie;
+var
+  Day, Month: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToAztecXihuitl(601716,Day, Month);
+  AssertTrue((Month=8) and (Day=20));
+end;
+
+procedure TTestAztecCalendar.TestNegativeFixedDateToTonalpohualliWhenFixedDateIsRataDie;
+var
+  Number, Name: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToAztecTonalpohualli(-214193,Number, Name);
+  AssertTrue((Number=5) and (Name=9));
+end;
+
+procedure TTestAztecCalendar.TestPositiveFixedDateToTonalpohualliWhenFixedDateIsRataDie;
+var
+  Number, Name: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToAztecTonalpohualli(601716,Number, Name);
+  AssertTrue((Number=8) and (Name=18));
+end;
 
 { TTestWeekDay }
 
@@ -720,6 +784,7 @@ initialization
   RegisterTest(TTestJulianCalendar);
   RegisterTest(TTestGregorianCalendar);
   RegisterTest(TTestMayanCalendar);
+  RegisterTest(TTestAztecCalendar);
 
 end.
 
