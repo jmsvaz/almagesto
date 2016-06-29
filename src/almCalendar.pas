@@ -52,6 +52,9 @@ function JulianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate; overl
 procedure FixedDateToJulianCalendar(FixedDate: TFixedDate; out Year, Month, Event, Count: Integer; out Leap: Boolean); overload;
 function JulianCalendarToFixedDate(Year, Month, Event, Count: Integer; Leap: Boolean): TFixedDate; overload;
 function JulianLeapYear(Year: Integer): Boolean;
+procedure FixedDateToRomanCalendar(FixedDate: TFixedDate; out Year, Month, Event, Count: Integer; out Leap: Boolean); overload;
+function RomanCalendarToFixedDate(Year, Month, Event, Count: Integer; Leap: Boolean): TFixedDate; overload;
+function RomanLeapYear(Year: Integer): Boolean;
 
 // Gregorian Calendar functions
 procedure FixedDateToGregorianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
@@ -144,6 +147,10 @@ const
   Gregorian Calendar: Midnight, December 30, 0
 }
   JulianCalendarEpochInRataDie = -1;
+
+{ Roman Calendar epoch is the Julian Calendar counted from the founding of Rome
+}
+  RomanCalendarEpochInYears = -752; // 753 BCE (Julian Calendar)
 
 { Gregorian Calendar Epoch is:
   RataDie: 1
@@ -434,6 +441,25 @@ function JulianLeapYear(Year: Integer): Boolean;
 begin
   Result:= (CalMod(Year,4) = 0);
 end;
+
+procedure FixedDateToRomanCalendar(FixedDate: TFixedDate; out Year, Month,
+  Event, Count: Integer; out Leap: Boolean);
+begin
+  FixedDateToJulianCalendar(FixedDate, Year, Month, Event, Count, Leap);
+  Year:= Year - RomanCalendarEpochInYears;
+end;
+
+function RomanCalendarToFixedDate(Year, Month, Event, Count: Integer;
+  Leap: Boolean): TFixedDate;
+begin
+  Result:= JulianCalendarToFixedDate(Year + RomanCalendarEpochInYears, Month, Event, Count, Leap);
+end;
+
+function RomanLeapYear(Year: Integer): Boolean;
+begin
+  Result:= JulianLeapYear(Year + RomanCalendarEpochInYears);
+end;
+
 (******************************************************************************)
 
 (******************************************************************************)
