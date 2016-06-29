@@ -380,12 +380,14 @@ end;
 
 procedure TTestJulianCalendar.TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
 var
-  Year,Month,Day: Integer;
+  Year,Month,Day,Event,Count: Integer;
+  Leap: Boolean;
 begin
   FixedDateEpochType:= fdeRataDie;
   FixedDateToJulianCalendar(-214193,Year,Month,Day);
   AssertTrue('Year-Month-Day Nomenclature',(Year=-586) and (Month=7) and (Day=30));
-  Fail('Roman Nomenclature');
+  FixedDateToJulianCalendar(-214193,Year,Month,Event,Count,Leap);
+  AssertTrue('Roman Nomenclature',(Year=-586) and (Month=8) and (Event=1) and (Count=3) and (Leap=False));
 end;
 
 procedure TTestJulianCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
@@ -400,12 +402,14 @@ end;
 
 procedure TTestJulianCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
 var
-  Year,Month,Day: Integer;
+  Year,Month,Day,Event,Count: Integer;
+  Leap: Boolean;
 begin
   FixedDateEpochType:= fdeRataDie;
   FixedDateToJulianCalendar(-61387,Year,Month,Day);
   AssertTrue('Year-Month-Day Nomenclature',(Year=-168) and (Month=12) and (Day=8));
-  Fail('Roman Nomenclature');
+  FixedDateToJulianCalendar(-61387,Year,Month,Event,Count,Leap);
+  AssertTrue('Roman Nomenclature',(Year=-168) and (Month=12) and (Event=3) and (Count=6) and (Leap=False));
 end;
 
 procedure TTestJulianCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
@@ -420,12 +424,14 @@ end;
 
 procedure TTestJulianCalendar.TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
 var
-  Year,Month,Day: Integer;
+  Year,Month,Day,Event,Count: Integer;
+  Leap: Boolean;
 begin
   FixedDateEpochType:= fdeRataDie;
   FixedDateToJulianCalendar(601716,Year,Month,Day);
   AssertTrue('Year-Month-Day Nomenclature',(Year=1648) and (Month=5) and (Day=31));
-  Fail('Roman Nomenclature');
+  FixedDateToJulianCalendar(601716,Year,Month,Event,Count,Leap);
+  AssertTrue('Roman Nomenclature',(Year=1648) and (Month=6) and (Event=1) and (Count=2) and (Leap=False));
 end;
 
 procedure TTestJulianCalendar.TestJulianCalendarEpochToFixedDateWhenFixedDateIsRataDie;
