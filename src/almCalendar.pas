@@ -80,7 +80,9 @@ function RataDieEpoch: TFixedDate;
 function DateTimeEpoch: TFixedDate;
 function JulianCalendarEpoch: TFixedDate;
 function GregorianCalendarEpoch: TFixedDate;
-function MayanEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
+function MayanLongCountEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
+function MayanHaabEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
+function MayanTzolkinEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
 
 var
   FixedDateEpochType: TFixedDateEpochType = fdeJulianDate;
@@ -202,7 +204,7 @@ begin
   Result:= GregorianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
-function MayanEpoch(MayanCorrelation: TMayanCorrelation): TFixedDate;
+function MayanLongCountEpoch(MayanCorrelation: TMayanCorrelation): TFixedDate;
 begin
   case MayanCorrelation of
     mcGoodmanMartinezThompson:
@@ -210,6 +212,19 @@ begin
     mcSpinden:
       Result:= JulianDateToFixedDate(Mayan_SpindenInJulianDate);
   end;
+
+end;
+
+function MayanHaabEpoch(MayanCorrelation: TMayanCorrelation): TFixedDate;
+begin
+  // on starting epoch of Mayan Long Count it was '8 Cumku' (8-18) and there are 348 days to '8 Cumku'
+  Result:= MayanLongCountEpoch(MayanCorrelation) - 348;
+end;
+
+function MayanTzolkinEpoch(MayanCorrelation: TMayanCorrelation): TFixedDate;
+begin
+  // on starting epoch of Mayan Long Count it was '4 Ahau' (4-20) and there are 160 days to '4 Ahau'
+  Result:= MayanLongCountEpoch(MayanCorrelation) - 160;
 end;
 
 (******************************************************************************)
@@ -532,7 +547,7 @@ function MayanLongCountToFixedDate(Baktun, Katun, Tun, Uinal, Kin: Integer;
   MayanCorrelation: TMayanCorrelation): TFixedDate;
 begin
   Result:= (((Baktun*20 + Katun)*20 + Tun)*18 + Uinal)*20 + Kin;
-  Result:= Result + MayanEpoch(MayanCorrelation);
+  Result:= Result + MayanLongCountEpoch(MayanCorrelation);
 end;
 
 procedure FixedDateToMayanLongCount(FixedDate: TFixedDate; out Baktun, Katun,
@@ -540,7 +555,7 @@ procedure FixedDateToMayanLongCount(FixedDate: TFixedDate; out Baktun, Katun,
 var
   Days: Integer;
 begin
-  Days:= Floor(FixedDate - MayanEpoch(MayanCorrelation));
+  Days:= Floor(FixedDate - MayanLongCountEpoch(MayanCorrelation));
   Baktun:= Floor(Days/144000);
   Days:= CalMod(Days,144000);
   Katun:= Floor(Days/7200);
@@ -556,9 +571,7 @@ procedure FixedDateToMayanHaab(FixedDate: TFixedDate; out Day, Month: Integer;
 var
   Days: Integer;
 begin
-  Days:= Floor(FixedDate - MayanEpoch(MayanCorrelation));
-  // on starting epoch of Mayan Long Count it was '8 Cumku' (8-18)
-  Days:= Days + 348; // there are 348 days to '8 Cumku'
+  Days:= Floor(FixedDate - MayanHaabEpoch(MayanCorrelation));
   Days:= CalMod(Days,365);
   Month:= 1 + Floor(Days/20);
   Day:= CalMod(Days,20);
@@ -569,9 +582,7 @@ procedure FixedDateToMayanTzolkin(FixedDate: TFixedDate; out Number,
 var
   Days: Integer;
 begin
-  Days:= Floor(FixedDate - MayanEpoch(MayanCorrelation));
-  // on starting epoch of Mayan Long Count it was '4 Ahau' (4-20)
-  Days:= Days + 160; // there are 160 days to '4 Ahau'
+  Days:= Floor(FixedDate - MayanTzolkinEpoch(MayanCorrelation));
   Name:= CalAMod(Days,20);
   Number:= CalAMod(Days,13);
 end;
