@@ -61,6 +61,18 @@ procedure FixedDateToGregorianCalendar(FixedDate: TFixedDate; out Year,Month,Day
 function GregorianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
 function GregorianLeapYear(Year: Integer): Boolean;
 
+// Egyptian Calendar functions
+procedure FixedDateToEgyptianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
+function EgyptianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+
+// Armenian Calendar functions
+procedure FixedDateToArmenianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
+function ArmenianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+
+// Zoroastrian Calendar functions
+procedure FixedDateToZoroastrianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
+function ZoroastrianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+
 // Mayan Calendar functions
 type
   TMayanCorrelation = (mcGoodmanMartinezThompson,mcSpinden);
@@ -89,6 +101,9 @@ function MayanHaabEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezT
 function MayanTzolkinEpoch(MayanCorrelation: TMayanCorrelation = mcGoodmanMartinezThompson): TFixedDate;
 function AztecXihuitlEpoch: TFixedDate;
 function AztecTonalpohualliEpoch: TFixedDate;
+function EgyptianCalendarEpoch: TFixedDate;
+function ArmenianCalendarEpoch: TFixedDate;
+function ZoroastrianCalendarEpoch: TFixedDate;
 
 var
   FixedDateEpochType: TFixedDateEpochType = fdeJulianDate;
@@ -180,6 +195,27 @@ const
 }
   AztecCorrelationInRataDie = 555403;
 
+{ Egyptian Calendar Epoch is:
+  RataDie: -272787 + 6h
+  Julian Calendar: Sunrise, February 26, 747 BCE
+  Gregorian Calendar: Sunrise, February 18, -746
+}
+  EgyptianCalendarEpochInRataDie = -272786.75;
+
+{ Armenian Calendar Epoch is:
+  RataDie: 201443 + 6h
+  Julian Calendar: Sunrise, February 26, 747 BCE
+  Gregorian Calendar: Sunrise, February 18, -746
+}
+  ArmenianCalendarEpochInRataDie = 201443.25;
+
+{ Zoroastrian Calendar Epoch is:
+  RataDie: 230638 + 6h
+  Julian Calendar: Sunrise, June 16, 632 CE
+  Gregorian Calendar: Sunrise, June 19, 632
+}
+  ZoroastrianCalendarEpochInRataDie = 230638.25;
+
 function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): TFixedDate;
 begin
   case FixedDateEpochType of
@@ -249,6 +285,21 @@ begin
   // on the fall of Mexico City it was '1 Coatl' (1-5) and there are 104 days to '1 Coatl'
   Result:= AztecCorrelationInRataDie - FixedDateEpoch(FixedDateEpochType);
   Result:= Result - 104;
+end;
+
+function EgyptianCalendarEpoch: TFixedDate;
+begin
+  Result:= EgyptianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
+end;
+
+function ArmenianCalendarEpoch: TFixedDate;
+begin
+  Result:= ArmenianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
+end;
+
+function ZoroastrianCalendarEpoch: TFixedDate;
+begin
+  Result:= ZoroastrianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
 (******************************************************************************)
@@ -560,6 +611,69 @@ function GregorianLeapYear(Year: Integer): Boolean;
 begin
   Result:= ( (CalMod(Year,4) = 0) and ( (CalMod(Year,100) <> 0) or (CalMod(Year,400) = 0) ) )
 end;
+
+(******************************************************************************)
+
+
+(******************************************************************************)
+(*                      Egyptian Calendar functions                           *)
+(*                                                                            *)
+
+procedure FixedDateToEgyptianCalendar(FixedDate: TFixedDate; out Year, Month,
+  Day: Integer);
+var
+  Days: Integer;
+begin
+  Days:= Floor(FixedDate - EgyptianCalendarEpoch);
+  Year:= Floor(Days/365) + 1;
+  Month:= Floor(CalMod(Days,365)/30) + 1;
+  Day:= Days - 365*(Year - 1) - 30*(Month - 1) + 1;
+end;
+
+function EgyptianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+begin
+  Result:= EgyptianCalendarEpoch + 365*(Year - 1) + 30*(Month - 1) + Day - 1;
+end;
+
+(******************************************************************************)
+
+
+(******************************************************************************)
+(*                      Armenian Calendar functions                           *)
+(*                                                                            *)
+
+
+procedure FixedDateToArmenianCalendar(FixedDate: TFixedDate; out Year, Month,
+  Day: Integer);
+begin
+  FixedDateToEgyptianCalendar(FixedDate + EgyptianCalendarEpoch - ArmenianCalendarEpoch,Year,Month,Day);
+end;
+
+function ArmenianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+begin
+  Result:= ArmenianCalendarEpoch + EgyptianCalendarToFixedDate(Year,Month,Day) - EgyptianCalendarEpoch;
+end;
+
+(******************************************************************************)
+
+
+(******************************************************************************)
+(*                    Zoroastrian Calendar functions                          *)
+(*                                                                            *)
+
+
+procedure FixedDateToZoroastrianCalendar(FixedDate: TFixedDate; out Year,
+  Month, Day: Integer);
+begin
+  FixedDateToEgyptianCalendar(FixedDate + ZoroastrianCalendarEpoch - ZoroastrianCalendarEpoch,Year,Month,Day);
+end;
+
+function ZoroastrianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+begin
+  Result:= ZoroastrianCalendarEpoch + EgyptianCalendarToFixedDate(Year,Month,Day) - EgyptianCalendarEpoch;
+end;
+
+(******************************************************************************)
 
 
 
