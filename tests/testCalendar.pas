@@ -114,6 +114,44 @@ type
     procedure TestFixedDateToGregorianCalendarEpochWhenFixedDateIsRataDie;
   end;
 
+  { TTestEgyptianCalendar }
+
+  TTestEgyptianCalendar= class(TTestCase)
+  protected
+    OldFixedDateEpochType: TFixedDateEpochType;
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+    procedure TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+    procedure TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+    procedure TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+    procedure TestCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToCalendarEpochWhenFixedDateIsRataDie;
+  end;
+
+  { TTestArmenianCalendar }
+
+  TTestArmenianCalendar= class(TTestCase)
+  protected
+    OldFixedDateEpochType: TFixedDateEpochType;
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+    procedure TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+    procedure TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+    procedure TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+    procedure TestCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToCalendarEpochWhenFixedDateIsRataDie;
+  end;
+
+
+
   { TTestMayanCalendar }
 
   TTestMayanCalendar = class(TTestCase)
@@ -148,6 +186,170 @@ type
 
 
 implementation
+
+{ TTestArmenianCalendar }
+
+procedure TTestArmenianCalendar.SetUp;
+begin
+  inherited SetUp;
+  OldFixedDateEpochType:= FixedDateEpochType;
+end;
+
+procedure TTestArmenianCalendar.TearDown;
+begin
+  FixedDateEpochType:= OldFixedDateEpochType;
+  inherited TearDown;
+end;
+
+procedure TTestArmenianCalendar.TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -214193 + 6/24;
+  AssertEquals(Expected,ArmenianCalendarToFixedDate(-1138,4,10),0);
+end;
+
+procedure TTestArmenianCalendar.TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToArmenianCalendar(-214193 + 6/24,Year,Month,Day);
+  AssertTrue((Year=-1138) and (Month=4) and (Day=10));
+end;
+
+procedure TTestArmenianCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 49217 + 6/24;
+  AssertEquals(Expected,ArmenianCalendarToFixedDate(-417,12,15),0);
+end;
+
+procedure TTestArmenianCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToArmenianCalendar(49217 + 6/24,Year,Month,Day);
+  AssertTrue((Year=-417) and (Month=12) and (Day=15));
+end;
+
+procedure TTestArmenianCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 601716 + 6/24;
+  AssertEquals(Expected,ArmenianCalendarToFixedDate(1097,8,24),0);
+end;
+
+procedure TTestArmenianCalendar.TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToArmenianCalendar(601716 + 6/24,Year,Month,Day);
+  AssertTrue((Year=1097) and (Month=8) and (Day=24));
+end;
+
+procedure TTestArmenianCalendar.TestCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= ArmenianCalendarEpoch;
+  AssertEquals(Expected,ArmenianCalendarToFixedDate(1,1,1),0);
+end;
+
+procedure TTestArmenianCalendar.TestFixedDateToCalendarEpochWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToArmenianCalendar(ArmenianCalendarEpoch,Year,Month,Day);
+  AssertTrue((Year=1) and (Month=1) and (Day=1));
+end;
+
+{ TTestEgyptianCalendar }
+
+procedure TTestEgyptianCalendar.SetUp;
+begin
+  inherited SetUp;
+  OldFixedDateEpochType:= FixedDateEpochType;
+end;
+
+procedure TTestEgyptianCalendar.TearDown;
+begin
+  FixedDateEpochType:= OldFixedDateEpochType;
+  inherited TearDown;
+end;
+
+procedure TTestEgyptianCalendar.TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -214193 + 6/24;
+  AssertEquals(Expected,EgyptianCalendarToFixedDate(161,7,15),0);
+end;
+
+procedure TTestEgyptianCalendar.TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToEgyptianCalendar(-214193 + 6/24,Year,Month,Day);
+  AssertTrue((Year=161) and (Month=7) and (Day=15));
+end;
+
+procedure TTestEgyptianCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+begin
+  Fail('need to write test');
+end;
+
+procedure TTestEgyptianCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+begin
+  Fail('need to write test');
+end;
+
+procedure TTestEgyptianCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 601716 + 6/24;
+  AssertEquals(Expected,EgyptianCalendarToFixedDate(2396,11,29),0);
+end;
+
+procedure TTestEgyptianCalendar.TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToEgyptianCalendar(601716 + 6/24,Year,Month,Day);
+  AssertTrue((Year=2396) and (Month=11) and (Day=29));
+end;
+
+procedure TTestEgyptianCalendar.TestCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= EgyptianCalendarEpoch;
+  AssertEquals(Expected,EgyptianCalendarToFixedDate(1,1,1),0);
+end;
+
+procedure TTestEgyptianCalendar.TestFixedDateToCalendarEpochWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToEgyptianCalendar(EgyptianCalendarEpoch,Year,Month,Day);
+  AssertTrue((Year=1) and (Month=1) and (Day=1));
+end;
 
 { TTestAztecCalendar }
 
@@ -405,7 +607,7 @@ var
   Expected: Extended;
 begin
   FixedDateEpochType:= fdeRataDie;
-  Expected:= 1;
+  Expected:= GregorianCalendarEpoch;
   AssertEquals(Expected,GregorianCalendarToFixedDate(1,1,1),0);
 end;
 
@@ -414,7 +616,7 @@ var
   Year,Month,Day: Integer;
 begin
   FixedDateEpochType:= fdeRataDie;
-  FixedDateToGregorianCalendar(1,Year,Month,Day);
+  FixedDateToGregorianCalendar(GregorianCalendarEpoch,Year,Month,Day);
   AssertTrue((Year=1) and (Month=1) and (Day=1));
 end;
 
@@ -503,7 +705,7 @@ var
   Expected: Extended;
 begin
   FixedDateEpochType:= fdeRataDie;
-  Expected:= -1;
+  Expected:= JulianCalendarEpoch;
   AssertEquals(Expected,JulianCalendarToFixedDate(1,1,1),0);
 end;
 
@@ -512,7 +714,7 @@ var
   Year,Month,Day: Integer;
 begin
   FixedDateEpochType:= fdeRataDie;
-  FixedDateToJulianCalendar(-1,Year,Month,Day);
+  FixedDateToJulianCalendar(JulianCalendarEpoch,Year,Month,Day);
   AssertTrue((Year=1) and (Month=1) and (Day=1));
 end;
 
@@ -783,6 +985,8 @@ initialization
   RegisterTest(TTestFixedDateDateTimeConversion);
   RegisterTest(TTestJulianCalendar);
   RegisterTest(TTestGregorianCalendar);
+  RegisterTest(TTestEgyptianCalendar);
+  RegisterTest(TTestArmenianCalendar);
   RegisterTest(TTestMayanCalendar);
   RegisterTest(TTestAztecCalendar);
 
