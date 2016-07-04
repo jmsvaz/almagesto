@@ -306,13 +306,21 @@ begin
 end;
 
 procedure TTestEgyptianCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
 begin
-  Fail('need to write test');
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -330415 + 6/24;
+  AssertEquals(Expected,EgyptianCalendarToFixedDate(-157,2,13),0);
 end;
 
 procedure TTestEgyptianCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
 begin
-  Fail('need to write test');
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToEgyptianCalendar(-330415 + 6/24,Year,Month,Day);
+  AssertTrue((Year=-157) and (Month=2) and (Day=13));
 end;
 
 procedure TTestEgyptianCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
