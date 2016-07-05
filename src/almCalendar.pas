@@ -73,6 +73,15 @@ function ArmenianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
 procedure FixedDateToZoroastrianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
 function ZoroastrianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
 
+// Coptic Calendar functions
+procedure FixedDateToCopticCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
+function CopticCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+function CopticLeapYear(Year: Integer): Boolean;
+
+// Ethiopic Calendar functions
+procedure FixedDateToEthiopicCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
+function EthiopicCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+
 // Mayan Calendar functions
 type
   TMayanCorrelation = (mcGoodmanMartinezThompson,mcSpinden);
@@ -104,6 +113,8 @@ function AztecTonalpohualliEpoch: TFixedDate;
 function EgyptianCalendarEpoch: TFixedDate;
 function ArmenianCalendarEpoch: TFixedDate;
 function ZoroastrianCalendarEpoch: TFixedDate;
+function CopticCalendarEpoch: TFixedDate;
+function EthiopicCalendarEpoch: TFixedDate;
 
 var
   FixedDateEpochType: TFixedDateEpochType = fdeJulianDate;
@@ -216,6 +227,21 @@ const
 }
   ZoroastrianCalendarEpochInRataDie = 230638.25;
 
+{ Coptic Calendar Epoch is:
+  RataDie: 103605 - 6h
+  Julian Calendar: Sunset before August 29, 284 CE
+  Gregorian Calendar: Sunset before August 29, 284
+}
+  CopticCalendarEpochInRataDie = 103604.75;
+
+{ Ethiopic Calendar Epoch is:
+  RataDie: 2796 - 6h
+  Julian Calendar: Sunset before August 29, 8 CE
+  Gregorian Calendar: Sunset before August 27, 8
+}
+  EthiopicCalendarEpochInRataDie = 2795.75;
+
+
 function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): TFixedDate;
 begin
   case FixedDateEpochType of
@@ -258,7 +284,6 @@ begin
     mcSpinden:
       Result:= JulianDateToFixedDate(Mayan_SpindenInJulianDate);
   end;
-
 end;
 
 function MayanHaabEpoch(MayanCorrelation: TMayanCorrelation): TFixedDate;
@@ -300,6 +325,16 @@ end;
 function ZoroastrianCalendarEpoch: TFixedDate;
 begin
   Result:= ZoroastrianCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
+end;
+
+function CopticCalendarEpoch: TFixedDate;
+begin
+  Result:= CopticCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
+end;
+
+function EthiopicCalendarEpoch: TFixedDate;
+begin
+  Result:= EthiopicCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
 (******************************************************************************)
@@ -665,7 +700,7 @@ end;
 procedure FixedDateToZoroastrianCalendar(FixedDate: TFixedDate; out Year,
   Month, Day: Integer);
 begin
-  FixedDateToEgyptianCalendar(FixedDate + ZoroastrianCalendarEpoch - ZoroastrianCalendarEpoch,Year,Month,Day);
+  FixedDateToEgyptianCalendar(FixedDate + EgyptianCalendarEpoch - ZoroastrianCalendarEpoch,Year,Month,Day);
 end;
 
 function ZoroastrianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
@@ -675,6 +710,48 @@ end;
 
 (******************************************************************************)
 
+(******************************************************************************)
+(*                       Coptic Calendar functions                            *)
+(*                                                                            *)
+
+procedure FixedDateToCopticCalendar(FixedDate: TFixedDate; out Year, Month,
+  Day: Integer);
+begin
+  Year:= Floor((4*Floor(FixedDate - CopticCalendarEpoch) + 1463)/1461);
+  Month:= Floor(Floor(FixedDate - CopticCalendarToFixedDate(Year,1,1))/30) + 1;
+  Day:=  Floor(FixedDate - CopticCalendarToFixedDate(Year,Month,1)) + 1;
+end;
+
+function CopticCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+begin
+  Result:= CopticCalendarEpoch -1 + 365*(Year - 1) + Floor(Year/4) + 30*(Month - 1) + Day;
+end;
+
+function CopticLeapYear(Year: Integer): Boolean;
+begin
+  Result:= (CalMod(Year,4) = 3);
+end;
+
+(******************************************************************************)
+
+(******************************************************************************)
+(*                      Ethiopic Calendar functions                           *)
+(*                                                                            *)
+
+procedure FixedDateToEthiopicCalendar(FixedDate: TFixedDate; out Year, Month,
+  Day: Integer);
+begin
+  FixedDateToCopticCalendar(FixedDate + CopticCalendarEpoch - EthiopicCalendarEpoch,Year,Month,Day);
+
+end;
+
+function EthiopicCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+begin
+  Result:= EthiopicCalendarEpoch + CopticCalendarToFixedDate(Year,Month,Day) - CopticCalendarEpoch;
+
+end;
+
+(******************************************************************************)
 
 
 (******************************************************************************)
