@@ -123,6 +123,9 @@ function ArmenianCalendarEpoch: TFixedDate;
 function ZoroastrianCalendarEpoch: TFixedDate;
 function CopticCalendarEpoch: TFixedDate;
 function EthiopicCalendarEpoch: TFixedDate;
+function IslamicCalendarEpoch: TFixedDate;
+function HebrewCalendarEpoch: TFixedDate;
+function HinduCalendarEpoch: TFixedDate;
 
 var
   FixedDateEpochType: TFixedDateEpochType = fdeJulianDate;
@@ -363,6 +366,21 @@ end;
 function EthiopicCalendarEpoch: TFixedDate;
 begin
   Result:= EthiopicCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
+end;
+
+function IslamicCalendarEpoch: TFixedDate;
+begin
+  Result:= IslamicCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
+end;
+
+function HebrewCalendarEpoch: TFixedDate;
+begin
+  Result:= HebrewCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
+end;
+
+function HinduCalendarEpoch: TFixedDate;
+begin
+  Result:= HinduCalendarEpochInRataDie - FixedDateEpoch(FixedDateEpochType);
 end;
 
 (******************************************************************************)
