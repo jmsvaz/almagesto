@@ -90,6 +90,12 @@ function CopticLeapYear(Year: Integer): Boolean;
 procedure FixedDateToEthiopicCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
 function EthiopicCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
 
+// Islamic Calendar functions
+procedure FixedDateToIslamicCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
+function IslamicCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+function IslamicLeapYear(Year: Integer): Boolean;
+
+
 // Mayan Calendar functions
 type
   TMayanCorrelation = (mcGoodmanMartinezThompson,mcSpinden);
@@ -841,6 +847,34 @@ function EthiopicCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
 begin
   Result:= EthiopicCalendarEpoch + CopticCalendarToFixedDate(Year,Month,Day) - CopticCalendarEpoch;
 
+end;
+
+(******************************************************************************)
+
+
+(******************************************************************************)
+(*                       Islamic Calendar functions                           *)
+(*                                                                            *)
+
+procedure FixedDateToIslamicCalendar(FixedDate: TFixedDate; out Year, Month,
+  Day: Integer);
+var
+  PriorDays: Integer;
+begin
+  Year:= Floor((30*(FixedDate - IslamicCalendarEpoch) + 10646)/10631);
+  PriorDays:= Floor(FixedDate - IslamicCalendarToFixedDate(Year,1,1));
+  Month:= Floor((11*PriorDays + 330)/325);
+  Day:= 1 + Floor(FixedDate - IslamicCalendarToFixedDate(Year,Month,1));
+end;
+
+function IslamicCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
+begin
+  Result:= IslamicCalendarEpoch - 1 + (Year - 1)* 354 + Floor((3 + 11*Year)/30) + 29*(Month - 1) + Floor(Month/2) + Day;
+end;
+
+function IslamicLeapYear(Year: Integer): Boolean;
+begin
+  Result:= (CalMod(14 + 11*Year,30) < 11);
 end;
 
 (******************************************************************************)

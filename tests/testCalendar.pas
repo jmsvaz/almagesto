@@ -183,6 +183,8 @@ type
     procedure TestFixedDateToCalendarEpochWhenFixedDateIsRataDie;
   end;
 
+  { TTestEthiopicCalendar }
+
   TTestEthiopicCalendar= class(TTestCase)
   protected
     OldFixedDateEpochType: TFixedDateEpochType;
@@ -198,6 +200,25 @@ type
     procedure TestCalendarEpochToFixedDateWhenFixedDateIsRataDie;
     procedure TestFixedDateToCalendarEpochWhenFixedDateIsRataDie;
   end;
+
+  { TTestIslamicCalendar }
+
+  TTestIslamicCalendar= class(TTestCase)
+  protected
+    OldFixedDateEpochType: TFixedDateEpochType;
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+    procedure TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+    procedure TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+    procedure TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+    procedure TestCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToCalendarEpochWhenFixedDateIsRataDie;
+  end;
+
 
   { TTestMayanCalendar }
 
@@ -233,6 +254,89 @@ type
 
 
 implementation
+
+{ TTestIslamicCalendar }
+
+procedure TTestIslamicCalendar.SetUp;
+begin
+  inherited SetUp;
+  OldFixedDateEpochType:= FixedDateEpochType;
+end;
+
+procedure TTestIslamicCalendar.TearDown;
+begin
+  FixedDateEpochType:= OldFixedDateEpochType;
+  inherited TearDown;
+end;
+
+procedure TTestIslamicCalendar.TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -214193 - 6/24;
+  AssertEquals(Expected,IslamicCalendarToFixedDate(-1245,12,9),0);
+end;
+
+procedure TTestIslamicCalendar.TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToIslamicCalendar(-214193 - 6/24,Year,Month,Day);
+  AssertTrue((Year=-1245) and (Month=12) and (Day=9));
+end;
+
+procedure TTestIslamicCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 210155 - 6/24;
+  AssertEquals(Expected,IslamicCalendarToFixedDate(-47,6,3),0);
+end;
+
+procedure TTestIslamicCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToIslamicCalendar(210155 - 6/24,Year,Month,Day);
+  AssertTrue((Year=-47) and (Month=6) and (Day=3));
+end;
+
+procedure TTestIslamicCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 601716 - 6/24;
+  AssertEquals(Expected,IslamicCalendarToFixedDate(1058,5,18),0);
+end;
+
+procedure TTestIslamicCalendar.TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToIslamicCalendar(601716 - 6/24,Year,Month,Day);
+  AssertTrue((Year=1058) and (Month=5) and (Day=18));
+end;
+
+procedure TTestIslamicCalendar.TestCalendarEpochToFixedDateWhenFixedDateIsRataDie;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  AssertEquals(IslamicCalendarEpoch,IslamicCalendarToFixedDate(1,1,1),0);
+end;
+
+procedure TTestIslamicCalendar.TestFixedDateToCalendarEpochWhenFixedDateIsRataDie;
+var
+  Year,Month,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToIslamicCalendar(IslamicCalendarEpoch,Year,Month,Day);
+  AssertTrue((Year=1) and (Month=1) and (Day=1));
+end;
 
 { TTestISOCalendar }
 
@@ -1285,6 +1389,7 @@ initialization
   RegisterTest(TTestArmenianCalendar);
   RegisterTest(TTestCopticCalendar);
   RegisterTest(TTestEthiopicCalendar);
+  RegisterTest(TTestIslamicCalendar);
   RegisterTest(TTestMayanCalendar);
   RegisterTest(TTestAztecCalendar);
 
