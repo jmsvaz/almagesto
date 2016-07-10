@@ -249,6 +249,26 @@ const
 }
   EthiopicCalendarEpochInRataDie = 2795.75;
 
+{ Islamic Calendar Epoch is:
+  RataDie: 227015 - 6h
+  Julian Calendar: Sunset before July 16, 622 CE
+  Gregorian Calendar: Sunset before July 19, 622
+}
+  IslamicCalendarEpochInRataDie = 227014.75;
+
+{ Hebrew Calendar Epoch is:
+  RataDie: -1373427 - 6h
+  Julian Calendar: Sunset before October 7, 3761 BCE
+  Gregorian Calendar: Sunset before September 7, -3760
+}
+  HebrewCalendarEpochInRataDie = 1373426.75;
+
+{ Hindu Calendar Epoch is:
+  RataDie: -1132959 + 6h
+  Julian Calendar: Sunrise after February 18, 3102 BCE
+  Gregorian Calendar: Sunrise after January 23, -3101
+}
+  HinduCalendarEpochInRataDie = 1132959.25;
 
 function FixedDateEpoch(FixedDateEpochType: TFixedDateEpochType): TFixedDate;
 begin
