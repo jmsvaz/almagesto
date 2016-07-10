@@ -60,6 +60,9 @@ function RomanLeapYear(Year: Integer): Boolean;
 procedure FixedDateToGregorianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
 function GregorianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
 function GregorianLeapYear(Year: Integer): Boolean;
+function NthKDay(n,k: Integer; Year,Month,Day: Integer): TFixedDate;
+function FirstKDay(k: Integer; Year,Month,Day: Integer): TFixedDate;
+function LastKDay(k: Integer; Year,Month,Day: Integer): TFixedDate;
 
 // Egyptian Calendar functions
 procedure FixedDateToEgyptianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
@@ -645,6 +648,27 @@ end;
 function GregorianLeapYear(Year: Integer): Boolean;
 begin
   Result:= ( (CalMod(Year,4) = 0) and ( (CalMod(Year,100) <> 0) or (CalMod(Year,400) = 0) ) )
+end;
+
+function NthKDay(n, k: Integer; Year, Month, Day: Integer): TFixedDate;
+begin
+  if n > 0 then
+    Result:= 7*n + KDayBefore(k,GregorianCalendarToFixedDate(Yeare,Month,Day))
+  else
+    if n < 0 then
+      Result:= 7*n + KDayAfter(k,GregorianCalendarToFixedDate(Yeare,Month,Day))
+    else
+      raise Exception.Create('Invalid n day');
+end;
+
+function FirstKDay(k: Integer; Year, Month, Day: Integer): TFixedDate;
+begin
+  Result:= NthKDay(1,k,Year,Month,Day);
+end;
+
+function LastKDay(k: Integer; Year, Month, Day: Integer): TFixedDate;
+begin
+  Result:= NthKDay(-1,k,Year,Month,Day);
 end;
 
 (******************************************************************************)
