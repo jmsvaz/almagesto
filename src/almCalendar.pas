@@ -64,6 +64,11 @@ function NthKDay(n,k: Integer; Year,Month,Day: Integer): TFixedDate;
 function FirstKDay(k: Integer; Year,Month,Day: Integer): TFixedDate;
 function LastKDay(k: Integer; Year,Month,Day: Integer): TFixedDate;
 
+// ISO Calendar functions
+procedure FixedDateToISOCalendar(FixedDate: TFixedDate; out Year,Week,Day: Integer);
+function ISOCalendarToFixedDate(Year, Week, Day: Integer): TFixedDate;
+
+
 // Egyptian Calendar functions
 procedure FixedDateToEgyptianCalendar(FixedDate: TFixedDate; out Year,Month,Day: Integer);
 function EgyptianCalendarToFixedDate(Year, Month, Day: Integer): TFixedDate;
@@ -653,10 +658,10 @@ end;
 function NthKDay(n, k: Integer; Year, Month, Day: Integer): TFixedDate;
 begin
   if n > 0 then
-    Result:= 7*n + KDayBefore(k,GregorianCalendarToFixedDate(Yeare,Month,Day))
+    Result:= 7*n + KDayBefore(k,GregorianCalendarToFixedDate(Year,Month,Day))
   else
     if n < 0 then
-      Result:= 7*n + KDayAfter(k,GregorianCalendarToFixedDate(Yeare,Month,Day))
+      Result:= 7*n + KDayAfter(k,GregorianCalendarToFixedDate(Year,Month,Day))
     else
       raise Exception.Create('Invalid n day');
 end;
@@ -669,6 +674,31 @@ end;
 function LastKDay(k: Integer; Year, Month, Day: Integer): TFixedDate;
 begin
   Result:= NthKDay(-1,k,Year,Month,Day);
+end;
+
+(******************************************************************************)
+
+(******************************************************************************)
+(*                    Gregorian Calendar functions                            *)
+(*                                                                            *)
+
+procedure FixedDateToISOCalendar(FixedDate: TFixedDate; out Year, Week,
+  Day: Integer);
+var
+  approx: Integer;
+begin
+  Year:= FixedDateToGregorianYear(FixedDate);
+  if FixedDate >= ISOCalendarToFixedDate(Year+1,1,1) then
+    Inc(Year);
+  Week:= 1 + Floor((FixedDate - ISOCalendarToFixedDate(Year,1,1))/7);
+  Day:= CalAMod(Trunc(FixedDate - RataDieEpoch),7)
+end;
+
+function ISOCalendarToFixedDate(Year, Week, Day: Integer): TFixedDate;
+const
+  Sunday = 0;
+begin
+  Result:= NthKDay(Week,Sunday,Year-1,12,28) + Day;
 end;
 
 (******************************************************************************)

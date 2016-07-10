@@ -114,6 +114,21 @@ type
     procedure TestFixedDateToGregorianCalendarEpochWhenFixedDateIsRataDie;
   end;
 
+  { TTestISOCalendar }
+  TTestISOCalendar= class(TTestCase)
+  protected
+    OldFixedDateEpochType: TFixedDateEpochType;
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+    procedure TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+    procedure TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+    procedure TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+    procedure TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+  end;
+
   { TTestEgyptianCalendar }
 
   TTestEgyptianCalendar= class(TTestCase)
@@ -218,6 +233,74 @@ type
 
 
 implementation
+
+{ TTestISOCalendar }
+
+procedure TTestISOCalendar.SetUp;
+begin
+  inherited SetUp;
+  OldFixedDateEpochType:= FixedDateEpochType;
+end;
+
+procedure TTestISOCalendar.TearDown;
+begin
+  FixedDateEpochType:= OldFixedDateEpochType;
+  inherited TearDown;
+end;
+
+procedure TTestISOCalendar.TestDateToNegativeFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -214193;
+  AssertEquals(Expected,ISOCalendarToFixedDate(-586,29,7),0);
+end;
+
+procedure TTestISOCalendar.TestNegativeFixedDateToDateWhenFixedDateIsRataDie;
+var
+  Year,Week,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToISOCalendar(-214193,Year,Week,Day);
+  AssertTrue((Year=-586) and (Week=29) and (Day=7));
+end;
+
+procedure TTestISOCalendar.TestNegativeYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= -61387;
+  AssertEquals(Expected,ISOCalendarToFixedDate(-168,49,3),0);
+end;
+
+procedure TTestISOCalendar.TestFixedDateToNegativeYearWhenFixedDateIsRataDie;
+var
+  Year,Week,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToISOCalendar(-61387,Year,Week,Day);
+  AssertTrue((Year=-168) and (Week=49) and (Day=3));
+end;
+
+procedure TTestISOCalendar.TestPositiveYearToFixedDateWhenFixedDateIsRataDie;
+var
+  Expected: Extended;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  Expected:= 601716;
+  AssertEquals(Expected,ISOCalendarToFixedDate(1648,24,3),0);
+end;
+
+procedure TTestISOCalendar.TestFixedDateToPositiveYearWhenFixedDateIsRataDie;
+var
+  Year,Week,Day: Integer;
+begin
+  FixedDateEpochType:= fdeRataDie;
+  FixedDateToISOCalendar(601716,Year,Week,Day);
+  AssertTrue((Year=1648) and (Week=24) and (Day=3));
+end;
 
 
 procedure TTestEthiopicCalendar.SetUp;
@@ -1197,6 +1280,7 @@ initialization
   RegisterTest(TTestFixedDateDateTimeConversion);
   RegisterTest(TTestJulianCalendar);
   RegisterTest(TTestGregorianCalendar);
+  RegisterTest(TTestISOCalendar);
   RegisterTest(TTestEgyptianCalendar);
   RegisterTest(TTestArmenianCalendar);
   RegisterTest(TTestCopticCalendar);
