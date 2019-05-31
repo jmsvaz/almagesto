@@ -10,7 +10,7 @@ Bulletin D is mailed in an irregular basis.
 
 The last bulletin can be found at ftp://hpiers.obspm.fr/iers/bul/buld/bulletind.dat
 
-The incomplete series of Bulletin D can be found at http://www.iers.org/nn_11252/IERS/EN/DataProducts/EarthOrientationData/bulD__MD.html?__nnn=true
+The incomplete series of Bulletin D can be found at https://datacenter.iers.org/availableVersions.php?id=17
 
 - MinDate is the JulianDate of the first DUT1 at 1991-06-20;
 - MaxDate is the JulianDate of the last modified file date;
@@ -112,4 +112,4 @@ const
     (2456057.5, -0.6),
     (2456109.5, +0.4),
     (2456225.5, +0.3),
-    (2456323.5, +0.2));
+    (2456323.5, +0.2));
