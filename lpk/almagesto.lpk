@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
@@ -18,12 +18,6 @@
           <UseExternalDbgSyms Value="True"/>
         </Debugging>
       </Linking>
-      <Other>
-        <CompilerMessages>
-          <UseMsgFile Value="True"/>
-        </CompilerMessages>
-        <CompilerPath Value="$(CompPath)"/>
-      </Other>
     </CompilerOptions>
     <Description Value="Almagesto is a Free Pascal astronomical library"/>
     <License Value="Almagesto is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."/>
@@ -74,7 +68,7 @@
         <UnitName Value="almEarth"/>
       </Item11>
       <Item12>
-        <Filename Value="..\src\almEarth.inc"/>
+        <Filename Value="..\src\nutation.inc"/>
         <Type Value="Include"/>
       </Item12>
     </Files>
