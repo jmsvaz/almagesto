@@ -15,7 +15,8 @@ type
   published
     procedure TestPrecessionIAU2006;
     procedure TestNutationIAU1980;
-    procedure TestNutationIAU2000A;
+    procedure TestNutationIAU2000A_IERS;
+    procedure TestNutationIAU2000A_SOFA;
     procedure TestNutationIAU2000B;
   end;
 
@@ -61,11 +62,11 @@ begin
 
   NutationIAU1980(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
-  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-15);
-  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-15);
+  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
-procedure TTestEarthOrientation.TestNutationIAU2000A;
+procedure TTestEarthOrientation.TestNutationIAU2000A_IERS;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
@@ -77,10 +78,28 @@ begin
   ExpectedDeltaPsi:= -0.9630909107115518431e-5;
   ExpectedDeltaEps:= 0.4063239174001678710e-4;
 
-  NutationIAU2000A(TDB,ComputedDeltaPsi,ComputedDeltaEps);
+  NutationIAU2000A_IERS(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
-  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-15);
-  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-15);
+  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
+end;
+
+procedure TTestEarthOrientation.TestNutationIAU2000A_SOFA;
+var
+  TDB: TJulianDate;
+  ComputedDeltaPsi, ComputedDeltaEps: Double;
+  ExpectedDeltaPsi, ExpectedDeltaEps: Double;
+begin
+  // Test values from IAU SOFA C version 2012-03-01 Release
+
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedDeltaPsi:= -0.9630909107115518431e-5;
+  ExpectedDeltaEps:= 0.4063239174001678710e-4;
+
+  NutationIAU2000A_SOFA(TDB,ComputedDeltaPsi,ComputedDeltaEps);
+
+  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
 procedure TTestEarthOrientation.TestNutationIAU2000B;
@@ -97,8 +116,8 @@ begin
 
   NutationIAU2000B(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
-  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-15);
-  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-15);
+  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
 

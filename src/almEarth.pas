@@ -31,7 +31,8 @@ procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: D
 
 procedure NutationIAU1980(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
-procedure NutationIAU2000A(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+procedure NutationIAU2000A_IERS(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+procedure NutationIAU2000A_SOFA(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 
 
 
@@ -255,7 +256,7 @@ begin
   DeltaEps:= DeltaEps*RadiansPerArcSecond;
 end;
 
-procedure NutationIAU2000A(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+procedure NutationIAU2000A_IERS(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  REFERENCE:  IAU 2000A Theory of Nutation Model
 //              IERS Conventions (2003)
 //  This routine computes the two Nutation angles in longitude and obliquity, with
@@ -350,6 +351,134 @@ begin
      dEpsPL:= dEpsPL +
               NutationIAU2000A_PLCoeffs[i,17]*cosArg +
               NutationIAU2000A_PLCoeffs[i,18]*sinArg;
+   end;
+
+//  Add Luni-Solar and Planetary components
+  DeltaPsi:= dPsiLS + dPsiPL;
+  DeltaEps:= dEpsLS + dEpsPL;
+
+//    change to arcsecs
+  DeltaPsi:= DeltaPsi*1e-7;
+  DeltaEps:= DeltaEps*1e-7;
+
+//    change to radians
+  DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
+  DeltaEps:= DeltaEps*RadiansPerArcSecond;
+end;
+
+procedure NutationIAU2000A_SOFA(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+//  REFERENCE:  IAU 2000A Theory of Nutation Model
+//              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+//  This routine computes the two Nutation angles in longitude and obliquity, with
+//  respect to the equinox and ecliptic of date, using the IAU 2000A Theory of Nutation Model
+//  N = Rx(-(EpsA + DeltaEps)).Rz(-DeltaPsi).Rx(EpsA)
+//  result = Nutation Angles (DeltaPsi, DeltaEps) (in arcsecs)
+//  uses: TDB
+var
+  t: Double;
+  el, elp, f, d, om, lMe, lVe, lEa, lMa, lJu, lSa, lUr, lNe, Pa: Double;
+  Argument, sinArg, cosArg: Double;
+  dPsiLS, dEpsLS, dPsiPL, dEpsPL: Double;
+  i: Integer;
+begin
+  t:= (TDB - J2000)/JulianDaysPerCentury;
+
+   // Fundamental (Delaunay) arguments (arcseconds converted to radians)
+  //    l = mean anomaly of the Moon (IERS 2003)
+  el:=  fmod(RadiansPerArcSecond*(485868.249036 + (1717915923.2178 +
+                             (31.8792 + (0.051635 - 0.00024470*t)*t)*t)*t),RadiansPerRev);
+  //    l' = mean anomaly of the Sun (MHB2000)
+  elp:= fmod(RadiansPerArcSecond*(1287104.79305 + (129596581.0481 +
+                             (-0.5532 + (0.000136 - 0.00001149*t)*t)*t)*t),RadiansPerRev);
+  //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (IERS 2003)
+  f:= fmod(RadiansPerArcSecond*(335779.526232 + (1739527262.8478 +
+                             (-12.7512 + (-0.001037 + 0.00000417*t)*t)*t)*t),RadiansPerRev);
+  //    D = mean elongation of the Moon from the Sun (MHB2000)
+  d:= fmod(RadiansPerArcSecond*(1072260.70369 + (1602961601.2090 +
+                             (-6.3706 + (0.006593 - 0.00003169*t)*t)*t)*t),RadiansPerRev);
+  //    OM = mean longitude of the Moon's ascending node (IERS 2003)
+  om:= fmod(RadiansPerArcSecond*(450160.398036 + (-6962890.5431 +
+                             (7.4722 + (0.007702 - 0.00005939*t)*t)*t)*t),RadiansPerRev);
+
+//  Initialize Luni-Solar nutation components
+  dPsiLS:= 0;
+  dEpsLS:= 0;
+//  Sum the luni-solar nutation terms, ending with the biggest.
+ for i:= High(NutationIAU2000A_LSCoeffsSOFA) downto Low(NutationIAU2000A_LSCoeffsSOFA) do
+   begin
+     //   Form argument for current term.
+       Argument:= NutationIAU2000A_LSCoeffsSOFA[i,1] * el  +
+                  NutationIAU2000A_LSCoeffsSOFA[i,2] * elp +
+                  NutationIAU2000A_LSCoeffsSOFA[i,3] * f   +
+                  NutationIAU2000A_LSCoeffsSOFA[i,4] * d   +
+                  NutationIAU2000A_LSCoeffsSOFA[i,5] * om;
+     SinCos(fmod(Argument,RadiansPerRev),sinArg,cosArg);
+     //   Accumulate current nutation term.
+     dPsiLS:= dPsiLS +
+              (NutationIAU2000A_LSCoeffsSOFA[i,6] + NutationIAU2000A_LSCoeffsSOFA[i,7]*t)*sinArg +
+              NutationIAU2000A_LSCoeffsSOFA[i,8]*cosArg;
+     dEpsLS:= dEpsLS +
+              (NutationIAU2000A_LSCoeffsSOFA[i,9] + NutationIAU2000A_LSCoeffsSOFA[i,10]*t)*cosArg +
+              NutationIAU2000A_LSCoeffsSOFA[i,11]*sinArg;
+   end;
+
+ // Fundamental (Delaunay) arguments
+//    l = mean anomaly of the Moon (MHB2000)
+  el:= fmod(2.35555598 + 8328.6914269551*t,RadiansPerRev);
+//    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (in arcseconds) (MHB2000)
+  f:= fmod(1.627905234 + 8433.466158131*t,RadiansPerRev);
+//    D = mean elongation of the Moon from the Sun (MHB2000)
+  d:= fmod(5.198466741 + 7771.3771468121*t,RadiansPerRev);
+//    OM = mean longitude of the Moon's ascending node (MHB2000)
+  om:= fmod(2.18243920 - 33757045*t,RadiansPerRev);
+
+ //    lMe = mean longitude of Mercury (IERS 2003)
+ lMe:= fmod(4.402608842 + 2608.7903141574 * t,RadiansPerRev);
+ //    lVe = mean longitude of Venus (IERS 2003)
+ lVe:= fmod(3.176146697 + 1021.3285546211 * t,RadiansPerRev);
+ //    lE = mean longitude of Earth (IERS 2003)
+ lEa:= fmod(1.753470314 + 628.3075849991 * t,RadiansPerRev);
+ //    lMa = mean longitude of Mars (IERS 2003)
+ lMa:= fmod(6.203480913 + 334.0612426700 * t,RadiansPerRev);
+ //    lJu = mean longitude of Jupiter (IERS 2003)
+ lJu:= fmod(0.599546497 + 52.9690962641 * t,RadiansPerRev);
+ //    lSa = mean longitude of Saturn (IERS 2003)
+ lSa:= fmod(0.874016757 + 21.3299104960 * t,RadiansPerRev);
+ //    lUr = mean longitude of Uranus (IERS 2003)
+ lUr:= fmod(5.481293872 + 7.4781598567 * t,RadiansPerRev);
+ //    lNe = mean longitude of Neptune (MHB2000)
+ lNe:= fmod(5.321159000 + 3.8127774000*t,RadiansPerRev);
+ //    Pa = general precession on longitude
+ Pa:= (0.024381750 + 0.00000538691 * t) * t;
+
+//  Initialize Planetary nutation components
+  dPsiPL:= 0;
+  dEpsPL:= 0;
+//  Sum the planetary nutation terms, ending with the biggest.
+ for i:= High(NutationIAU2000A_PLCoeffsSOFA) downto Low(NutationIAU2000A_PLCoeffsSOFA) do
+   begin
+     //   Form argument for current term.
+     Argument:= NutationIAU2000A_PLCoeffsSOFA[i,1] * el   +
+                NutationIAU2000A_PLCoeffsSOFA[i,2] * f    +
+                NutationIAU2000A_PLCoeffsSOFA[i,3] * d    +
+                NutationIAU2000A_PLCoeffsSOFA[i,4] * om   +
+                NutationIAU2000A_PLCoeffsSOFA[i,5] * lMe  +
+                NutationIAU2000A_PLCoeffsSOFA[i,6] * lVe  +
+                NutationIAU2000A_PLCoeffsSOFA[i,7] * lEa  +
+                NutationIAU2000A_PLCoeffsSOFA[i,8] * lMa  +
+                NutationIAU2000A_PLCoeffsSOFA[i,9] * lJu +
+                NutationIAU2000A_PLCoeffsSOFA[i,10] * lSa +
+                NutationIAU2000A_PLCoeffsSOFA[i,11] * lUr +
+                NutationIAU2000A_PLCoeffsSOFA[i,12] * lNe +
+                NutationIAU2000A_PLCoeffsSOFA[i,13] * Pa;
+     SinCos(fmod(Argument,RadiansPerRev),sinArg,cosArg);
+     //   Accumulate current nutation term.
+     dPsiPL:= dPsiPL +
+              NutationIAU2000A_PLCoeffsSOFA[i,14]*sinArg +
+              NutationIAU2000A_PLCoeffsSOFA[i,15]*cosArg;
+     dEpsPL:= dEpsPL +
+              NutationIAU2000A_PLCoeffsSOFA[i,16]*sinArg +
+              NutationIAU2000A_PLCoeffsSOFA[i,17]*cosArg;
    end;
 
 //  Add Luni-Solar and Planetary components
