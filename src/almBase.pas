@@ -164,16 +164,16 @@ const
   //number of hours in one degree
     HoursPerDegree         = HoursPerDay/DegreesPerRev;
   //number of degrees in one hour
-    DegreesPerHour         = DegreesPerRev/HoursPerDay;
+    DegreesPerHour         = DegreesPerRev/HoursPerRev;
   //number of degrees in one minute
-    DegreesPerMinuter      = DegreesPerRev/MinutesPerDay;
+    DegreesPerMinute      = DegreesPerRev/MinutesPerDay;
   //number of degrees in one second
     DegreesPerSecond       = DegreesPerRev/SecondsPerDay;
 
   //number of radians in one degree
     RadiansPerDegree       = RadiansPerRev/DegreesPerRev;
   //number of radians in one hour
-    RadiansPerHour         = RadiansPerRev/HoursPerDay;
+    RadiansPerHour         = RadiansPerRev/HoursPerRev;
   //number of radians in one minute
     RadiansPerMinute       = RadiansPerRev/MinutesPerDay;
   //number of radians in one arcsecond
