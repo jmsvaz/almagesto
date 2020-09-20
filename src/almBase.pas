@@ -166,7 +166,7 @@ const
   //number of degrees in one hour
     DegreesPerHour         = DegreesPerRev/HoursPerRev;
   //number of degrees in one minute
-    DegreesPerMinute      = DegreesPerRev/MinutesPerday;
+    DegreesPerMinute      = DegreesPerRev/MinutesPerDay;
   //number of degrees in one second
     DegreesPerSecond       = DegreesPerRev/SecondsPerDay;
 
