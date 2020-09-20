@@ -23,7 +23,7 @@ Just add the units you want to use to the `uses` clause.
 
 ## License
 
-Copyright (C) 2010-2013,2016, 2019 João Marcelo S. Vaz
+Copyright (C) 2010-2013,2016, 2019, 2020 João Marcelo S. Vaz
 
 Almagesto is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
