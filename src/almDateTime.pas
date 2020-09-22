@@ -161,8 +161,8 @@ type
 
   function StandardTimeToUTC(StandardTime: TDateTime; TimeZone: Double; DayLightSavings: Double): TDateTime;
   function UTCToStandardTime(UTC: TDateTime; TimeZone: Double; DayLightSavings: Double): TDateTime;
-  function LocalTimeToUniversalTime(LocalTime: TDateTime; Longitude: Double): TDateTime;
-  function UniversalTimeToLocalTime(UniversalTime: TDateTime; Longitude: Double): TDateTime;
+  function LocalMeanTimeToUniversalTime(LocalMeanTime: TDateTime; Longitude: Double): TDateTime;
+  function UniversalTimeToLocalMeanTime(UniversalTime: TDateTime; Longitude: Double): TDateTime;
 
 
 implementation
@@ -2384,18 +2384,6 @@ begin
   Result:= 1900 + (JD - B1900)/TropicalDaysPerYear;
 end;
 
-function LocalCivilTimeToUTC(LocalCivilTime: TDateTime; TimeZone: Double;
-  DayLightSavings: Double): TDateTime;
-begin
- Result:= LocalCivilTime - (DaylightSavings + TimeZone)/HoursPerDay;
-end;
-
-function UTCToLocalCivilTime(UTC: TDateTime; TimeZone: Single;
-  DayLightSavings: Single): TDateTime;
-begin
- Result:= UTC + (DaylightSavings + TimeZone)/HoursPerDay;
-end;
-
 function StandardTimeToUTC(StandardTime: TDateTime; TimeZone: Double;
   DayLightSavings: Double): TDateTime;
 begin
@@ -2408,16 +2396,16 @@ begin
  Result:= UTC + (DaylightSavings + TimeZone)/HoursPerDay;
 end;
 
-function LocalTimeToUniversalTime(LocalTime: TDateTime; Longitude: Double
+function LocalMeanTimeToUniversalTime(LocalMeanTime: TDateTime; Longitude: Double
   ): TDateTime;
 begin
- Result:= LocalTime - Longitude/360;
+ Result:= LocalMeanTime - Longitude/DegreesPerRev;
 end;
 
-function UniversalTimeToLocalTime(UniversalTime: TDateTime; Longitude: Double
+function UniversalTimeToLocalMeanTime(UniversalTime: TDateTime; Longitude: Double
   ): TDateTime;
 begin
- Result:= UniversalTime + Longitude/360;
+ Result:= UniversalTime + Longitude/DegreesPerRev;
 end;
 
 initialization

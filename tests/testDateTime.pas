@@ -25,7 +25,8 @@ type
     procedure SetUp; override; 
     procedure TearDown; override; 
   published
-    procedure TestLocalTimeConversion;
+    procedure TestStandardTimeConversion;
+    procedure TestLocalMeanTimeConversion;
     procedure TestJulianDateConversion;
   end;
 
@@ -52,14 +53,24 @@ implementation
 
 uses almBase, almDateTime;
 
-procedure TTestTimeConversion.TestLocalTimeConversion;
+procedure TTestTimeConversion.TestStandardTimeConversion;
 var
-  LocalTime, UTC, Expected: TJulianDate;
+  StandardTime, UTC, Expected: TJulianDate;
 begin
-  LocalTime:= Now;
-  Expected:= LocalTime - (1 - 3)/24;
-  UTC:= StandardTimeToUTC(LocalTime, -3, 1);
+  StandardTime:= Now;
+  Expected:= StandardTime - (1 - 3)/24;
+  UTC:= StandardTimeToUTC(StandardTime, -3, 1);
   AssertEquals(Expected,UTC,0);
+end;
+
+procedure TTestTimeConversion.TestLocalMeanTimeConversion;
+var
+  LocalMeanTime, UT, Expected: TJulianDate;
+begin
+  LocalMeanTime:= Now;
+  Expected:= LocalMeanTime - (-75)/360;
+  UT:= LocalMeanTimeToUniversalTime(LocalMeanTime, -75);
+  AssertEquals(Expected,UT,0);
 end;
 
 procedure TTestTimeConversion.TestJulianDateConversion;

@@ -1,211 +1,225 @@
 object fmMain: TfmMain
   Left = 255
-  Height = 386
+  Height = 496
   Top = 190
-  Width = 795
+  Width = 787
   BorderStyle = bsDialog
   Caption = 'fmMain'
-  ClientHeight = 386
-  ClientWidth = 795
+  ClientHeight = 496
+  ClientWidth = 787
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.0.10.0'
-  object pnTimeScales: TPanel
-    Left = 25
-    Height = 272
-    Top = 16
-    Width = 744
-    ClientHeight = 272
-    ClientWidth = 744
-    TabOrder = 0
-    object edLocalTime: TLabeledEdit
-      Left = 16
-      Height = 35
-      Top = 24
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'Local Time'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 0
-      TabStop = False
-    end
-    object edUTC: TLabeledEdit
-      Left = 16
-      Height = 35
-      Top = 74
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'UTC'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 1
-      TabStop = False
-    end
-    object edTAI: TLabeledEdit
-      Left = 384
-      Height = 35
-      Top = 24
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'TAI'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 2
-      TabStop = False
-    end
-    object edTT: TLabeledEdit
-      Left = 384
-      Height = 35
-      Top = 72
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'TT'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 3
-      TabStop = False
-    end
-    object edTDB: TLabeledEdit
-      Left = 384
-      Height = 35
-      Top = 122
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'TDB'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 4
-      TabStop = False
-    end
-    object edUT1: TLabeledEdit
-      Left = 14
-      Height = 35
-      Top = 124
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'UT1'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 5
-      TabStop = False
-    end
-    object edUT2: TLabeledEdit
-      Left = 14
-      Height = 35
-      Top = 174
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'UT2'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 6
-      TabStop = False
-    end
-    object edUT0: TLabeledEdit
-      Left = 13
-      Height = 35
-      Top = 224
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'UT0'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 7
-      TabStop = False
-    end
-    object edTCG: TLabeledEdit
-      Left = 384
-      Height = 35
-      Top = 172
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'TCG'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 8
-      TabStop = False
-    end
-    object edTCB: TLabeledEdit
-      Left = 384
-      Height = 35
-      Top = 222
-      Width = 344
-      EditLabel.Height = 17
-      EditLabel.Width = 344
-      EditLabel.Caption = 'TCB'
-      EditLabel.ParentColor = False
-      ReadOnly = True
-      TabOrder = 9
-      TabStop = False
-    end
-  end
-  object pnLocalConfig: TPanel
-    Left = 25
-    Height = 58
-    Top = 304
-    Width = 744
-    ClientHeight = 58
-    ClientWidth = 744
+  object edStandardTime: TLabeledEdit
+    Left = 32
+    Height = 35
+    Top = 40
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'Standard Time'
+    EditLabel.ParentColor = False
+    ReadOnly = True
     TabOrder = 1
-    object btTimer: TButton
-      Left = 575
-      Height = 25
-      Top = 24
-      Width = 131
-      Caption = 'btTimer'
-      OnClick = btTimerClick
-      TabOrder = 0
-    end
-    object edTimeZone: TFloatSpinEdit
-      Left = 16
-      Height = 35
-      Top = 24
-      Width = 110
-      DecimalPlaces = 1
-      MaxValue = 24
-      MinValue = -24
-      TabOrder = 1
-    end
-    object edDST: TFloatSpinEdit
-      Left = 177
-      Height = 35
-      Top = 24
-      Width = 110
-      DecimalPlaces = 1
-      MaxValue = 24
-      MinValue = -24
-      TabOrder = 2
-    end
-    object lbTimeZone: TLabel
-      Left = 16
-      Height = 17
-      Top = 8
-      Width = 69
-      Caption = 'Time Zone'
-      FocusControl = edTimeZone
-      ParentColor = False
-    end
-    object lbDST: TLabel
-      Left = 177
-      Height = 17
-      Top = 11
-      Width = 139
-      Caption = 'DayLight Saving Time'
-      FocusControl = edDST
-      ParentColor = False
-    end
+    TabStop = False
+  end
+  object edUT1: TLabeledEdit
+    Left = 403
+    Height = 35
+    Top = 98
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'UT1'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 6
+    TabStop = False
+  end
+  object edUT2: TLabeledEdit
+    Left = 403
+    Height = 35
+    Top = 214
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'UT2'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 7
+    TabStop = False
+  end
+  object edUT0: TLabeledEdit
+    Left = 403
+    Height = 35
+    Top = 156
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'UT0'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 10
+    TabStop = False
+  end
+  object edTAI: TLabeledEdit
+    Left = 32
+    Height = 35
+    Top = 156
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'TAI'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 3
+    TabStop = False
+  end
+  object edTT: TLabeledEdit
+    Left = 32
+    Height = 35
+    Top = 214
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'TT'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 4
+    TabStop = False
+  end
+  object edTCG: TLabeledEdit
+    Left = 32
+    Height = 35
+    Top = 330
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'TCG'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 8
+    TabStop = False
+  end
+  object edTCB: TLabeledEdit
+    Left = 403
+    Height = 35
+    Top = 272
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'TCB'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 9
+    TabStop = False
+  end
+  object lbTimeZone: TLabel
+    Left = 32
+    Height = 17
+    Top = 400
+    Width = 69
+    Caption = 'Time Zone'
+    FocusControl = edTimeZone
+    ParentColor = False
+  end
+  object edTimeZone: TFloatSpinEdit
+    Left = 32
+    Height = 35
+    Top = 424
+    Width = 143
+    DecimalPlaces = 1
+    MaxValue = 24
+    MinValue = -24
+    TabOrder = 11
+  end
+  object lbDST: TLabel
+    Left = 196
+    Height = 17
+    Top = 400
+    Width = 139
+    Caption = 'DayLight Saving Time'
+    FocusControl = edDST
+    ParentColor = False
+  end
+  object edDST: TFloatSpinEdit
+    Left = 196
+    Height = 35
+    Top = 424
+    Width = 143
+    DecimalPlaces = 1
+    MaxValue = 24
+    MinValue = -24
+    TabOrder = 12
+  end
+  object btTimer: TButton
+    Left = 616
+    Height = 33
+    Top = 425
+    Width = 131
+    Caption = 'btTimer'
+    OnClick = btTimerClick
+    TabOrder = 13
+  end
+  object lbLongitude: TLabel
+    Left = 360
+    Height = 17
+    Top = 400
+    Width = 64
+    Caption = 'Longitude'
+    FocusControl = edLongitude
+    ParentColor = False
+  end
+  object edLongitude: TFloatSpinEdit
+    Left = 360
+    Height = 35
+    Top = 424
+    Width = 143
+    DecimalPlaces = 1
+    MaxValue = 180
+    MinValue = 180
+    TabOrder = 14
+  end
+  object edTDB: TLabeledEdit
+    Left = 32
+    Height = 35
+    Top = 272
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'TDB'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 5
+    TabStop = False
+  end
+  object edUTC: TLabeledEdit
+    Left = 403
+    Height = 35
+    Top = 40
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'UTC'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 2
+    TabStop = False
+  end
+  object edLocalMeanTime: TLabeledEdit
+    Left = 32
+    Height = 35
+    Top = 98
+    Width = 344
+    EditLabel.Height = 17
+    EditLabel.Width = 344
+    EditLabel.Caption = 'Local Mean Time'
+    EditLabel.ParentColor = False
+    ReadOnly = True
+    TabOrder = 0
+    TabStop = False
   end
   object Timer: TTimer
     Enabled = False
@@ -213,7 +227,7 @@ object fmMain: TfmMain
     OnTimer = TimerTimer
     OnStartTimer = TimerStartTimer
     OnStopTimer = TimerStopTimer
-    Left = 368
-    Top = 312
+    Left = 920
+    Top = 464
   end
 end

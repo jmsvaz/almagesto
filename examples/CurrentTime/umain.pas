@@ -14,22 +14,23 @@ type
 
   TfmMain = class(TForm)
     btTimer: TButton;
-    edLocalTime: TLabeledEdit;
-    edUTC: TLabeledEdit;
+    edDST: TFloatSpinEdit;
+    edStandardTime: TLabeledEdit;
+    edLocalMeanTime: TLabeledEdit;
     edTAI: TLabeledEdit;
-    edTT: TLabeledEdit;
+    edTCB: TLabeledEdit;
+    edTCG: TLabeledEdit;
     edTDB: TLabeledEdit;
+    edTimeZone: TFloatSpinEdit;
+    edLongitude: TFloatSpinEdit;
+    edTT: TLabeledEdit;
+    edUT0: TLabeledEdit;
     edUT1: TLabeledEdit;
     edUT2: TLabeledEdit;
-    edUT0: TLabeledEdit;
-    edTCG: TLabeledEdit;
-    edTCB: TLabeledEdit;
+    edUTC: TLabeledEdit;
     lbDST: TLabel;
-    edTimeZone: TFloatSpinEdit;
-    edDST: TFloatSpinEdit;
     lbTimeZone: TLabel;
-    pnLocalConfig: TPanel;
-    pnTimeScales: TPanel;
+    lbLongitude: TLabel;
     Timer: TTimer;
     procedure btTimerClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -43,7 +44,7 @@ type
   public
     { public declarations }
     ts: TTimeScales;
-    LocalTime: TDateTime;
+    StandardTime: TDateTime;
     procedure DisplayTimeScales;
   end; 
 
@@ -91,8 +92,8 @@ end;
 
 procedure TfmMain.TimerTimer(Sender: TObject);
 begin
-  LocalTime:= Now;
-  ts.UTC:= DateTimeToJulianDate(StandardTimeToUTC(LocalTime,edTimeZone.Value,edDST.Value));
+  StandardTime:= Now;
+  ts.UTC:= DateTimeToJulianDate(StandardTimeToUTC(StandardTime,edTimeZone.Value,edDST.Value));
   DisplayTimeScales;
 end;
 
@@ -107,7 +108,8 @@ procedure TfmMain.DisplayTimeScales;
              ' -> JD ' + FormatFloat(floatfmt,jd);
   end;
 begin
-  edLocalTime.Text:= JDFmt(DateTimeToJulianDate(LocalTime));
+  edStandardTime.Text:= JDFmt(DateTimeToJulianDate(StandardTime));
+  edLocalMeanTime.Text:= JDFmt(UniversalTimeToLocalMeanTime(ts.UT1,edLongitude.Value));
   edUTC.Text:= JDFmt(ts.UTC);
   edTAI.Text:= JDFmt(ts.TAI);
   edTT.Text:=  JDFmt(ts.TT);
