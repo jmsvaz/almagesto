@@ -61,7 +61,8 @@ procedure TfmMain.FormCreate(Sender: TObject);
 begin
   ts:= TTimeScales.Create;
   edTimeZone.Value:= -3;   // Brazil/Sao Paulo timezone
-  edDST.Value:= 1;   // We're at Daylight Saving Time on Brazil 2010 Summer!
+  edDST.Value:= 0;
+  edLongitude.Value:= -46.3333;
 end;
 
 procedure TfmMain.btTimerClick(Sender: TObject);

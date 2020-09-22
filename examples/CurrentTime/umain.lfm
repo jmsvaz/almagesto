@@ -48,7 +48,7 @@ object fmMain: TfmMain
     EditLabel.Caption = 'UT2'
     EditLabel.ParentColor = False
     ReadOnly = True
-    TabOrder = 7
+    TabOrder = 9
     TabStop = False
   end
   object edUT0: TLabeledEdit
@@ -100,7 +100,7 @@ object fmMain: TfmMain
     EditLabel.Caption = 'TCG'
     EditLabel.ParentColor = False
     ReadOnly = True
-    TabOrder = 8
+    TabOrder = 7
     TabStop = False
   end
   object edTCB: TLabeledEdit
@@ -113,7 +113,7 @@ object fmMain: TfmMain
     EditLabel.Caption = 'TCB'
     EditLabel.ParentColor = False
     ReadOnly = True
-    TabOrder = 9
+    TabOrder = 8
     TabStop = False
   end
   object lbTimeZone: TLabel
