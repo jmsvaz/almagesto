@@ -43,7 +43,7 @@ type
   public
     { public declarations }
     ts: TTimeScales;
-    LocalTime: TJulianDate;
+    LocalTime: TDateTime;
     procedure DisplayTimeScales;
   end; 
 
@@ -91,8 +91,8 @@ end;
 
 procedure TfmMain.TimerTimer(Sender: TObject);
 begin
-  LocalTime:= DateTimeToJulianDate(Now);
-  ts.UTC:= LocalCivilTimeToUTC(LocalTime,edTimeZone.Value,edDST.Value);
+  LocalTime:= Now;
+  ts.UTC:= DateTimeToJulianDate(StandardTimeToUTC(LocalTime,edTimeZone.Value,edDST.Value));
   DisplayTimeScales;
 end;
 
@@ -107,7 +107,7 @@ procedure TfmMain.DisplayTimeScales;
              ' -> JD ' + FormatFloat(floatfmt,jd);
   end;
 begin
-  edLocalTime.Text:= JDFmt(LocalTime);
+  edLocalTime.Text:= JDFmt(DateTimeToJulianDate(LocalTime));
   edUTC.Text:= JDFmt(ts.UTC);
   edTAI.Text:= JDFmt(ts.TAI);
   edTT.Text:=  JDFmt(ts.TT);
@@ -122,4 +122,4 @@ end;
 
 
 end.
-
+
