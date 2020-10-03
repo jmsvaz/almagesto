@@ -497,7 +497,8 @@ begin
 end;
 
 procedure EarthRotationAngleIAU2000(UT1: TJulianDate; out ERA: Double);
-//  REFERENCE:  reference: IERS Conventions (2010). Gérard Petit and Brian Luzum (eds.). (IERS Technical Note 36)
+//  REFERENCE:  Capitaine N., Guinot B. and McCarthy D.D, Astronomy & Astrophysics, 355, 398-405 (2000)
+//              IERS Conventions (2010). Gérard Petit and Brian Luzum (eds.). (IERS Technical Note 36)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  result = Earth Rotation Angle (ERA) (in radians)
 //  uses: UT1
