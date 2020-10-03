@@ -34,6 +34,8 @@ procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 procedure NutationIAU2000A_IERS(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 procedure NutationIAU2000A_SOFA(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 
+procedure EarthRotationAngleIAU2000(UT1: TJulianDate; out ERA: Double);
+
 
 
 implementation
@@ -493,6 +495,26 @@ begin
   DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
   DeltaEps:= DeltaEps*RadiansPerArcSecond;
 end;
+
+procedure EarthRotationAngleIAU2000(UT1: TJulianDate; out ERA: Double);
+//  REFERENCE:  reference: IERS Conventions (2010). Gérard Petit and Brian Luzum (eds.). (IERS Technical Note 36)
+//              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+//  result = Earth Rotation Angle (ERA) (in radians)
+//  uses: UT1
+var
+  f,t: Double;
+begin
+ t:= UT1 - J2000;
+ //Fractional part of T (days)
+ f:=  fmod(t, 1.0);
+ // compute Earth Rotation Angle
+ ERA:= RadiansPerRev*(f + 0.7790572732640 + 0.00273781191135448 * t);
+ // put in range (2Pi)
+ ERA:= fmod(ERA,RadiansPerRev);
+end;
+
+
+
 
 end.
 

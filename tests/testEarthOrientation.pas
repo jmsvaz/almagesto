@@ -18,6 +18,7 @@ type
     procedure TestNutationIAU2000A_IERS;
     procedure TestNutationIAU2000A_SOFA;
     procedure TestNutationIAU2000B;
+    procedure TestERAIAU2000;
   end;
 
 implementation
@@ -120,6 +121,21 @@ begin
   AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
+procedure TTestEarthOrientation.TestERAIAU2000;
+var
+  UT1: TJulianDate;
+  ComputedERA: Double;
+  ExpectedERA: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  UT1:= 2400000.5 + 54388.0;
+  ExpectedERA:= 0.4022837240028158102;
+
+  EarthRotationAngleIAU2000(UT1,ComputedERA);
+
+  AssertEquals('ERA',ExpectedERA,ComputedERA,1e-12);
+end;
 
 
 initialization
