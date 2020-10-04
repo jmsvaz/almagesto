@@ -204,19 +204,24 @@ uses Math;
 
 { TTimeScales }
 
-constructor TTimeScales.Create(aUTC: TJulianDate; aDUT1: TJulianDate);
+constructor TTimeScales.Create;
 begin
-  SetUTC(aUTC,aDUT1);
+  Create(J2000);
 end;
 
 constructor TTimeScales.Create(aUTC: TJulianDate);
 begin
-  Create(aUTC, DUT1(aUTC));    //use DUT1 from IERS Bulletin D
+  Create(aUTC, 0);
 end;
 
-constructor TTimeScales.Create;
+constructor TTimeScales.Create(aUTC: TJulianDate; aDUT1: TJulianDate);
 begin
-  Create(J2000);
+  fUTC:= 0;
+  fDUT1:= 0;
+  fTDB:= 0;
+  fTT:= 0;
+  fUT1:= 0;
+  SetUTC(aUTC,aDUT1);
 end;
 
 procedure TTimeScales.SetUTC(const aUTC: TJulianDate; const aDUT1: TJulianDate
@@ -230,7 +235,7 @@ end;
 
 procedure TTimeScales.SetUTC(const aUTC: TJulianDate);
 begin
-  SetUTC(aUTC,DUT1(aUTC));    //use DUT1 from IERS Bulletin D
+  SetUTC(aUTC,fDUT1);
 end;
 
 procedure TTimeScales.UTCChanged;
