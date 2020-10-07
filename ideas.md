@@ -7,12 +7,12 @@ Using this library should be as easy as this:
 	SolarSystemCatalog:= TVSOP.Create; // use the VSOP for planets
 	StarCatalog:= TFK5.Create('/path/to/data/files');  // use the FK5 star catalog
 	
-	Observer:= TEarth.Create(SolarSystemCatalog);  // we make the observation at the Earth
+	Observer:= TTopocentricObserver.Create(SolarSystemCatalog.GetBody(plEarth));  // we make the observation at the Earth
 	
 	Observer.SetPosition(ALat,Along,AHeight,ATimeZone,ADayLightSavings);  // position of observation
 	Observer.SetLocalTime(Now);  // time of observation
 
-	for Body in SolarSystemCatalog do  // iterate through solar system bodies
+	for Body in SolarSystemCatalog.Bodies do  // iterate through solar system bodies
 	  begin
 	    View:= Observer.Observ(Body);  // make the observation and get a view of the body at the observer coordinate system
 	    drawBody(View.RADecR);   // call a function to draw the planet on the screen
@@ -31,15 +31,18 @@ But we can set some advanced options if we need:
 	EOP:= TEOP.Create('/path/to/data/files');   // where to get Earth Orientation Parameters for high precision computations
 
 	TimeServer:= TFB2001.Create;  // use Fairhead and Bretagnon model to transform from TT to TDB
+	LightDeflectionModel:= TSunLightDeflection.Create(SolarSystemCatalog);  // use a light deflection model with only the sun
 	
-	Observer:= TEarth.Create(SolarSystemCatalog,EOP);  // we make the observation at the Earth
-	Observer.Precision:= opRelativistic;  // use relativistic transformation for BCRS to GCRS 
+	Observer:= TTopocentricObserver.Create(SolarSystemCatalog.GetBody(plEarth));  // we make the observation at the Earth
+	Observer.Precision:= opRelativistic;  // use relativistic aberration computation for BCRS to GCRS 
+	Observer.LightDeflectionModel:= LightDeflectionModel;
 	Observer.TimeServer:= TimeServer;  // set the time server
+	Observer.EOP:- EOP; // set the EOP provider
 	
 	Observer.SetPosition(ALat,Along,AHeight,ATimeZone,ADayLightSavings);  // position of observation
 	Observer.SetLocalTime(Now);  // time of observation
 
-	for Body in SolarSystemCatalog do  // iterate through solar system bodies
+	for Body in SolarSystemCatalog.Bodies do  // iterate through solar system bodies
 	  begin
 	    View:= Observer.Observ(Body);  // make the observation and get a view of the body at the observer coordinate system
 	    drawBody(View.RADecR);   // call a function to draw the planet on the screen
@@ -55,11 +58,10 @@ But we can set some advanced options if we need:
 
 ### TObserver ###
 
-- the __observation__ transforms from the barycentric reference system (BCRS) to the local reference system. 
-- the transformation from the BCRS to the local reference system can be classic (Galilean), including aberration of light, or relativistic, with precision of mas or µas, including gravitational light deflection.
-- it's an abstract class and the concrete class implements specific algorithms.
-- the constructor may be an TEarth class or a satellite orbiting the sun, for example.
-- all the time and position transformation is done in the concrete class (TEarth class: UT1, UTC, TAI, TT, Precession, Nutation; TMoon: Librations)
+- the __observation__ transforms from the barycentric reference system (BCRS) to the reference system of the observer. 
+- the transformation from the BCRS to the observer reference system can be classic (Galilean), including aberration of light, or relativistic, with precision of mas or µas, including gravitational light deflection.
+- to the constructor is passed a solar system body as a planet or a satellite orbiting the sun, for example.
+- all the time and position transformation is done in the concrete class (TbaricentricObserver; aberration, light deflection; TGeocentricObserver: UT1, UTC, TAI, TT, Precession, Nutation; TMoon: Librations)
 
 ### TTimeServer ###
 
