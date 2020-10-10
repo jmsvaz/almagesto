@@ -22,6 +22,10 @@ type
     procedure TestGMST_IAU1982;
     procedure TestGMST_IAU2000;
     procedure TestGMST_IAU2006;
+    procedure TestEquationOfEquinoxes_IAU1994;
+    procedure TestEquationOfEquinoxes_IAU2000;
+    procedure TestEquationOfEquinoxes_IAU2000A;
+    procedure TestEquationOfEquinoxes_IAU2000B;
   end;
 
 implementation
@@ -100,7 +104,7 @@ begin
   ExpectedDeltaPsi:= -0.9630909107115518431e-5;
   ExpectedDeltaEps:= 0.4063239174001678710e-4;
 
-  NutationIAU2000A_SOFA(TDB,ComputedDeltaPsi,ComputedDeltaEps);
+  NutationIAU2000A(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
   AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
   AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
@@ -188,6 +192,76 @@ begin
   GreenwichMeanSiderealTimeIAU2006(UT1,TT,ComputedGMST);
 
   AssertEquals('GMST_2006',ExpectedGMST,ComputedGMST,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestEquationOfEquinoxes_IAU1994;
+var
+  TDB: TJulianDate;
+  ComputedEqEq: Double;
+  ExpectedEqEq: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 41234.0;
+  ExpectedEqEq:= 0.5357758254609256894e-4;
+
+  EquationOfEquinoxes_IAU1994(TDB, ComputedEqEq);
+
+  AssertEquals('EqEq_1994',ExpectedEqEq,ComputedEqEq,1e-17);
+end;
+
+procedure TTestEarthOrientation.TestEquationOfEquinoxes_IAU2000;
+var
+  TDB: TJulianDate;
+  DeltaPsi, EpsA: Double;
+  ComputedEqEq: Double;
+  ExpectedEqEq: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 53736.0;
+
+  EpsA:=  0.4090789763356509900;
+  DeltaPsi:= -0.9630909107115582393e-5;
+
+  ExpectedEqEq:= -0.8834193235367965479e-5;
+
+  EquationOfEquinoxes_IAU2000(TDB, DeltaPsi, EpsA, ComputedEqEq);
+
+  AssertEquals('EqEq_2000',ExpectedEqEq,ComputedEqEq,1e-18);
+
+end;
+
+procedure TTestEarthOrientation.TestEquationOfEquinoxes_IAU2000A;
+var
+  TDB: TJulianDate;
+  ComputedEqEq: Double;
+  ExpectedEqEq: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedEqEq:= -0.8834192459222588227e-5;
+
+  EquationOfEquinoxes_IAU2000A(TDB, ComputedEqEq);
+
+  AssertEquals('EqEq_2000A',ExpectedEqEq,ComputedEqEq,1e-18);
+end;
+
+procedure TTestEarthOrientation.TestEquationOfEquinoxes_IAU2000B;
+var
+  TDB: TJulianDate;
+  ComputedEqEq: Double;
+  ExpectedEqEq: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedEqEq:= -0.8835700060003032831e-5;
+
+  EquationOfEquinoxes_IAU2000B(TDB, ComputedEqEq);
+
+  AssertEquals('EqEq_2000B',ExpectedEqEq,ComputedEqEq,1e-18);
 end;
 
 

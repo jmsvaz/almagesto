@@ -32,12 +32,19 @@ procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: D
 procedure NutationIAU1980(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 procedure NutationIAU2000A_IERS(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
-procedure NutationIAU2000A_SOFA(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+procedure NutationIAU2000A(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 
 procedure EarthRotationAngleIAU2000(UT1: TJulianDate; out ERA: Double);
 procedure GreenwichMeanSiderealTimeIAU1982(UT1: TJulianDate; out GMST: Double);
 procedure GreenwichMeanSiderealTimeIAU2000(UT1: TJulianDate; TDB: TJulianDate; out GMST: Double);
 procedure GreenwichMeanSiderealTimeIAU2006(UT1: TJulianDate; TDB: TJulianDate; out GMST: Double);
+
+procedure EquationOfEquinoxes(DeltaPsi, EpsA, CT: Double; out EqEq: Double);
+procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; DeltaPsi, EpsA: Double; out EqEq: Double); overload;
+procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; out EqEq: Double); overload;
+procedure EquationOfEquinoxes_IAU2000(TDB: TJulianDate; DeltaPsi, EpsA: Double; out EqEq: Double); overload;
+procedure EquationOfEquinoxes_IAU2000A(TDB: TJulianDate; out EqEq: Double); overload;
+procedure EquationOfEquinoxes_IAU2000B(TDB: TJulianDate; out EqEq: Double); overload;
 
 
 implementation
@@ -370,7 +377,7 @@ begin
   DeltaEps:= DeltaEps*RadiansPerArcSecond;
 end;
 
-procedure NutationIAU2000A_SOFA(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+procedure NutationIAU2000A(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  REFERENCE:  IAU 2000A Theory of Nutation Model
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the two Nutation angles in longitude and obliquity, with
@@ -570,10 +577,245 @@ begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
   // compute IAU2000 Earth Rotation Angle
   EarthRotationAngleIAU2000(UT1,ERA);
-  // compute IAU2000 Greenwich Mean Sidereal Time (in arcseconds)
+  // compute IAU2000 Greenwich Mean Sidereal Time (in radians)
   GMST:= ERA + (0.014506 + (4612.156534 + (1.3915817 + (- 0.00000044 + (- 0.000029956 - 0.0000000368*T)*T)*T)*T)*T)*RadiansPerArcSecond;
    // put in range (2Pi)
   GMST:= fmod(GMST,RadiansPerRev);
+end;
+
+procedure EquationOfEquinoxes(DeltaPsi, EpsA, CT: Double; out EqEq: Double);
+begin
+  EqEq:= DeltaPsi*Cos(EpsA) + CT;
+end;
+
+procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; DeltaPsi, EpsA: Double;
+  out EqEq: Double);
+//  reference: GAST: Capitaine N. & Gontier A. M., Astronomy & Astrophysics, 275, 645-650 (1993)
+//             Eq Eq: IAU Resolution C7, Recommendation 3 (1994)
+//             International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+//             "NOVAS: Naval Observatory Vector Astrometry Subroutines" : NOVAS-C Version 2.0.1 (10 Dec 99)
+//  result = Equation Of Equinoxes, IAU 1994 model: radians
+//           GAST = GMST + Equation of the Equinoxes
+var
+  t, Omega, CT: Double;
+begin
+ t:= (TDB - J2000)/JulianDaysPerCentury;
+ Omega:= 2.1824386243609943 + t*(-33.75704593375351 + t*(3.614285992671591e-5   + 3.878509448876288e-8 * t));
+ // compute Complementary Terms (in arcseconds)
+ CT:= 0.00264*sin(Omega) + 0.000063*sin(Omega+Omega);
+ // change to Radians
+ CT:= CT*RadiansPerArcSecond;
+
+ EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
+end;
+
+procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; out EqEq: Double);
+var
+  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps: Double;
+begin
+  PrecessionIAU1976(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
+  NutationIAU1980(TDB, DeltaPsi, DeltaEps);
+
+  EquationOfEquinoxes_IAU1994(TDB, DeltaPsi, EpsA, EqEq);
+end;
+
+procedure EquationOfEquinoxes_IAU2000(TDB: TJulianDate; DeltaPsi, EpsA: Double;
+  out EqEq: Double);
+//  references: GMST: Capitaine et al, Astron. Astrophys. 406, 1135-149 (2003)
+//              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+//  result = Equation Of Equinoxes (IAU 2000 Model) (in Decimal Hours)
+//  uses: TT, MeanObliquity, DeltaPsi, fmod
+//  used by: SiderealTime_IAU2000
+const
+// number of coefficients for t^0
+    NE0 = 33;
+// number of coefficients for t^1
+    NE1 = 1;
+
+//  Argument coefficients for t^0
+    KE0: array[1..NE0,1..14] of Integer =
+//       l,  l', F,  D, Om, LMe,LVe,LE, LMa,LJu,LSa, LU, LN, pA
+     (  (0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  2, -2,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  2, -2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  2, -2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  2,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  2,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  0,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  1,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  1,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (1,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (1,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  1,  2, -2,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  1,  2, -2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  4, -4,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  1, -1,  1,  0, -8, 12,  0,  0,  0,  0,  0,  0),
+        (0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  2,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (1,  0,  2,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (1,  0,  2,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  2, -2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  1, -2,  2, -3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  1, -2,  2, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  0,  0,  0,  0,  8,-13,  0,  0,  0,  0,  0, -1),
+        (0,  0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (2,  0, -2,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (1,  0,  0, -2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  1,  2, -2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (1,  0,  0, -2, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  4, -2,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (0,  0,  2, -2,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (1,  0, -2,  0, -3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        (1,  0, -2,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0));
+
+//  Argument coefficients for t^1
+    KE1: array[1..NE1,1..14] of Integer =
+//       l,  l', F,  D, Om, LMe,LVe,LE, LMa,LJu,LSa, LU, LN, pA
+     (  (0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0));
+
+//  Sine and cosine coefficients for t^0
+    SE0: array[1..NE0,1..2] of Extended =
+//             sin                cos
+     (  ( +2640.96e-6,          -0.39e-6),
+        (   +63.52e-6,          -0.02e-6),
+        (   +11.75e-6,          +0.01e-6),
+        (   +11.21e-6,          +0.01e-6),
+        (    -4.55e-6,          +0.00e-6),
+        (    +2.02e-6,          +0.00e-6),
+        (    +1.98e-6,          +0.00e-6),
+        (    -1.72e-6,          +0.00e-6),
+        (    -1.41e-6,          -0.01e-6),
+        (    -1.26e-6,          -0.01e-6),
+        (    -0.63e-6,          +0.00e-6),
+        (    -0.63e-6,          +0.00e-6),
+        (    +0.46e-6,          +0.00e-6),
+        (    +0.45e-6,          +0.00e-6),
+        (    +0.36e-6,          +0.00e-6),
+        (    -0.24e-6,          -0.12e-6),
+        (    +0.32e-6,          +0.00e-6),
+        (    +0.28e-6,          +0.00e-6),
+        (    +0.27e-6,          +0.00e-6),
+        (    +0.26e-6,          +0.00e-6),
+        (    -0.21e-6,          +0.00e-6),
+        (    +0.19e-6,          +0.00e-6),
+        (    +0.18e-6,          +0.00e-6),
+        (    -0.10e-6,          +0.05e-6),
+        (    +0.15e-6,          +0.00e-6),
+        (    -0.14e-6,          +0.00e-6),
+        (    +0.14e-6,          +0.00e-6),
+        (    -0.14e-6,          +0.00e-6),
+        (    +0.14e-6,          +0.00e-6),
+        (    +0.13e-6,          +0.00e-6),
+        (    -0.11e-6,          +0.00e-6),
+        (    +0.11e-6,          +0.00e-6),
+        (    +0.11e-6,          +0.00e-6));
+
+//  Sine and cosine coefficients for t^1
+    SE1: array[1..NE1,1..2] of Extended =
+//             sin                cos
+     (  (    -0.87e-6,          +0.00e-6));
+var
+  t: Double;
+  S0, S1, CT: Double;
+  Argument, sinArg, cosArg: Double;
+  FundamentalArguments: array [1..14] of Double;
+  i, j: Integer;
+begin
+ // compute complementary terms
+ t:= (TDB - J2000)/JulianDaysPerCentury;
+ // Fundamental (Delaunay) arguments from Simon et al. (1994)
+ //    l = mean anomaly of the Moon (in arcseconds)
+ FundamentalArguments[1]:= 134.96340251*ArcSecondsPerDegree + (1717915923.217800 +
+                            (31.879200 + (0.05163500 - 0.0002447000*t)*t)*t)*t;
+ //    l' = mean anomaly of the Sun (in arcseconds)
+ FundamentalArguments[2]:= 357.52910918*ArcSecondsPerDegree + (129596581.048100 +
+                            (-0.553200 + (0.00013600 - 0.0000114900*t)*t)*t)*t;
+ //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (in arcseconds)
+ FundamentalArguments[3]:= 93.27209062*ArcSecondsPerDegree + (1739527262.847800 +
+                            (-12.751200 + (-0.00103700 + 0.0000041700*t)*t)*t)*t;
+ //    D = mean elongation of the Moon from the Sun (in arcseconds)
+ FundamentalArguments[4]:= 297.85019547*ArcSecondsPerDegree + (1602961601.209000 +
+                            (-6.370600 + (0.00659300 - 0.0000316900*t)*t)*t)*t;
+ //    OM = mean longitude of the Moon's ascending node (in arcseconds)
+ FundamentalArguments[5]:= 125.04455501*ArcSecondsPerDegree + (-6962890.543100 +
+                            (7.472200 + (0.00770200 - 0.0000593900*t)*t)*t)*t;
+ // change Delaunay arguments to radians
+ for i:= 1 to 5 do
+   FundamentalArguments[i]:= RadiansPerArcSecond*FundamentalArguments[i];
+
+ // Planetary longitudes, Mercury through Neptune (Souchay et al. 1999).
+ //    lMe = mean longitude of Mercury
+ FundamentalArguments[6]:= 4.402608842 + 2608.7903141574 * t;
+ //    lVe = mean longitude of Venus
+ FundamentalArguments[7]:= 3.176146697 + 1021.3285546211 * t;
+ //    lE = mean longitude of Earth
+ FundamentalArguments[8]:= 1.753470314 + 628.3075849991 * t;
+ //    lMa = mean longitude of Mars
+ FundamentalArguments[9]:= 6.203480913 + 334.0612426700 * t;
+ //    lJu = mean longitude of Jupiter
+ FundamentalArguments[10]:= 0.599546497 + 52.9690962641 * t;
+ //    lSa = mean longitude of Saturn
+ FundamentalArguments[11]:= 0.874016757 + 21.3299104960 * t;
+ //    lUr = mean longitude of Uranus
+ FundamentalArguments[12]:= 5.481293872 + 7.4781598567 * t;
+ //    lNe = mean longitude of Neptune
+ FundamentalArguments[13]:= 5.311886287 + 3.8133035638 * t;
+ //    Pa = general precession on longitude
+ FundamentalArguments[14]:= (0.024381750 + 0.00000538691 * t) * t;
+
+// put in 2Pi range
+ for i:= 1 to 13 do
+   FundamentalArguments[i]:= fmod(FundamentalArguments[i],RadiansPerRev);
+
+//  Evaluate the EE complementary terms.
+ // Argument = Soma(Nj*Fj)
+ // S0 = Soma[SEs0i*sin(Argument) + SEc0*cos(Argument)]
+ // Argument = Soma(Nj*Fj)
+ // S1 = Soma[SEs1i*sin(Argument) + SEc1*cos(Argument)]*T
+ S0:= 0;
+ S1:= 0;
+ for i:= NE0 downto 1 do
+   begin
+     Argument:= 0;
+     for j:= 1 to 14 do
+       Argument:= Argument + KE0[i,j] * FundamentalArguments[j];
+     SinCos(Argument,sinArg,cosArg);
+     S0:= S0 + (SE0[i,1]*sinArg + SE0[i,2]*cosArg);
+   end;
+ for i:= NE1 downto 1 do
+   begin
+     //   Form argument for current term
+     Argument:= 0;
+     for j:= 1 to 14 do
+       Argument:= Argument + KE1[i,j] * FundamentalArguments[j];
+     SinCos(Argument,sinArg,cosArg);
+     S1:= S1 + (SE1[i,1]*sinArg + SE1[i,2]*cosArg);
+   end;
+ // CT in arcseconds
+ CT:= S0 + S1*t;
+
+ EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
+end;
+
+procedure EquationOfEquinoxes_IAU2000A(TDB: TJulianDate; out EqEq: Double);
+var
+  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps: Double;
+begin
+  PrecessionIAU2000(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
+  NutationIAU2000A(TDB, DeltaPsi, DeltaEps);
+
+  EquationOfEquinoxes_IAU2000(TDB, DeltaPsi, EpsA, EqEq);
+end;
+
+procedure EquationOfEquinoxes_IAU2000B(TDB: TJulianDate; out EqEq: Double);
+var
+  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps: Double;
+begin
+  PrecessionIAU2000(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
+  NutationIAU2000B(TDB, DeltaPsi, DeltaEps);
+
+  EquationOfEquinoxes_IAU2000(TDB, DeltaPsi, EpsA, EqEq);
 end;
 
 
