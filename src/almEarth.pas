@@ -35,7 +35,9 @@ procedure NutationIAU2000A_IERS(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double
 procedure NutationIAU2000A_SOFA(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 
 procedure EarthRotationAngleIAU2000(UT1: TJulianDate; out ERA: Double);
-
+procedure GreenwichMeanSiderealTimeIAU1982(UT1: TJulianDate; out GMST: Double);
+procedure GreenwichMeanSiderealTimeIAU2000(UT1: TJulianDate; TDB: TJulianDate; out GMST: Double);
+procedure GreenwichMeanSiderealTimeIAU2006(UT1: TJulianDate; TDB: TJulianDate; out GMST: Double);
 
 
 implementation
@@ -512,6 +514,66 @@ begin
  ERA:= RadiansPerRev*(f + 0.7790572732640 + 0.00273781191135448 * t);
  // put in range (2Pi)
  ERA:= fmod(ERA,RadiansPerRev);
+end;
+
+procedure GreenwichMeanSiderealTimeIAU1982(UT1: TJulianDate; out GMST: Double);
+//  result = Greenwich Mean Sidereal Time (IAU 1982 Model): radians
+//  reference: GMST: Aoki et al., Astron. Astrophys. 105, 359-361 (1982)
+//             International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+//  uses: UT1, fmod
+//  used by:
+var
+  t, F: Double;
+begin
+  t:= (UT1 - J2000)/JulianDaysPerCentury;
+  // fractional part of JD(UT1)
+  F:= SecondsPerDay * Frac(UT1);
+
+  // compute Greenwich Mean Sidereal Time (in seconds)
+  // The first constant has to be adjusted by 12 hours because the UT1 is supplied as a Julian date, which begins at noon.           */
+  GMST:= (24110.54841 - SecondsPerDay/2 + (8640184.812866 + (0.093104 - 6.2e-6*t)*t)*t) + F;
+  // change to radians
+  GMST:= GMST*RadiansPerRev/SecondsPerDay;
+  // put in range (2Pi)
+  GMST:= fmod(GMST,RadiansPerRev);
+end;
+
+procedure GreenwichMeanSiderealTimeIAU2000(UT1: TJulianDate; TDB: TJulianDate;
+  out GMST: Double);
+//  result = Greenwich Mean Sidereal Time (IAU 2000 Model): radians
+//  references: ERA: Capitaine N., Guinot B. and McCarthy D.D, Astronomy & Astrophysics, 355, 398-405 (2000)
+//              GMST: Capitaine et al, Astron. Astrophys. 406, 1135-1149 (2003)
+//              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+//  uses: UT1, TDB, fmod
+var
+  t, ERA: Double;
+begin
+  t:= (TDB - J2000)/JulianDaysPerCentury;
+  // compute IAU2000 Earth Rotation Angle
+  EarthRotationAngleIAU2000(UT1,ERA);
+  // compute IAU2000 Greenwich Mean Sidereal Time (in arcseconds)
+  GMST:= ERA + (0.014506 + (4612.15739966 + (1.39667721 + (- 0.00009344 + (0.00001882)*T)*T)*T)*T)*RadiansPerArcSecond;
+   // put in range (2Pi)
+  GMST:= fmod(GMST,RadiansPerRev);
+end;
+
+procedure GreenwichMeanSiderealTimeIAU2006(UT1: TJulianDate; TDB: TJulianDate;
+  out GMST: Double);
+//  result = Greenwich Mean Sidereal Time (IAU 2006 Model): radians
+//  references: ERA: Capitaine N., Guinot B. and McCarthy D.D, Astronomy & Astrophysics, 355, 398-405 (2000)
+//              GMST: Capitaine et al, Astron. Astrophys. 412, 567-586 (2003)
+//              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+//  uses: UT1, TDB, fmod
+var
+  t, ERA: Double;
+begin
+  t:= (TDB - J2000)/JulianDaysPerCentury;
+  // compute IAU2000 Earth Rotation Angle
+  EarthRotationAngleIAU2000(UT1,ERA);
+  // compute IAU2000 Greenwich Mean Sidereal Time (in arcseconds)
+  GMST:= ERA + (0.014506 + (4612.156534 + (1.3915817 + (- 0.00000044 + (- 0.000029956 - 0.0000000368*T)*T)*T)*T)*T)*RadiansPerArcSecond;
+   // put in range (2Pi)
+  GMST:= fmod(GMST,RadiansPerRev);
 end;
 
 

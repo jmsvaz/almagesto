@@ -13,19 +13,22 @@ type
 
   TTestEarthOrientation= class(TTestCase)
   published
-    procedure TestPrecessionIAU2006;
-    procedure TestNutationIAU1980;
-    procedure TestNutationIAU2000A_IERS;
-    procedure TestNutationIAU2000A_SOFA;
-    procedure TestNutationIAU2000B;
-    procedure TestERAIAU2000;
+    procedure TestPrecession_IAU2006;
+    procedure TestNutation_IAU1980;
+    procedure TestNutation_IAU2000A_IERS;
+    procedure TestNutation_IAU2000A_SOFA;
+    procedure TestNutation_IAU2000B;
+    procedure TestERA_IAU2000;
+    procedure TestGMST_IAU1982;
+    procedure TestGMST_IAU2000;
+    procedure TestGMST_IAU2006;
   end;
 
 implementation
 
 uses almBase, almEarth;
 
-procedure TTestEarthOrientation.TestPrecessionIAU2006;
+procedure TTestEarthOrientation.TestPrecession_IAU2006;
 var
   TDB: TJulianDate;
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
@@ -49,7 +52,7 @@ begin
   AssertEquals('OmegaA',ExpectedOmegaA,ComputedOmegaA,1e-15);
 end;
 
-procedure TTestEarthOrientation.TestNutationIAU1980;
+procedure TTestEarthOrientation.TestNutation_IAU1980;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
@@ -67,7 +70,7 @@ begin
   AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
-procedure TTestEarthOrientation.TestNutationIAU2000A_IERS;
+procedure TTestEarthOrientation.TestNutation_IAU2000A_IERS;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
@@ -85,7 +88,7 @@ begin
   AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
-procedure TTestEarthOrientation.TestNutationIAU2000A_SOFA;
+procedure TTestEarthOrientation.TestNutation_IAU2000A_SOFA;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
@@ -103,7 +106,7 @@ begin
   AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
-procedure TTestEarthOrientation.TestNutationIAU2000B;
+procedure TTestEarthOrientation.TestNutation_IAU2000B;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
@@ -121,7 +124,7 @@ begin
   AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
-procedure TTestEarthOrientation.TestERAIAU2000;
+procedure TTestEarthOrientation.TestERA_IAU2000;
 var
   UT1: TJulianDate;
   ComputedERA: Double;
@@ -134,7 +137,57 @@ begin
 
   EarthRotationAngleIAU2000(UT1,ComputedERA);
 
-  AssertEquals('ERA',ExpectedERA,ComputedERA,1e-12);
+  AssertEquals('ERA_2000',ExpectedERA,ComputedERA,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestGMST_IAU1982;
+var
+  UT1: TJulianDate;
+  ComputedGMST: Double;
+  ExpectedGMST: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  UT1:= 2400000.5 + 53736.0;
+  ExpectedGMST:= 1.754174981860675096;
+
+  GreenwichMeanSiderealTimeIAU1982(UT1,ComputedGMST);
+
+  AssertEquals('GMST_82',ExpectedGMST,ComputedGMST,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestGMST_IAU2000;
+var
+  UT1,TT: TJulianDate;
+  ComputedGMST: Double;
+  ExpectedGMST: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  UT1:= 2400000.5 + 53736.0;
+  TT:= 2400000.5 + 53736.0;
+  ExpectedGMST:= 1.754174972210740592;
+
+  GreenwichMeanSiderealTimeIAU2000(UT1,TT,ComputedGMST);
+
+  AssertEquals('GMST_2000',ExpectedGMST,ComputedGMST,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestGMST_IAU2006;
+var
+  UT1,TT: TJulianDate;
+  ComputedGMST: Double;
+  ExpectedGMST: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  UT1:= 2400000.5 + 53736.0;
+  TT:= 2400000.5 + 53736.0;
+  ExpectedGMST:= 1.754174971870091203;
+
+  GreenwichMeanSiderealTimeIAU2006(UT1,TT,ComputedGMST);
+
+  AssertEquals('GMST_2006',ExpectedGMST,ComputedGMST,1e-12);
 end;
 
 
