@@ -114,20 +114,22 @@ procedure PrecessionIAU2000(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: D
 //  uses: TDB
 var
   t: Extended;
-const
-// IAU 2000 precession corrections
-// reference: McCarthy & Petit, IERS Conventions (2003), p. 43, IERS Technical Note 32, November 2003
-  dPsiA = -0.29965; // correction for the precession rate of the equator in longitude (in arcseconds/century)
-  dOmegaA = -0.02524; // correction for the precession rate of the equator in obliquity (in arcseconds/century)
 begin
-//  Precession angles (Lieske et al. 1977), but using TT instead of TDB (IERS Conventions 2003)
-  PrecessionIAU1976(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
-
-//  Apply IAU 2000 precession corrections.
   t:= (TDB - J2000)/JulianDaysPerCentury;
-  PsiA  := PsiA  + (dPsiA)*t*RadiansPerArcSecond;
-  EpsA  := EpsA  + (dOmegaA)*t*RadiansPerArcSecond;
-  OmegaA:= OmegaA  + (dOmegaA)*t*RadiansPerArcSecond;
+
+//  Precession angles (Lieske et al. 1977) with IAU 2000 precession corrections
+  Eps0  := 84381.448; // obliquity of ecliptic at J2000.0 (in arcseconds)
+  EpsA  := Eps0 + (-   46.84024 + (- 0.00059 + (  0.001813)*t)*t)*t;
+  PsiA  :=        (  5038.47875 + (- 1.07259 + (- 0.001147)*t)*t)*t;
+  ChiA  :=        (    10.5526  + (- 2.38064 + (- 0.001125)*t)*t)*t;
+  OmegaA:= Eps0 + (-    0.02524 + (  0.05127 + (- 0.007726)*t)*t)*t;
+
+//  change to radians
+  Eps0  := Eps0*RadiansPerArcSecond;
+  EpsA  := EpsA*RadiansPerArcSecond;
+  PsiA  := PsiA*RadiansPerArcSecond;
+  ChiA  := ChiA*RadiansPerArcSecond;
+  OmegaA:= OmegaA*RadiansPerArcSecond;
 end;
 
 procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
