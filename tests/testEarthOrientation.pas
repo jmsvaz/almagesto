@@ -13,6 +13,8 @@ type
 
   TTestEarthOrientation= class(TTestCase)
   published
+    procedure TestPrecession_IAU1976;
+    procedure TestPrecession_IAU2000;
     procedure TestPrecession_IAU2006;
     procedure TestFundamentalArgumentL_IERS2003;
     procedure TestFundamentalArgumentLP_IERS2003;
@@ -46,6 +48,54 @@ implementation
 
 uses almBase, almEarth;
 
+procedure TTestEarthOrientation.TestPrecession_IAU1976;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedEps0, ExpectedEpsA,ExpectedPsiA,ExpectedChiA,ExpectedOmegaA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedEps0:= 0.4090926006005828715;
+  ExpectedEpsA:= 0.4090864054922431688;
+  ExpectedPsiA:= 0.6664369630191613431e-3;
+  ExpectedChiA:= 0.1387703379530915364e-5;
+  ExpectedOmegaA:= 0.4090925973783255982;
+
+  PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('Eps0 IAU1976',ExpectedEps0,ComputedEps0,1e-15);
+  AssertEquals('EpsA IAU1976',ExpectedEpsA,ComputedEpsA,1e-15);
+  AssertEquals('PsiA IAU1976',ExpectedPsiA,ComputedPsiA,1e-15);
+  AssertEquals('ChiA IAU1976',ExpectedChiA,ComputedChiA,1e-15);
+  AssertEquals('OmegaA IAU1976',ExpectedOmegaA,ComputedOmegaA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecession_IAU2000;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedEps0, ExpectedEpsA,ExpectedPsiA,ExpectedChiA,ExpectedOmegaA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedEps0:= 0.4090926006005828715;
+  ExpectedEpsA:= 0.4090864054922431688;
+  ExpectedPsiA:= 0.6664369630191613431e-3;
+  ExpectedChiA:= 0.1387703379530915364e-5;
+  ExpectedOmegaA:= 0.4090925973783255982;
+
+  PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('Eps0 IAU2000',ExpectedEps0,ComputedEps0,1e-15);
+  AssertEquals('EpsA IAU2000',ExpectedEpsA,ComputedEpsA,1e-15);
+  AssertEquals('PsiA IAU2000',ExpectedPsiA,ComputedPsiA,1e-15);
+  AssertEquals('ChiA IAU2000',ExpectedChiA,ComputedChiA,1e-15);
+  AssertEquals('OmegaA IAU2000',ExpectedOmegaA,ComputedOmegaA,1e-15);
+end;
+
 procedure TTestEarthOrientation.TestPrecession_IAU2006;
 var
   TDB: TJulianDate;
@@ -63,11 +113,11 @@ begin
 
   PrecessionIAU2006(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('Eps0',ExpectedEps0,ComputedEps0,1e-15);
-  AssertEquals('EpsA',ExpectedEpsA,ComputedEpsA,1e-15);
-  AssertEquals('PsiA',ExpectedPsiA,ComputedPsiA,1e-15);
-  AssertEquals('ChiA',ExpectedChiA,ComputedChiA,1e-15);
-  AssertEquals('OmegaA',ExpectedOmegaA,ComputedOmegaA,1e-15);
+  AssertEquals('Eps0 IAU2006',ExpectedEps0,ComputedEps0,1e-15);
+  AssertEquals('EpsA IAU2006',ExpectedEpsA,ComputedEpsA,1e-15);
+  AssertEquals('PsiA IAU2006',ExpectedPsiA,ComputedPsiA,1e-15);
+  AssertEquals('ChiA IAU2006',ExpectedChiA,ComputedChiA,1e-15);
+  AssertEquals('OmegaA IAU2006',ExpectedOmegaA,ComputedOmegaA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentL_IERS2003;
@@ -308,8 +358,8 @@ begin
 
   NutationIAU1980(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
-  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
-  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
+  AssertEquals('DeltaPsi IAU1980',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+  AssertEquals('DeltaEps IAU1980',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
 procedure TTestEarthOrientation.TestNutation_IAU2000A_IERS;
@@ -318,7 +368,7 @@ var
   ComputedDeltaPsi, ComputedDeltaEps: Double;
   ExpectedDeltaPsi, ExpectedDeltaEps: Double;
 begin
-  // Test values from IAU SOFA C version 2012-03-01 Release
+  // There are no test values
 
   TDB:= 2400000.5 + 53736.0;
   ExpectedDeltaPsi:= -0.9630909107115518431e-5;
@@ -326,8 +376,8 @@ begin
 
   NutationIAU2000A_IERS(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
-  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
-  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
+  AssertEquals('DeltaPsi IERS IAU2000A',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+  AssertEquals('DeltaEps IERS IAU2000A',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
 procedure TTestEarthOrientation.TestNutation_IAU2000A;
@@ -344,8 +394,8 @@ begin
 
   NutationIAU2000A(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
-  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
-  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
+  AssertEquals('DeltaPsi IAU2000A',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+  AssertEquals('DeltaEps IAU2000A',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
 procedure TTestEarthOrientation.TestNutation_IAU2000B;
@@ -362,8 +412,8 @@ begin
 
   NutationIAU2000B(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
-  AssertEquals('DeltaPsi',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
-  AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
+  AssertEquals('DeltaPsi IAU2000B',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+  AssertEquals('DeltaEps IAU2000B',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
 procedure TTestEarthOrientation.TestERA_IAU2000;
@@ -379,7 +429,7 @@ begin
 
   EarthRotationAngleIAU2000(UT1,ComputedERA);
 
-  AssertEquals('ERA_2000',ExpectedERA,ComputedERA,1e-12);
+  AssertEquals('ERA IAU2000',ExpectedERA,ComputedERA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestGMST_IAU1982;
@@ -395,7 +445,7 @@ begin
 
   GreenwichMeanSiderealTimeIAU1982(UT1,ComputedGMST);
 
-  AssertEquals('GMST_82',ExpectedGMST,ComputedGMST,1e-12);
+  AssertEquals('GMST IAU1982',ExpectedGMST,ComputedGMST,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestGMST_IAU2000;
@@ -412,7 +462,7 @@ begin
 
   GreenwichMeanSiderealTimeIAU2000(UT1,TT,ComputedGMST);
 
-  AssertEquals('GMST_2000',ExpectedGMST,ComputedGMST,1e-12);
+  AssertEquals('GMST IAU2000',ExpectedGMST,ComputedGMST,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestGMST_IAU2006;
@@ -429,7 +479,7 @@ begin
 
   GreenwichMeanSiderealTimeIAU2006(UT1,TT,ComputedGMST);
 
-  AssertEquals('GMST_2006',ExpectedGMST,ComputedGMST,1e-12);
+  AssertEquals('GMST IAU2006',ExpectedGMST,ComputedGMST,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestEquationOfEquinoxes_IAU1994;
@@ -445,7 +495,7 @@ begin
 
   EquationOfEquinoxes_IAU1994(TDB, ComputedEqEq);
 
-  AssertEquals('EqEq_1994',ExpectedEqEq,ComputedEqEq,1e-17);
+  AssertEquals('EqEq IAU1994',ExpectedEqEq,ComputedEqEq,1e-17);
 end;
 
 procedure TTestEarthOrientation.TestEquationOfEquinoxes_IAU2000;
@@ -466,7 +516,7 @@ begin
 
   EquationOfEquinoxes_IAU2000(TDB, DeltaPsi, EpsA, ComputedEqEq);
 
-  AssertEquals('EqEq_2000',ExpectedEqEq,ComputedEqEq,1e-18);
+  AssertEquals('EqEq IAU2000',ExpectedEqEq,ComputedEqEq,1e-18);
 
 end;
 
@@ -483,7 +533,7 @@ begin
 
   EquationOfEquinoxes_IAU2000A(TDB, ComputedEqEq);
 
-  AssertEquals('EqEq_2000A',ExpectedEqEq,ComputedEqEq,1e-18);
+  AssertEquals('EqEq IAU2000A',ExpectedEqEq,ComputedEqEq,1e-18);
 end;
 
 procedure TTestEarthOrientation.TestEquationOfEquinoxes_IAU2000B;
@@ -499,7 +549,7 @@ begin
 
   EquationOfEquinoxes_IAU2000B(TDB, ComputedEqEq);
 
-  AssertEquals('EqEq_2000B',ExpectedEqEq,ComputedEqEq,1e-18);
+  AssertEquals('EqEq IAU2000A',ExpectedEqEq,ComputedEqEq,1e-18);
 end;
 
 
