@@ -794,6 +794,8 @@ begin
    end;
  // CT in arcseconds
  CT:= S0 + S1*t;
+ // change to Radians
+ CT:= CT*RadiansPerArcSecond;
 
  EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
 end;
