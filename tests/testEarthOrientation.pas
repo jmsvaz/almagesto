@@ -30,7 +30,7 @@ type
     procedure TestFundamentalArgumentPA_IERS2003;
     procedure TestNutation_IAU1980;
     procedure TestNutation_IAU2000A_IERS;
-    procedure TestNutation_IAU2000A_SOFA;
+    procedure TestNutation_IAU2000A;
     procedure TestNutation_IAU2000B;
     procedure TestERA_IAU2000;
     procedure TestGMST_IAU1982;
@@ -330,7 +330,7 @@ begin
   AssertEquals('DeltaEps',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
-procedure TTestEarthOrientation.TestNutation_IAU2000A_SOFA;
+procedure TTestEarthOrientation.TestNutation_IAU2000A;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
