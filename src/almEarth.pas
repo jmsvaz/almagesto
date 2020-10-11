@@ -623,9 +623,7 @@ procedure EquationOfEquinoxes_IAU2000(TDB: TJulianDate; DeltaPsi, EpsA: Double;
   out EqEq: Double);
 //  references: GMST: Capitaine et al, Astron. Astrophys. 406, 1135-149 (2003)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
-//  result = Equation Of Equinoxes (IAU 2000 Model) (in Decimal Hours)
-//  uses: TT, MeanObliquity, DeltaPsi, fmod
-//  used by: SiderealTime_IAU2000
+//  result = Equation Of Equinoxes (IAU 2000 Model): radians
 const
 // number of coefficients for t^0
     NE0 = 33;
