@@ -676,16 +676,19 @@ begin
               (NutationIAU2000A_LSCoeffsSOFA[i,9] + NutationIAU2000A_LSCoeffsSOFA[i,10]*t)*cosArg +
               NutationIAU2000A_LSCoeffsSOFA[i,11]*sinArg;
    end;
+ // Convert from 0.1 microarcsec units to radians
+ dPsiLS:= dPsiLS*RadiansPerArcSecond/1e7;
+ dEpsLS:= dEpsLS*RadiansPerArcSecond/1e7;
 
  // Fundamental (Delaunay) arguments
 //    l = mean anomaly of the Moon (MHB2000)
-  el:= fmod(2.35555598 + 8328.6914269551*t,RadiansPerRev);
+  el:= fmod(2.35555598 + 8328.6914269554*t,RadiansPerRev);
 //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (in arcseconds) (MHB2000)
   f:= fmod(1.627905234 + 8433.466158131*t,RadiansPerRev);
 //    D = mean elongation of the Moon from the Sun (MHB2000)
   d:= fmod(5.198466741 + 7771.3771468121*t,RadiansPerRev);
 //    OM = mean longitude of the Moon's ascending node (MHB2000)
-  om:= fmod(2.18243920 - 33757045*t,RadiansPerRev);
+  om:= fmod(2.18243920 - 33.757045*t,RadiansPerRev);
 
  //    lMe = mean longitude of Mercury (IERS 2003)
  faMe_IERS2003(TDB,lMe);
@@ -735,18 +738,21 @@ begin
               NutationIAU2000A_PLCoeffsSOFA[i,16]*sinArg +
               NutationIAU2000A_PLCoeffsSOFA[i,17]*cosArg;
    end;
+ // Convert from 0.1 microarcsec units to radians
+ dPsiPL:= dPsiPL*RadiansPerArcSecond/1e7;
+ dEpsPL:= dEpsPL*RadiansPerArcSecond/1e7;
 
 //  Add Luni-Solar and Planetary components
   DeltaPsi:= dPsiLS + dPsiPL;
   DeltaEps:= dEpsLS + dEpsPL;
 
 //    change to arcsecs
-  DeltaPsi:= DeltaPsi*1e-7;
-  DeltaEps:= DeltaEps*1e-7;
+//  DeltaPsi:= DeltaPsi*1e-7;
+//  DeltaEps:= DeltaEps*1e-7;
 
 //    change to radians
-  DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
-  DeltaEps:= DeltaEps*RadiansPerArcSecond;
+//  DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
+//  DeltaEps:= DeltaEps*RadiansPerArcSecond;
 end;
 
 procedure EarthRotationAngleIAU2000(UT1: TJulianDate; out ERA: Double);
