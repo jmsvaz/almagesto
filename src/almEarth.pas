@@ -643,20 +643,17 @@ begin
 
    // Fundamental (Delaunay) arguments (arcseconds converted to radians)
   //    l = mean anomaly of the Moon (IERS 2003)
-  el:=  fmod(RadiansPerArcSecond*(485868.249036 + (1717915923.2178 +
-                             (31.8792 + (0.051635 - 0.00024470*t)*t)*t)*t),RadiansPerRev);
+  faL_IERS2003(TDB,el);
   //    l' = mean anomaly of the Sun (MHB2000)
   elp:= fmod(RadiansPerArcSecond*(1287104.79305 + (129596581.0481 +
                              (-0.5532 + (0.000136 - 0.00001149*t)*t)*t)*t),RadiansPerRev);
   //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (IERS 2003)
-  f:= fmod(RadiansPerArcSecond*(335779.526232 + (1739527262.8478 +
-                             (-12.7512 + (-0.001037 + 0.00000417*t)*t)*t)*t),RadiansPerRev);
+  faF_IERS2003(TDB,f);
   //    D = mean elongation of the Moon from the Sun (MHB2000)
   d:= fmod(RadiansPerArcSecond*(1072260.70369 + (1602961601.2090 +
                              (-6.3706 + (0.006593 - 0.00003169*t)*t)*t)*t),RadiansPerRev);
   //    OM = mean longitude of the Moon's ascending node (IERS 2003)
-  om:= fmod(RadiansPerArcSecond*(450160.398036 + (-6962890.5431 +
-                             (7.4722 + (0.007702 - 0.00005939*t)*t)*t)*t),RadiansPerRev);
+  faOM_IERS2003(TDB,om);
 
 //  Initialize Luni-Solar nutation components
   dPsiLS:= 0;
@@ -691,23 +688,23 @@ begin
   om:= fmod(2.18243920 - 33757045*t,RadiansPerRev);
 
  //    lMe = mean longitude of Mercury (IERS 2003)
- lMe:= fmod(4.402608842 + 2608.7903141574 * t,RadiansPerRev);
+ faMe_IERS2003(TDB,lMe);
  //    lVe = mean longitude of Venus (IERS 2003)
- lVe:= fmod(3.176146697 + 1021.3285546211 * t,RadiansPerRev);
+ faVe_IERS2003(TDB,lVe);
  //    lE = mean longitude of Earth (IERS 2003)
- lEa:= fmod(1.753470314 + 628.3075849991 * t,RadiansPerRev);
+ faEa_IERS2003(TDB,lEa);
  //    lMa = mean longitude of Mars (IERS 2003)
- lMa:= fmod(6.203480913 + 334.0612426700 * t,RadiansPerRev);
+ faMa_IERS2003(TDB,lMa);
  //    lJu = mean longitude of Jupiter (IERS 2003)
- lJu:= fmod(0.599546497 + 52.9690962641 * t,RadiansPerRev);
+ faJu_IERS2003(TDB,lJu);
  //    lSa = mean longitude of Saturn (IERS 2003)
- lSa:= fmod(0.874016757 + 21.3299104960 * t,RadiansPerRev);
+ faSa_IERS2003(TDB,lSa);
  //    lUr = mean longitude of Uranus (IERS 2003)
- lUr:= fmod(5.481293872 + 7.4781598567 * t,RadiansPerRev);
+ faUr_IERS2003(TDB,lUr);
  //    lNe = mean longitude of Neptune (MHB2000)
  lNe:= fmod(5.321159000 + 3.8127774000*t,RadiansPerRev);
  //    Pa = general precession on longitude
- Pa:= (0.024381750 + 0.00000538691 * t) * t;
+ faPa_IERS2003(TDB,Pa);
 
 //  Initialize Planetary nutation components
   dPsiPL:= 0;
