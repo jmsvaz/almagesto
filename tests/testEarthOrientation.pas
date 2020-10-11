@@ -21,7 +21,7 @@ type
     procedure TestPrecessionEps0_IAU2000;
     procedure TestPrecessionEpsA_IAU2000;
     procedure TestPrecessionPsiA_IAU2000;
-    procedure TestPrecessionChiA_IAU2001;
+    procedure TestPrecessionChiA_IAU2000;
     procedure TestPrecessionOmegaA_IAU2000;
     procedure TestPrecessionEps0_IAU2006;
     procedure TestPrecessionEpsA_IAU2006;
@@ -56,8 +56,10 @@ type
     procedure TestGMST_IAU2006;
     procedure TestEquationOfEquinoxes_IAU1994;
     procedure TestEquationOfEquinoxes_IAU2000;
+    procedure TestEquationOfEquinoxesCT_IAU2000;
     procedure TestEquationOfEquinoxes_IAU2000A;
     procedure TestEquationOfEquinoxes_IAU2000B;
+    procedure TestEquationOfEquinoxes_IAU2006A;
   end;
 
 implementation
@@ -192,7 +194,7 @@ begin
   AssertEquals('PsiA IAU2000',ExpectedPsiA,ComputedPsiA,1e-15);
 end;
 
-procedure TTestEarthOrientation.TestPrecessionChiA_IAU2001;
+procedure TTestEarthOrientation.TestPrecessionChiA_IAU2000;
 var
   TDB: TJulianDate;
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
@@ -760,6 +762,23 @@ begin
 
 end;
 
+procedure TTestEarthOrientation.TestEquationOfEquinoxesCT_IAU2000;
+var
+  TDB: TJulianDate;
+  ComputedCT: Double;
+  ExpectedCT: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 53736.0;
+
+  ExpectedCT:= 0.2046085004885125264e-8;
+
+  EquationOfEquinoxesCT_IAU2000(TDB, ComputedCT);
+
+  AssertEquals('EqEq CT IAU2000',ExpectedCT,ComputedCT,1e-20);
+end;
+
 procedure TTestEarthOrientation.TestEquationOfEquinoxes_IAU2000A;
 var
   TDB: TJulianDate;
@@ -789,7 +808,23 @@ begin
 
   EquationOfEquinoxes_IAU2000B(TDB, ComputedEqEq);
 
-  AssertEquals('EqEq IAU2000A',ExpectedEqEq,ComputedEqEq,1e-18);
+  AssertEquals('EqEq IAU2000B',ExpectedEqEq,ComputedEqEq,1e-18);
+end;
+
+procedure TTestEarthOrientation.TestEquationOfEquinoxes_IAU2006A;
+var
+  TDB: TJulianDate;
+  ComputedEqEq: Double;
+  ExpectedEqEq: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedEqEq:= -0.8834195072043790156e-5;
+
+  EquationOfEquinoxes_IAU2006A(TDB, ComputedEqEq);
+
+  AssertEquals('EqEq IAU2006A',ExpectedEqEq,ComputedEqEq,1e-18);
 end;
 
 

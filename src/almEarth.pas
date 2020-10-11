@@ -57,11 +57,13 @@ procedure GreenwichMeanSiderealTimeIAU2000(UT1: TJulianDate; TDB: TJulianDate; o
 procedure GreenwichMeanSiderealTimeIAU2006(UT1: TJulianDate; TDB: TJulianDate; out GMST: Double);
 
 procedure EquationOfEquinoxes(DeltaPsi, EpsA, CT: Double; out EqEq: Double);
-procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; DeltaPsi, EpsA: Double; out EqEq: Double); overload;
+procedure EquationOfEquinoxesCT_IAU1994(TDB: TJulianDate; out CT: Double); overload;
 procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; out EqEq: Double); overload;
 procedure EquationOfEquinoxes_IAU2000(TDB: TJulianDate; DeltaPsi, EpsA: Double; out EqEq: Double); overload;
+procedure EquationOfEquinoxesCT_IAU2000(TDB: TJulianDate; out CT: Double); overload;
 procedure EquationOfEquinoxes_IAU2000A(TDB: TJulianDate; out EqEq: Double); overload;
 procedure EquationOfEquinoxes_IAU2000B(TDB: TJulianDate; out EqEq: Double); overload;
+procedure EquationOfEquinoxes_IAU2006A(TDB: TJulianDate; out EqEq: Double); overload;
 
 implementation
 
@@ -832,8 +834,7 @@ begin
   EqEq:= DeltaPsi*Cos(EpsA) + CT;
 end;
 
-procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; DeltaPsi, EpsA: Double;
-  out EqEq: Double);
+procedure EquationOfEquinoxesCT_IAU1994(TDB: TJulianDate; out CT: Double);
 //  reference: GAST: Capitaine N. & Gontier A. M., Astronomy & Astrophysics, 275, 645-650 (1993)
 //             Eq Eq: IAU Resolution C7, Recommendation 3 (1994)
 //             International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
@@ -841,7 +842,7 @@ procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; DeltaPsi, EpsA: Double;
 //  result = Equation Of Equinoxes, IAU 1994 model: radians
 //           GAST = GMST + Equation of the Equinoxes
 var
-  t, Omega, CT: Double;
+  t, Omega: Double;
 begin
  t:= (TDB - J2000)/JulianDaysPerCentury;
  Omega:= 2.1824386243609943 + t*(-33.75704593375351 + t*(3.614285992671591e-5   + 3.878509448876288e-8 * t));
@@ -849,22 +850,20 @@ begin
  CT:= 0.00264*sin(Omega) + 0.000063*sin(Omega+Omega);
  // change to Radians
  CT:= CT*RadiansPerArcSecond;
-
- EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
 end;
 
 procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; out EqEq: Double);
 var
-  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps: Double;
+  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps, CT: Double;
 begin
   PrecessionIAU1976(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
   NutationIAU1980(TDB, DeltaPsi, DeltaEps);
+  EquationOfEquinoxesCT_IAU1994(TDB, CT);
 
-  EquationOfEquinoxes_IAU1994(TDB, DeltaPsi, EpsA, EqEq);
+  EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
 end;
 
-procedure EquationOfEquinoxes_IAU2000(TDB: TJulianDate; DeltaPsi, EpsA: Double;
-  out EqEq: Double);
+procedure EquationOfEquinoxesCT_IAU2000(TDB: TJulianDate; out CT: Double);
 //  references: GMST: Capitaine et al, Astron. Astrophys. 406, 1135-149 (2003)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  result = Equation Of Equinoxes (IAU 2000 Model): radians
@@ -959,7 +958,7 @@ const
      (  (    -0.87e-6,          +0.00e-6));
 var
   t: Double;
-  S0, S1, CT: Double;
+  S0, S1: Double;
   Argument, sinArg, cosArg: Double;
   FundamentalArguments: array [1..14] of Double;
   i, j: Integer;
@@ -1025,6 +1024,18 @@ begin
  CT:= S0 + S1*t;
  // change to Radians
  CT:= CT*RadiansPerArcSecond;
+end;
+
+procedure EquationOfEquinoxes_IAU2000(TDB: TJulianDate; DeltaPsi, EpsA: Double;
+  out EqEq: Double);
+//  references: GMST: Capitaine et al, Astron. Astrophys. 406, 1135-149 (2003)
+//              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+//  result = Equation Of Equinoxes (IAU 2000 Model): radians
+
+var
+  CT: Double;
+begin
+ EquationOfEquinoxesCT_IAU2000(TDB, CT);
 
  EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
 end;
@@ -1045,6 +1056,16 @@ var
 begin
   PrecessionIAU2000(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
   NutationIAU2000B(TDB, DeltaPsi, DeltaEps);
+
+  EquationOfEquinoxes_IAU2000(TDB, DeltaPsi, EpsA, EqEq);
+end;
+
+procedure EquationOfEquinoxes_IAU2006A(TDB: TJulianDate; out EqEq: Double);
+var
+  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps: Double;
+begin
+  PrecessionIAU2006(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
+  NutationIAU2000A(TDB, DeltaPsi, DeltaEps);
 
   EquationOfEquinoxes_IAU2000(TDB, DeltaPsi, EpsA, EqEq);
 end;
