@@ -745,14 +745,6 @@ begin
 //  Add Luni-Solar and Planetary components
   DeltaPsi:= dPsiLS + dPsiPL;
   DeltaEps:= dEpsLS + dEpsPL;
-
-//    change to arcsecs
-//  DeltaPsi:= DeltaPsi*1e-7;
-//  DeltaEps:= DeltaEps*1e-7;
-
-//    change to radians
-//  DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
-//  DeltaEps:= DeltaEps*RadiansPerArcSecond;
 end;
 
 procedure EarthRotationAngleIAU2000(UT1: TJulianDate; out ERA: Double);

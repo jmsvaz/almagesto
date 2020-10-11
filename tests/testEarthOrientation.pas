@@ -8,14 +8,26 @@ uses
   Classes, SysUtils, fpcunit, testregistry;
 
 type
-
+                                           // Eps0, EpsA,PsiA,ChiA,OmegaA
   { TTestEarthOrientation }
 
   TTestEarthOrientation= class(TTestCase)
   published
-    procedure TestPrecession_IAU1976;
-    procedure TestPrecession_IAU2000;
-    procedure TestPrecession_IAU2006;
+    procedure TestPrecessionEps0_IAU1976;
+    procedure TestPrecessionEpsA_IAU1976;
+    procedure TestPrecessionPsiA_IAU1976;
+    procedure TestPrecessionChiA_IAU1976;
+    procedure TestPrecessionOmegaA_IAU1976;
+    procedure TestPrecessionEps0_IAU2000;
+    procedure TestPrecessionEpsA_IAU2000;
+    procedure TestPrecessionPsiA_IAU2000;
+    procedure TestPrecessionChiA_IAU2001;
+    procedure TestPrecessionOmegaA_IAU2000;
+    procedure TestPrecessionEps0_IAU2006;
+    procedure TestPrecessionEpsA_IAU2006;
+    procedure TestPrecessionPsiA_IAU2006;
+    procedure TestPrecessionChiA_IAU2006;
+    procedure TestPrecessionOmegaA_IAU2006;
     procedure TestFundamentalArgumentL_IERS2003;
     procedure TestFundamentalArgumentLP_IERS2003;
     procedure TestFundamentalArgumentF_IERS2003;
@@ -30,10 +42,14 @@ type
     procedure TestFundamentalArgumentUr_IERS2003;
     procedure TestFundamentalArgumentNe_IERS2003;
     procedure TestFundamentalArgumentPA_IERS2003;
-    procedure TestNutation_IAU1980;
-    procedure TestNutation_IAU2000A_IERS;
-    procedure TestNutation_IAU2000A;
-    procedure TestNutation_IAU2000B;
+    procedure TestNutationDeltaPsi_IAU1980;
+    procedure TestNutationDeltaEps_IAU1980;
+    procedure TestNutationDeltaPsi_IAU2000A_IERS;
+    procedure TestNutationDeltaEps_IAU2000A_IERS;
+    procedure TestNutationDeltaPsi_IAU2000A;
+    procedure TestNutationDeltaEps_IAU2000A;
+    procedure TestNutationDeltaPsi_IAU2000B;
+    procedure TestNutationDeltaEps_IAU2000B;
     procedure TestERA_IAU2000;
     procedure TestGMST_IAU1982;
     procedure TestGMST_IAU2000;
@@ -48,75 +64,243 @@ implementation
 
 uses almBase, almEarth;
 
-procedure TTestEarthOrientation.TestPrecession_IAU1976;
+procedure TTestEarthOrientation.TestPrecessionEps0_IAU1976;
 var
   TDB: TJulianDate;
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
-  ExpectedEps0, ExpectedEpsA,ExpectedPsiA,ExpectedChiA,ExpectedOmegaA: Double;
+  ExpectedEps0: Double;
 begin
   // There are no test values
 
   TDB:= 2400000.5 + 52541.0;
   ExpectedEps0:= 0.4090926006005828715;
-  ExpectedEpsA:= 0.4090864054922431688;
-  ExpectedPsiA:= 0.6664369630191613431e-3;
-  ExpectedChiA:= 0.1387703379530915364e-5;
-  ExpectedOmegaA:= 0.4090925973783255982;
 
   PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
   AssertEquals('Eps0 IAU1976',ExpectedEps0,ComputedEps0,1e-15);
-  AssertEquals('EpsA IAU1976',ExpectedEpsA,ComputedEpsA,1e-15);
-  AssertEquals('PsiA IAU1976',ExpectedPsiA,ComputedPsiA,1e-15);
-  AssertEquals('ChiA IAU1976',ExpectedChiA,ComputedChiA,1e-15);
-  AssertEquals('OmegaA IAU1976',ExpectedOmegaA,ComputedOmegaA,1e-15);
 end;
 
-procedure TTestEarthOrientation.TestPrecession_IAU2000;
+procedure TTestEarthOrientation.TestPrecessionEpsA_IAU1976;
 var
   TDB: TJulianDate;
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
-  ExpectedEps0, ExpectedEpsA,ExpectedPsiA,ExpectedChiA,ExpectedOmegaA: Double;
+  ExpectedEpsA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedEpsA:= 0.4090864054922431688;
+
+  PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('EpsA IAU1976',ExpectedEpsA,ComputedEpsA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionPsiA_IAU1976;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedPsiA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedPsiA:= 0.6664369630191613431e-3;
+
+  PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('PsiA IAU1976',ExpectedPsiA,ComputedPsiA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionChiA_IAU1976;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedChiA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedChiA:= 0.1387703379530915364e-5;
+
+  PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('ChiA IAU1976',ExpectedChiA,ComputedChiA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionOmegaA_IAU1976;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedOmegaA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedOmegaA:= 0.4090925973783255982;
+
+  PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('OmegaA IAU1976',ExpectedOmegaA,ComputedOmegaA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionEps0_IAU2000;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedEps0: Double;
 begin
   // There are no test values
 
   TDB:= 2400000.5 + 52541.0;
   ExpectedEps0:= 0.4090926006005828715;
-  ExpectedEpsA:= 0.4090864054922431688;
-  ExpectedPsiA:= 0.6664369630191613431e-3;
-  ExpectedChiA:= 0.1387703379530915364e-5;
-  ExpectedOmegaA:= 0.4090925973783255982;
 
   PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
   AssertEquals('Eps0 IAU2000',ExpectedEps0,ComputedEps0,1e-15);
-  AssertEquals('EpsA IAU2000',ExpectedEpsA,ComputedEpsA,1e-15);
-  AssertEquals('PsiA IAU2000',ExpectedPsiA,ComputedPsiA,1e-15);
-  AssertEquals('ChiA IAU2000',ExpectedChiA,ComputedChiA,1e-15);
-  AssertEquals('OmegaA IAU2000',ExpectedOmegaA,ComputedOmegaA,1e-15);
 end;
 
-procedure TTestEarthOrientation.TestPrecession_IAU2006;
+procedure TTestEarthOrientation.TestPrecessionEpsA_IAU2000;
 var
   TDB: TJulianDate;
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
-  ExpectedEps0, ExpectedEpsA,ExpectedPsiA,ExpectedChiA,ExpectedOmegaA: Double;
+  ExpectedEpsA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedEpsA:= 0.4090864054922431688;
+
+  PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('EpsA IAU2000',ExpectedEpsA,ComputedEpsA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionPsiA_IAU2000;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedPsiA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedPsiA:= 0.6664369630191613431e-3;
+
+  PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('PsiA IAU2000',ExpectedPsiA,ComputedPsiA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionChiA_IAU2001;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedChiA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedChiA:= 0.1387703379530915364e-5;
+
+  PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('ChiA IAU2000',ExpectedChiA,ComputedChiA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionOmegaA_IAU2000;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedOmegaA: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedOmegaA:= 0.4090925973783255982;
+
+  PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
+  AssertEquals('OmegaA IAU2000',ExpectedOmegaA,ComputedOmegaA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionEps0_IAU2006;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedEps0: Double;
 begin
   // Test values from IAU SOFA C version 2012-03-01 Release
 
   TDB:= 2400000.5 + 52541.0;
   ExpectedEps0:= 0.4090926006005828715;
-  ExpectedEpsA:= 0.4090864054922431688;
-  ExpectedPsiA:= 0.6664369630191613431e-3;
-  ExpectedChiA:= 0.1387703379530915364e-5;
-  ExpectedOmegaA:= 0.4090925973783255982;
 
   PrecessionIAU2006(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
   AssertEquals('Eps0 IAU2006',ExpectedEps0,ComputedEps0,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionEpsA_IAU2006;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedEpsA: Double;
+begin
+  // Test values from IAU SOFA C version 2012-03-01 Release
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedEpsA:= 0.4090864054922431688;
+
+  PrecessionIAU2006(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
   AssertEquals('EpsA IAU2006',ExpectedEpsA,ComputedEpsA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionPsiA_IAU2006;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedPsiA: Double;
+begin
+  // Test values from IAU SOFA C version 2012-03-01 Release
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedPsiA:= 0.6664369630191613431e-3;
+
+  PrecessionIAU2006(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
   AssertEquals('PsiA IAU2006',ExpectedPsiA,ComputedPsiA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionChiA_IAU2006;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedChiA: Double;
+begin
+  // Test values from IAU SOFA C version 2012-03-01 Release
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedChiA:= 0.1387703379530915364e-5;
+
+  PrecessionIAU2006(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
   AssertEquals('ChiA IAU2006',ExpectedChiA,ComputedChiA,1e-15);
+end;
+
+procedure TTestEarthOrientation.TestPrecessionOmegaA_IAU2006;
+var
+  TDB: TJulianDate;
+  ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
+  ExpectedOmegaA: Double;
+begin
+  // Test values from IAU SOFA C version 2012-03-01 Release
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedOmegaA:= 0.4090925973783255982;
+
+  PrecessionIAU2006(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
+
   AssertEquals('OmegaA IAU2006',ExpectedOmegaA,ComputedOmegaA,1e-15);
 end;
 
@@ -344,75 +528,131 @@ begin
   AssertEquals('Fundamental Argument PA from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
-procedure TTestEarthOrientation.TestNutation_IAU1980;
+procedure TTestEarthOrientation.TestNutationDeltaPsi_IAU1980;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
-  ExpectedDeltaPsi, ExpectedDeltaEps: Double;
+  ExpectedDeltaPsi: Double;
 begin
   // Test values from IAU SOFA C version 2012-03-01 Release
 
   TDB:= 2400000.5 + 53736.0;
   ExpectedDeltaPsi:= -0.9643658353226563966e-5;
-  ExpectedDeltaEps:= 0.4060051006879713322e-4;
 
   NutationIAU1980(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
   AssertEquals('DeltaPsi IAU1980',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
-  AssertEquals('DeltaEps IAU1980',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
-procedure TTestEarthOrientation.TestNutation_IAU2000A_IERS;
+procedure TTestEarthOrientation.TestNutationDeltaEps_IAU1980;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
-  ExpectedDeltaPsi, ExpectedDeltaEps: Double;
+  ExpectedDeltaEps: Double;
+begin
+  // Test values from IAU SOFA C version 2012-03-01 Release
+
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedDeltaEps:= 0.4060051006879713322e-4;
+
+  NutationIAU1980(TDB,ComputedDeltaPsi,ComputedDeltaEps);
+
+  AssertEquals('DeltaEps IAU1980',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
+end;
+
+procedure TTestEarthOrientation.TestNutationDeltaPsi_IAU2000A_IERS;
+var
+  TDB: TJulianDate;
+  ComputedDeltaPsi, ComputedDeltaEps: Double;
+  ExpectedDeltaPsi: Double;
 begin
   // There are no test values
 
   TDB:= 2400000.5 + 53736.0;
   ExpectedDeltaPsi:= -0.9630909107115518431e-5;
-  ExpectedDeltaEps:= 0.4063239174001678710e-4;
 
   NutationIAU2000A_IERS(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
   AssertEquals('DeltaPsi IERS IAU2000A',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
-  AssertEquals('DeltaEps IERS IAU2000A',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
-procedure TTestEarthOrientation.TestNutation_IAU2000A;
+procedure TTestEarthOrientation.TestNutationDeltaEps_IAU2000A_IERS;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
-  ExpectedDeltaPsi, ExpectedDeltaEps: Double;
+  ExpectedDeltaEps: Double;
+begin
+  // There are no test values
+
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedDeltaEps:= 0.4063239174001678710e-4;
+
+  NutationIAU2000A_IERS(TDB,ComputedDeltaPsi,ComputedDeltaEps);
+
+  AssertEquals('DeltaEps IERS IAU2000A',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
+end;
+
+procedure TTestEarthOrientation.TestNutationDeltaPsi_IAU2000A;
+var
+  TDB: TJulianDate;
+  ComputedDeltaPsi, ComputedDeltaEps: Double;
+  ExpectedDeltaPsi: Double;
 begin
   // Test values from IAU SOFA C version 2012-03-01 Release
 
   TDB:= 2400000.5 + 53736.0;
   ExpectedDeltaPsi:= -0.9630909107115518431e-5;
-  ExpectedDeltaEps:= 0.4063239174001678710e-4;
 
   NutationIAU2000A(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
   AssertEquals('DeltaPsi IAU2000A',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
-  AssertEquals('DeltaEps IAU2000A',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
-procedure TTestEarthOrientation.TestNutation_IAU2000B;
+procedure TTestEarthOrientation.TestNutationDeltaEps_IAU2000A;
 var
   TDB: TJulianDate;
   ComputedDeltaPsi, ComputedDeltaEps: Double;
-  ExpectedDeltaPsi, ExpectedDeltaEps: Double;
+  ExpectedDeltaEps: Double;
+begin
+  // Test values from IAU SOFA C version 2012-03-01 Release
+
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedDeltaEps:= 0.4063239174001678710e-4;
+
+  NutationIAU2000A(TDB,ComputedDeltaPsi,ComputedDeltaEps);
+
+  AssertEquals('DeltaEps IAU2000A',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
+end;
+
+procedure TTestEarthOrientation.TestNutationDeltaPsi_IAU2000B;
+var
+  TDB: TJulianDate;
+  ComputedDeltaPsi, ComputedDeltaEps: Double;
+  ExpectedDeltaPsi: Double;
 begin
   // Test values from IAU SOFA C version 2012-03-01 Release
 
   TDB:= 2400000.5 + 53736.0;
   ExpectedDeltaPsi:= -0.9632552291148362783e-5;
-  ExpectedDeltaEps:=  0.4063197106621159367e-4;
 
   NutationIAU2000B(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
   AssertEquals('DeltaPsi IAU2000B',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+end;
+
+procedure TTestEarthOrientation.TestNutationDeltaEps_IAU2000B;
+var
+  TDB: TJulianDate;
+  ComputedDeltaPsi, ComputedDeltaEps: Double;
+  ExpectedDeltaEps: Double;
+begin
+  // Test values from IAU SOFA C version 2012-03-01 Release
+
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedDeltaEps:=  0.4063197106621159367e-4;
+
+  NutationIAU2000B(TDB,ComputedDeltaPsi,ComputedDeltaEps);
+
   AssertEquals('DeltaEps IAU2000B',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
