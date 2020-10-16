@@ -308,224 +308,224 @@ end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentL_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 5.132369751108684150;
 
-  faL_IERS2003(TDB,ComputedFA);
+  faL_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument L from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentLP_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 6.226797973505507345;
 
-  faLP_IERS2003(TDB,ComputedFA);
+  faLP_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument LP from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentF_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 0.2597711366745499518;
 
-  faF_IERS2003(TDB,ComputedFA);
+  faF_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument F from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentD_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 1.946709205396925672;
 
-  faD_IERS2003(TDB,ComputedFA);
+  faD_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument D from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentOM_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= -5.973618440951302183;
 
-  faOM_IERS2003(TDB,ComputedFA);
+  faOM_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument OM from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentMe_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 5.417338184297289661;
 
-  faMe_IERS2003(TDB,ComputedFA);
+  faMe_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument Me from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentVe_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 3.424900460533758000;
 
-  faVe_IERS2003(TDB,ComputedFA);
+  faVe_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument Ve from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentEa_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 1.744713738913081846;
 
-  faEa_IERS2003(TDB,ComputedFA);
+  faEa_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument Ea from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentMa_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 3.275506840277781492;
 
-  faMa_IERS2003(TDB,ComputedFA);
+  faMa_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument Ma from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentJu_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 5.275711665202481138;
 
-  faJu_IERS2003(TDB,ComputedFA);
+  faJu_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument Ju from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentSa_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 5.371574539440827046;
 
-  faSa_IERS2003(TDB,ComputedFA);
+  faSa_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument Sa from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentUr_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 5.180636450180413523;
 
-  faUr_IERS2003(TDB,ComputedFA);
+  faUr_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument Ur from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentNe_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 2.079343830860413523;
 
-  faNe_IERS2003(TDB,ComputedFA);
+  faNe_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument Ne from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestFundamentalArgumentPA_IERS2003;
 var
-  TDB: TJulianDate;
+  TDB_C: Double;
   ComputedFA: Double;
   ExpectedFA: Double;
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 0.8*JulianDaysPerCentury + J2000;
+  TDB_C:= 0.8;
   ExpectedFA:= 0.1950884762240000000e-1;
 
-  faPA_IERS2003(TDB,ComputedFA);
+  faPA_IERS2003(TDB_C,ComputedFA);
 
   AssertEquals('Fundamental Argument PA from IERS2003',ExpectedFA,ComputedFA,1e-12);
 end;

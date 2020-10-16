@@ -31,20 +31,20 @@ procedure PrecessionIAU1976(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: D
 procedure PrecessionIAU2000(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 
-procedure faL_IERS2003(TDB: TJulianDate; out L: Double);
-procedure faLP_IERS2003(TDB: TJulianDate; out LP: Double);
-procedure faF_IERS2003(TDB: TJulianDate; out F: Double);
-procedure faD_IERS2003(TDB: TJulianDate; out D: Double);
-procedure faOM_IERS2003(TDB: TJulianDate; out OM: Double);
-procedure faMe_IERS2003(TDB: TJulianDate; out Me: Double);
-procedure faVe_IERS2003(TDB: TJulianDate; out Ve: Double);
-procedure faEa_IERS2003(TDB: TJulianDate; out Ea: Double);
-procedure faMa_IERS2003(TDB: TJulianDate; out Ma: Double);
-procedure faJu_IERS2003(TDB: TJulianDate; out Ju: Double);
-procedure faSa_IERS2003(TDB: TJulianDate; out Sa: Double);
-procedure faUr_IERS2003(TDB: TJulianDate; out Ur: Double);
-procedure faNe_IERS2003(TDB: TJulianDate; out Ne: Double);
-procedure faPA_IERS2003(TDB: TJulianDate; out Pa: Double);
+procedure faL_IERS2003(TDB_C: Double; out L: Double);
+procedure faLP_IERS2003(TDB_C: Double; out LP: Double);
+procedure faF_IERS2003(TDB_C: Double; out F: Double);
+procedure faD_IERS2003(TDB_C: Double; out D: Double);
+procedure faOM_IERS2003(TDB_C: Double; out OM: Double);
+procedure faMe_IERS2003(TDB_C: Double; out Me: Double);
+procedure faVe_IERS2003(TDB_C: Double; out Ve: Double);
+procedure faEa_IERS2003(TDB_C: Double; out Ea: Double);
+procedure faMa_IERS2003(TDB_C: Double; out Ma: Double);
+procedure faJu_IERS2003(TDB_C: Double; out Ju: Double);
+procedure faSa_IERS2003(TDB_C: Double; out Sa: Double);
+procedure faUr_IERS2003(TDB_C: Double; out Ur: Double);
+procedure faNe_IERS2003(TDB_C: Double; out Ne: Double);
+procedure faPA_IERS2003(TDB_C: Double; out Pa: Double);
 
 procedure NutationIAU1980(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 procedure NutationIAU2000A_IERS(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
@@ -159,233 +159,192 @@ begin
   OmegaA:= OmegaA*RadiansPerArcSecond;
 end;
 
-procedure faL_IERS2003(TDB: TJulianDate; out L: Double);
+procedure faL_IERS2003(TDB_C: Double; out L: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //              Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation: mean anomaly of the Moon (l)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  L: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-  L:= RadiansPerArcSecond*(485868.249036 + (1717915923.2178 + (31.8792 + (0.051635 - 0.00024470*t)*t)*t)*t);
+  L:= RadiansPerArcSecond*(485868.249036 + (1717915923.2178 + (31.8792 + (0.051635 - 0.00024470*TDB_C)*TDB_C)*TDB_C)*TDB_C);
   L:= fmod(L,RadiansPerRev);
 end;
 
-procedure faLP_IERS2003(TDB: TJulianDate; out LP: Double);
+procedure faLP_IERS2003(TDB_C: Double; out LP: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean anomaly of the Sun (lp)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  LP: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  LP:= RadiansPerArcSecond*(1287104.793048 + (129596581.0481 + (-0.5532 + (0.000136 - 0.00001149*t)*t)*t)*t);
+  LP:= RadiansPerArcSecond*(1287104.793048 + (129596581.0481 + (-0.5532 + (0.000136 - 0.00001149*TDB_C)*TDB_C)*TDB_C)*TDB_C);
   LP:= fmod(LP,RadiansPerRev);
 end;
 
-procedure faF_IERS2003(TDB: TJulianDate; out F: Double);
+procedure faF_IERS2003(TDB_C: Double; out F: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean argument of the latitude of the Moon (f)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  F: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  F:= RadiansPerArcSecond*(335779.526232 + (1739527262.8478 + (-12.7512 + (-0.001037 + 0.00000417*t)*t)*t)*t);
+  F:= RadiansPerArcSecond*(335779.526232 + (1739527262.8478 + (-12.7512 + (-0.001037 + 0.00000417*TDB_C)*TDB_C)*TDB_C)*TDB_C);
   F:= fmod(F,RadiansPerRev);
 end;
 
-procedure faD_IERS2003(TDB: TJulianDate; out D: Double);
+procedure faD_IERS2003(TDB_C: Double; out D: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean elongation of the Moon from the Sun (d)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  D: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  D:= RadiansPerArcSecond*(1072260.703692 + (1602961601.2090 + (-6.3706 + (0.006593 - 0.00003169*t)*t)*t)*t);
+  D:= RadiansPerArcSecond*(1072260.703692 + (1602961601.2090 + (-6.3706 + (0.006593 - 0.00003169*TDB_C)*TDB_C)*TDB_C)*TDB_C);
   D:= fmod(D,RadiansPerRev);
 end;
 
-procedure faOM_IERS2003(TDB: TJulianDate; out OM: Double);
+procedure faOM_IERS2003(TDB_C: Double; out OM: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean longitude of the Moon’s ascending node (om)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  OM: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  OM:= RadiansPerArcSecond*(450160.398036 + (-6962890.5431 + (7.4722 + (0.007702 - 0.00005939*t)*t)*t)*t);
+  OM:= RadiansPerArcSecond*(450160.398036 + (-6962890.5431 + (7.4722 + (0.007702 - 0.00005939*TDB_C)*TDB_C)*TDB_C)*TDB_C);
   OM:= fmod(OM,RadiansPerRev);
 end;
 
-procedure faMe_IERS2003(TDB: TJulianDate; out Me: Double);
+procedure faMe_IERS2003(TDB_C: Double; out Me: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //              Souchay, J., Loysel, B., Kinoshita, H., Folgueira, M. 1999, Astron.Astrophys.Supp.Ser. 135, 111
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean longitude of Mercury (Me)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  Me: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  Me:= 4.402608842 + 2608.7903141574 * t;
+  Me:= 4.402608842 + 2608.7903141574 * TDB_C;
   Me:= fmod(Me,RadiansPerRev);
 end;
 
-procedure faVe_IERS2003(TDB: TJulianDate; out Ve: Double);
+procedure faVe_IERS2003(TDB_C: Double; out Ve: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //              Souchay, J., Loysel, B., Kinoshita, H., Folgueira, M. 1999, Astron.Astrophys.Supp.Ser. 135, 111
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean longitude of Venus (Ve)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  Ve: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  Ve:= 3.176146697 + 1021.3285546211 * t;
+  Ve:= 3.176146697 + 1021.3285546211 * TDB_C;
   Ve:= fmod(Ve,RadiansPerRev);
 end;
 
-procedure faEa_IERS2003(TDB: TJulianDate; out Ea: Double);
+procedure faEa_IERS2003(TDB_C: Double; out Ea: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //              Souchay, J., Loysel, B., Kinoshita, H., Folgueira, M. 1999, Astron.Astrophys.Supp.Ser. 135, 111
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean longitude of Earth (Ea)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  Ea: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  Ea:= 1.753470314 + 628.3075849991 * t;
+  Ea:= 1.753470314 + 628.3075849991 * TDB_C;
   Ea:= fmod(Ea,RadiansPerRev);
 end;
 
-procedure faMa_IERS2003(TDB: TJulianDate; out Ma: Double);
+procedure faMa_IERS2003(TDB_C: Double; out Ma: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //              Souchay, J., Loysel, B., Kinoshita, H., Folgueira, M. 1999, Astron.Astrophys.Supp.Ser. 135, 111
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean longitude of Mars (Ma)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  Ma: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  Ma:= 6.203480913 + 334.0612426700 * t;
+  Ma:= 6.203480913 + 334.0612426700 * TDB_C;
   Ma:= fmod(Ma,RadiansPerRev);
 end;
 
-procedure faJu_IERS2003(TDB: TJulianDate; out Ju: Double);
+procedure faJu_IERS2003(TDB_C: Double; out Ju: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //              Souchay, J., Loysel, B., Kinoshita, H., Folgueira, M. 1999, Astron.Astrophys.Supp.Ser. 135, 111
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean longitude of Jupiter (Ju)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  Ju: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  Ju:= 0.599546497 + 52.9690962641 * t;
+  Ju:= 0.599546497 + 52.9690962641 * TDB_C;
   Ju:= fmod(Ju,RadiansPerRev);
 end;
 
-procedure faSa_IERS2003(TDB: TJulianDate; out Sa: Double);
+procedure faSa_IERS2003(TDB_C: Double; out Sa: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //              Souchay, J., Loysel, B., Kinoshita, H., Folgueira, M. 1999, Astron.Astrophys.Supp.Ser. 135, 111
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean longitude of Saturn (Sa)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  Sa: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  Sa:= 0.874016757 + 21.3299104960 * t;
+  Sa:= 0.874016757 + 21.3299104960 * TDB_C;
   Sa:= fmod(Sa,RadiansPerRev);
 end;
 
-procedure faUr_IERS2003(TDB: TJulianDate; out Ur: Double);
+procedure faUr_IERS2003(TDB_C: Double; out Ur: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //              Souchay, J., Loysel, B., Kinoshita, H., Folgueira, M. 1999, Astron.Astrophys.Supp.Ser. 135, 111
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean longitude of Uranus (Ur)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  Ur: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  Ur:= 5.481293872 + 7.4781598567 * t;
+  Ur:= 5.481293872 + 7.4781598567 * TDB_C;
   Ur:= fmod(Ur,RadiansPerRev);
 end;
 
-procedure faNe_IERS2003(TDB: TJulianDate; out Ne: Double);
+procedure faNe_IERS2003(TDB_C: Double; out Ne: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: mean longitude of Neptune (Ne)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  Ne: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  Ne:= 5.311886287 + 3.8133035638*t;
+  Ne:= 5.311886287 + 3.8133035638*TDB_C;
   Ne:= fmod(Ne,RadiansPerRev);
 end;
 
-procedure faPA_IERS2003(TDB: TJulianDate; out Pa: Double);
+procedure faPA_IERS2003(TDB_C: Double; out Pa: Double);
 //  REFERENCE:  IAU 2000 Theory of Nutation Model
 //		Simon, J.−L., Bretagnon, P., Chapront, J., Chapront−Touze, M., Francou, G., Laskar, J. 1994, Astron.Astrophys. 282, 663−683
 //		McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003), IERS Technical Note No. 32, BKG (2004)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the Fundamental arguments for nutation etc: general accumulated precession in longitude (Pa)
+//  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  Pa: radians
-var
-  t: Double;
 begin
-  t:= (TDB - J2000)/JulianDaysPerCentury;
-
-  Pa:= (0.024381750 + 0.00000538691 * t) * t;
+  Pa:= (0.024381750 + 0.00000538691 * TDB_C) * TDB_C;
   Pa:= fmod(Pa,RadiansPerRev);
 end;
 
@@ -647,17 +606,17 @@ begin
 
    // Fundamental (Delaunay) arguments (arcseconds converted to radians)
   //    l = mean anomaly of the Moon (IERS 2003)
-  faL_IERS2003(TDB,el);
+  faL_IERS2003(t,el);
   //    l' = mean anomaly of the Sun (MHB2000)
   elp:= fmod(RadiansPerArcSecond*(1287104.79305 + (129596581.0481 +
                              (-0.5532 + (0.000136 - 0.00001149*t)*t)*t)*t),RadiansPerRev);
   //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (IERS 2003)
-  faF_IERS2003(TDB,f);
+  faF_IERS2003(t,f);
   //    D = mean elongation of the Moon from the Sun (MHB2000)
   d:= fmod(RadiansPerArcSecond*(1072260.70369 + (1602961601.2090 +
                              (-6.3706 + (0.006593 - 0.00003169*t)*t)*t)*t),RadiansPerRev);
   //    OM = mean longitude of the Moon's ascending node (IERS 2003)
-  faOM_IERS2003(TDB,om);
+  faOM_IERS2003(t,om);
 
 //  Initialize Luni-Solar nutation components
   dPsiLS:= 0;
@@ -695,23 +654,23 @@ begin
   om:= fmod(2.18243920 - 33.757045*t,RadiansPerRev);
 
  //    lMe = mean longitude of Mercury (IERS 2003)
- faMe_IERS2003(TDB,lMe);
+ faMe_IERS2003(t,lMe);
  //    lVe = mean longitude of Venus (IERS 2003)
- faVe_IERS2003(TDB,lVe);
+ faVe_IERS2003(t,lVe);
  //    lE = mean longitude of Earth (IERS 2003)
- faEa_IERS2003(TDB,lEa);
+ faEa_IERS2003(t,lEa);
  //    lMa = mean longitude of Mars (IERS 2003)
- faMa_IERS2003(TDB,lMa);
+ faMa_IERS2003(t,lMa);
  //    lJu = mean longitude of Jupiter (IERS 2003)
- faJu_IERS2003(TDB,lJu);
+ faJu_IERS2003(t,lJu);
  //    lSa = mean longitude of Saturn (IERS 2003)
- faSa_IERS2003(TDB,lSa);
- //    lUr = mean longitude of Uranus (IERS 2003)
- faUr_IERS2003(TDB,lUr);
+ faSa_IERS2003(t,lSa);
+ //    lUr = t longitude of Uranus (IERS 2003)
+ faUr_IERS2003(t,lUr);
  //    lNe = mean longitude of Neptune (MHB2000)
  lNe:= fmod(5.321159000 + 3.8127774000*t,RadiansPerRev);
  //    Pa = general precession on longitude
- faPa_IERS2003(TDB,Pa);
+ faPa_IERS2003(t,Pa);
 
 //  Initialize Planetary nutation components
   dPsiPL:= 0;
@@ -967,34 +926,34 @@ begin
  t:= (TDB - J2000)/JulianDaysPerCentury;
 
   //    l = mean anomaly of the Moon (in arcseconds)
- faL_IERS2003(TDB,FundamentalArguments[1]);
+ faL_IERS2003(t,FundamentalArguments[1]);
  //    l' = mean anomaly of the Sun (in arcseconds)
- faLP_IERS2003(TDB,FundamentalArguments[2]);
+ faLP_IERS2003(t,FundamentalArguments[2]);
  //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (in arcseconds)
- faF_IERS2003(TDB,FundamentalArguments[3]);
+ faF_IERS2003(t,FundamentalArguments[3]);
  //    D = mean elongation of the Moon from the Sun (in arcseconds)
- faD_IERS2003(TDB,FundamentalArguments[4]);
+ faD_IERS2003(t,FundamentalArguments[4]);
  //    OM = mean longitude of the Moon's ascending node (in arcseconds)
- faOM_IERS2003(TDB,FundamentalArguments[5]);
+ faOM_IERS2003(t,FundamentalArguments[5]);
 
  //    lMe = mean longitude of Mercury
- faMe_IERS2003(TDB,FundamentalArguments[6]);
+ faMe_IERS2003(t,FundamentalArguments[6]);
  //    lVe = mean longitude of Venus
- faVe_IERS2003(TDB,FundamentalArguments[7]);
+ faVe_IERS2003(t,FundamentalArguments[7]);
  //    lE = mean longitude of Earth
- faEa_IERS2003(TDB,FundamentalArguments[8]);
+ faEa_IERS2003(t,FundamentalArguments[8]);
  //    lMa = mean longitude of Mars
- faMa_IERS2003(TDB,FundamentalArguments[9]);
+ faMa_IERS2003(t,FundamentalArguments[9]);
  //    lJu = mean longitude of Jupiter
- faJu_IERS2003(TDB,FundamentalArguments[10]);
+ faJu_IERS2003(t,FundamentalArguments[10]);
  //    lSa = mean longitude of Saturn
- faSa_IERS2003(TDB,FundamentalArguments[11]);
+ faSa_IERS2003(t,FundamentalArguments[11]);
  //    lUr = mean longitude of Uranus
- faUr_IERS2003(TDB,FundamentalArguments[12]);
+ faUr_IERS2003(t,FundamentalArguments[12]);
  //    lNe = mean longitude of Neptune
- faNe_IERS2003(TDB,FundamentalArguments[13]);
+ faNe_IERS2003(t,FundamentalArguments[13]);
  //    Pa = general precession on longitude
- faPa_IERS2003(TDB,FundamentalArguments[14]);
+ faPa_IERS2003(t,FundamentalArguments[14]);
 
 //  Evaluate the EE complementary terms.
  // Argument = Soma(Nj*Fj)
