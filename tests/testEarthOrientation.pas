@@ -573,7 +573,7 @@ begin
   TDB:= 2400000.5 + 53736.0;
   ExpectedDeltaPsi:= -0.9630909107115518431e-5;
 
-  NutationIAU2000A_IERS(TDB,ComputedDeltaPsi,ComputedDeltaEps);
+  NutationIAU2000A_IERS2003(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
   AssertEquals('DeltaPsi IERS IAU2000A',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
 end;
@@ -589,7 +589,7 @@ begin
   TDB:= 2400000.5 + 53736.0;
   ExpectedDeltaEps:= 0.4063239174001678710e-4;
 
-  NutationIAU2000A_IERS(TDB,ComputedDeltaPsi,ComputedDeltaEps);
+  NutationIAU2000A_IERS2003(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
   AssertEquals('DeltaEps IERS IAU2000A',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;

@@ -199,7 +199,7 @@ const
 
   // IAU 2000A Nutation series
   //  Coefficients of luni-solar IAU 2000A Nutation series
-  NutationIAU2000A_LSCoeffs: array[1..678,1..13] of Integer =
+  NutationIAU2000A_LSCoeffsIERS2003: array[1..678,1..13] of Integer =
      //    L     L'    F     D     Om                longitude               |           obliquity
      //                                    sin,     t*sin,    cos,     t*cos |   cos,   t*cos,   sin,     t*sin
   ((	0	,	0	,	0	,	0	,	1	,	-172064161	,	-174666	,	33386	,	29	,	92052331	,	9086	,	15377	,	2	)	,
@@ -881,7 +881,7 @@ const
 (	2	,	-1	,	2	,	4	,	2	,	-3	,	0	,	0	,	0	,	1	,	0	,	0	,	0	)	,
 (	2	,	0	,	2	,	4	,	1	,	-3	,	0	,	0	,	0	,	2	,	0	,	0	,	0	));
   //  Coefficients of planetary IAU 2000A Nutation series
-  NutationIAU2000A_PLCoeffs: array[1..687,1..18] of Integer =
+  NutationIAU2000A_PLCoeffsIERS2003: array[1..687,1..18] of Integer =
      //    L     L'    F     D     Om    Lme     Lve     Lma     Lj     Lsa    Lu     Lne     pa          longitude  |   obliquity
      //                                                                                                  sin,    cos |   cos,   sin
 ((	0	,	0	,	0	,	0	,	0	,	0	,	0	,	8	,	-16	,	4	,	5	,	0	,	0	,	0	,	1440	,	0	,	0	,	0	)	,

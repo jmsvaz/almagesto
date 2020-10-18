@@ -47,7 +47,7 @@ procedure faNe_IERS2003(TDB_C: Double; out Ne: Double);
 procedure faPA_IERS2003(TDB_C: Double; out Pa: Double);
 
 procedure NutationIAU1980(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
-procedure NutationIAU2000A_IERS(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+procedure NutationIAU2000A_IERS2003(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 procedure NutationIAU2000A(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 
@@ -477,7 +477,7 @@ begin
   DeltaEps:= DeltaEps*RadiansPerArcSecond;
 end;
 
-procedure NutationIAU2000A_IERS(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
+procedure NutationIAU2000A_IERS2003(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  REFERENCE:  IAU 2000A Theory of Nutation Model
 //              IERS Conventions (2003)
 //  This routine computes the two Nutation angles in longitude and obliquity, with
@@ -538,40 +538,40 @@ begin
   dPsiLS:= 0;
   dEpsLS:= 0;
 //  Sum the luni-solar nutation terms, ending with the biggest.
- for i:= High(NutationIAU2000A_LSCoeffs) downto Low(NutationIAU2000A_LSCoeffs) do
+ for i:= High(NutationIAU2000A_LSCoeffsIERS2003) downto Low(NutationIAU2000A_LSCoeffsIERS2003) do
    begin
      //   Form argument for current term.
      Argument:= 0;
      for j:= 1 to 5 do
-       Argument:= Argument + NutationIAU2000A_LSCoeffs[i,j] * FundamentalArguments[j];
+       Argument:= Argument + NutationIAU2000A_LSCoeffsIERS2003[i,j] * FundamentalArguments[j];
      SinCos(Argument,sinArg,cosArg);
      //   Accumulate current nutation term.
      dPsiLS:= dPsiLS +
-              (NutationIAU2000A_LSCoeffs[i,6] + NutationIAU2000A_LSCoeffs[i,7]*t)*sinArg +
-              (NutationIAU2000A_LSCoeffs[i,8] + NutationIAU2000A_LSCoeffs[i,9]*t)*cosArg;
+              (NutationIAU2000A_LSCoeffsIERS2003[i,6] + NutationIAU2000A_LSCoeffsIERS2003[i,7]*t)*sinArg +
+              (NutationIAU2000A_LSCoeffsIERS2003[i,8] + NutationIAU2000A_LSCoeffsIERS2003[i,9]*t)*cosArg;
      dEpsLS:= dEpsLS +
-              (NutationIAU2000A_LSCoeffs[i,10] + NutationIAU2000A_LSCoeffs[i,11]*t)*cosArg +
-              (NutationIAU2000A_LSCoeffs[i,12] + NutationIAU2000A_LSCoeffs[i,13]*t)*sinArg;
+              (NutationIAU2000A_LSCoeffsIERS2003[i,10] + NutationIAU2000A_LSCoeffsIERS2003[i,11]*t)*cosArg +
+              (NutationIAU2000A_LSCoeffsIERS2003[i,12] + NutationIAU2000A_LSCoeffsIERS2003[i,13]*t)*sinArg;
    end;
 
 //  Initialize Planetary nutation components
   dPsiPL:= 0;
   dEpsPL:= 0;
 //  Sum the planetary nutation terms, ending with the biggest.
- for i:= High(NutationIAU2000A_PLCoeffs) downto Low(NutationIAU2000A_PLCoeffs) do
+ for i:= High(NutationIAU2000A_PLCoeffsIERS2003) downto Low(NutationIAU2000A_PLCoeffsIERS2003) do
    begin
      //   Form argument for current term.
      Argument:= 0;
      for j:= 1 to 14 do
-       Argument:= Argument + NutationIAU2000A_PLCoeffs[i,j] * FundamentalArguments[j];
+       Argument:= Argument + NutationIAU2000A_PLCoeffsIERS2003[i,j] * FundamentalArguments[j];
      SinCos(Argument,sinArg,cosArg);
      //   Accumulate current nutation term.
      dPsiPL:= dPsiPL +
-              NutationIAU2000A_PLCoeffs[i,15]*sinArg +
-              NutationIAU2000A_PLCoeffs[i,16]*cosArg;
+              NutationIAU2000A_PLCoeffsIERS2003[i,15]*sinArg +
+              NutationIAU2000A_PLCoeffsIERS2003[i,16]*cosArg;
      dEpsPL:= dEpsPL +
-              NutationIAU2000A_PLCoeffs[i,17]*cosArg +
-              NutationIAU2000A_PLCoeffs[i,18]*sinArg;
+              NutationIAU2000A_PLCoeffsIERS2003[i,17]*cosArg +
+              NutationIAU2000A_PLCoeffsIERS2003[i,18]*sinArg;
    end;
 
 //  Add Luni-Solar and Planetary components
