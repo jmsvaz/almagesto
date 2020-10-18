@@ -78,7 +78,7 @@ var
 begin
   // Test values from IAU SOFA C version 2020-07-21 Release
 
-  ExpectedEps0:= 84381.448*RadiansPerArcSecond;
+  ExpectedEps0:= 0.409092804222329; //84381.448*RadiansPerArcSecond;
 
   ComputedEps0:= ObliquityJ2000IAU1980;
 
@@ -153,10 +153,10 @@ var
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
   ExpectedEps0: Double;
 begin
-  // There are no test values
+  // Test values from IAU SOFA C version 2020-07-21 Release
 
   TDB:= 2400000.5 + 52541.0;
-  ExpectedEps0:= 0.4090926006005828715;
+  ExpectedEps0:= 0.409092804222329; //84381.448*RadiansPerArcSecond;
 
   PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
@@ -169,10 +169,10 @@ var
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
   ExpectedEpsA: Double;
 begin
-  // There are no test values
+  // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 2400000.5 + 52541.0;
-  ExpectedEpsA:= 0.4090864054922431688;
+  TDB:= 2400000.5 + 54388.0;
+  ExpectedEpsA:= 0.4090751347643816218;
 
   PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
@@ -188,11 +188,11 @@ begin
   // There are no test values
 
   TDB:= 2400000.5 + 52541.0;
-  ExpectedPsiA:= 0.6664369630191613431e-3;
+  ExpectedPsiA:= 0;
 
   PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('PsiA IAU1976',ExpectedPsiA,ComputedPsiA,1e-15);
+  AssertEquals('PsiA IAU1976 (no test value)',ExpectedPsiA,ComputedPsiA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionChiA_IAU1976;
@@ -204,11 +204,11 @@ begin
   // There are no test values
 
   TDB:= 2400000.5 + 52541.0;
-  ExpectedChiA:= 0.1387703379530915364e-5;
+  ExpectedChiA:= 0;
 
   PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('ChiA IAU1976',ExpectedChiA,ComputedChiA,1e-15);
+  AssertEquals('ChiA IAU1976 (no test value)',ExpectedChiA,ComputedChiA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionOmegaA_IAU1976;
@@ -220,11 +220,11 @@ begin
   // There are no test values
 
   TDB:= 2400000.5 + 52541.0;
-  ExpectedOmegaA:= 0.4090925973783255982;
+  ExpectedOmegaA:= 0;
 
   PrecessionIAU1976(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('OmegaA IAU1976',ExpectedOmegaA,ComputedOmegaA,1e-15);
+  AssertEquals('OmegaA IAU1976 (no test value)',ExpectedOmegaA,ComputedOmegaA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionEps0_IAU2000;
@@ -233,10 +233,10 @@ var
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
   ExpectedEps0: Double;
 begin
-  // There are no test values
+  // Test values from IAU SOFA C version 2020-07-21 Release
 
   TDB:= 2400000.5 + 52541.0;
-  ExpectedEps0:= 0.4090926006005828715;
+  ExpectedEps0:= 0.409092804222329; //84381.448*RadiansPerArcSecond;
 
   PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
@@ -249,10 +249,10 @@ var
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
   ExpectedEpsA: Double;
 begin
-  // There are no test values
+  // Test values from IAU SOFA C version 2020-07-21 Release
 
-  TDB:= 2400000.5 + 52541.0;
-  ExpectedEpsA:= 0.4090864054922431688;
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedEpsA:= 0.4090791789404229916;
 
   PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
@@ -268,11 +268,11 @@ begin
   // There are no test values
 
   TDB:= 2400000.5 + 52541.0;
-  ExpectedPsiA:= 0.6664369630191613431e-3;
+  ExpectedPsiA:= 0;
 
   PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('PsiA IAU2000',ExpectedPsiA,ComputedPsiA,1e-15);
+  AssertEquals('PsiA IAU2000 (no test value)',ExpectedPsiA,ComputedPsiA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionChiA_IAU2000;
@@ -284,11 +284,11 @@ begin
   // There are no test values
 
   TDB:= 2400000.5 + 52541.0;
-  ExpectedChiA:= 0.1387703379530915364e-5;
+  ExpectedChiA:= 0;
 
   PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('ChiA IAU2000',ExpectedChiA,ComputedChiA,1e-15);
+  AssertEquals('ChiA IAU2000 (no test value)',ExpectedChiA,ComputedChiA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionOmegaA_IAU2000;
@@ -300,11 +300,11 @@ begin
   // There are no test values
 
   TDB:= 2400000.5 + 52541.0;
-  ExpectedOmegaA:= 0.4090925973783255982;
+  ExpectedOmegaA:= 0;
 
   PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('OmegaA IAU2000',ExpectedOmegaA,ComputedOmegaA,1e-15);
+  AssertEquals('OmegaA IAU2000 (no test value)',ExpectedOmegaA,ComputedOmegaA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionEps0_IAU2006;
