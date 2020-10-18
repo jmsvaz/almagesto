@@ -13,6 +13,11 @@ type
 
   TTestEarthOrientation= class(TTestCase)
   published
+    procedure TestJ2000ObliquityIAU1980;
+    procedure TestJ2000ObliquityIAU2006;
+    procedure TestMeanObliquityIAU1980;
+    procedure TestMeanObliquityIAU2000;
+    procedure TestMeanObliquityIAU2006;
     procedure TestPrecessionEps0_IAU1976;
     procedure TestPrecessionEpsA_IAU1976;
     procedure TestPrecessionPsiA_IAU1976;
@@ -65,6 +70,82 @@ type
 implementation
 
 uses almBase, almEarth;
+
+procedure TTestEarthOrientation.TestJ2000ObliquityIAU1980;
+var
+  ComputedEps0: Double;
+  ExpectedEps0: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  ExpectedEps0:= 84381.448*RadiansPerArcSecond;
+
+  ComputedEps0:= ObliquityJ2000IAU1980;
+
+  AssertEquals('J2000 Obliquity IAU1980',ExpectedEps0,ComputedEps0,1e-14);
+end;
+
+procedure TTestEarthOrientation.TestJ2000ObliquityIAU2006;
+var
+  ComputedEps0: Double;
+  ExpectedEps0: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  ExpectedEps0:= 0.4090926006005828715;
+
+  ComputedEps0:= ObliquityJ2000IAU2006;
+
+  AssertEquals('J2000 Obliquity IAU2006',ExpectedEps0,ComputedEps0,1e-14);
+end;
+
+procedure TTestEarthOrientation.TestMeanObliquityIAU1980;
+var
+  TDB: TJulianDate;
+  ComputedEpsA: Double;
+  ExpectedEpsA: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 54388.0;
+  ExpectedEpsA:= 0.4090751347643816218;
+
+  ComputedEpsA:= MeanObliquityIAU1980(TDB);
+
+  AssertEquals('EpsA IAU1980',ExpectedEpsA,ComputedEpsA,1e-14);
+end;
+
+procedure TTestEarthOrientation.TestMeanObliquityIAU2000;
+var
+  TDB: TJulianDate;
+  ComputedEpsA: Double;
+  ExpectedEpsA: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 53736.0;
+  ExpectedEpsA:= 0.4090791789404229916;
+
+  ComputedEpsA:= MeanObliquityIAU2000(TDB);
+
+  AssertEquals('EpsA IAU2000',ExpectedEpsA,ComputedEpsA,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestMeanObliquityIAU2006;
+var
+  TDB: TJulianDate;
+  ComputedEpsA: Double;
+  ExpectedEpsA: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 54388.0;
+  ExpectedEpsA:= 0.4090749229387258204;
+
+  ComputedEpsA:= MeanObliquityIAU2006(TDB);
+
+  AssertEquals('EpsA IAU2006',ExpectedEpsA,ComputedEpsA,1e-14);
+end;
 
 procedure TTestEarthOrientation.TestPrecessionEps0_IAU1976;
 var

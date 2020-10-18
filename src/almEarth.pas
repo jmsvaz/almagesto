@@ -27,6 +27,12 @@ interface
 uses
   Classes, SysUtils, almBase;
 
+function ObliquityJ2000IAU1980: Double;
+function ObliquityJ2000IAU2006: Double;
+function MeanObliquityIAU1980(TDB: TJulianDate): Double;
+function MeanObliquityIAU2000(TDB: TJulianDate): Double;
+function MeanObliquityIAU2006(TDB: TJulianDate): Double;
+
 procedure PrecessionIAU1976(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 procedure PrecessionIAU2000(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
@@ -79,6 +85,60 @@ uses Math;
 // DeltaPsi: Nutation in longitude
 // DeltaEps: Nutation in obliquity
 
+function ObliquityJ2000IAU1980: Double;
+// reference: Capitaine et al, Astron. Astrophys. 412, 567-586 (2003)
+//            Lieske, J., et al. (1977). Astron. & Astrophys. 58, 1-16. (IAU 1976 Precession Model)
+//            Seidelmann, P.K. (1982) Celestial Mechanics 27, 79-106 (IAU 1980 Theory of Nutation)
+// result = obliquity of ecliptic at J2000.0 (Eps0): radians
+begin
+  Result:= 84381.448;     // = 23°26'21".448 in arcseconds
+  Result:= Result*RadiansPerArcSecond;
+end;
+
+function MeanObliquityIAU1980(TDB: TJulianDate): Double;
+// reference: Capitaine et al, Astron. Astrophys. 412, 567-586 (2003)
+//            Lieske, J., et al. (1977). Astron. & Astrophys. 58, 1-16. (IAU 1976 Precession Model)
+//            Seidelmann, P.K. (1982) Celestial Mechanics 27, 79-106 (IAU 1980 Theory of Nutation)
+// result = obliquity of ecliptic (EpsA): radians
+var
+  t: Double;
+begin
+  t:= (TDB - J2000)/JulianDaysPerCentury;
+  Result:= (-   46.8150 + (- 0.00059 + (  0.001813)*t)*t)*t;
+  Result:= ObliquityJ2000IAU1980 + Result*RadiansPerArcSecond;
+end;
+
+function MeanObliquityIAU2000(TDB: TJulianDate): Double;
+// reference: Capitaine et al, Astron. Astrophys. 412, 567-586 (2003)
+// result = obliquity of ecliptic (EpsA): radians
+var
+  t: Double;
+begin
+  t:= (TDB - J2000)/JulianDaysPerCentury;
+  // IAU 1976 obliquity with precession-rate part of the IAU 2000 precession-nutation models
+  Result:= (-   46.84024 + (- 0.00059 + (  0.001813)*t)*t)*t;
+  Result:= ObliquityJ2000IAU1980 + Result*RadiansPerArcSecond;
+end;
+
+function ObliquityJ2000IAU2006: Double;
+// reference: Capitaine et al, Astron. Astrophys. 412, 567-586 (2003)
+// result = obliquity of ecliptic at J2000.0 (Eps0): radians
+begin
+  Result:= 84381.406;     // = 23°26'21".406 in arcseconds
+  Result:= Result*RadiansPerArcSecond;
+end;
+
+function MeanObliquityIAU2006(TDB: TJulianDate): Double;
+// reference: Capitaine et al, Astron. Astrophys. 412, 567-586 (2003)
+// result = obliquity of ecliptic (EpsA): radians
+var
+  t: Double;
+begin
+  t:= (TDB - J2000)/JulianDaysPerCentury;
+  Result:= (-   46.836769 + (- 0.0001831 + (  0.00200340 + (- 0.000000576 - 0.0000000434*t)*t)*t)*t)*t;
+  Result:= ObliquityJ2000IAU2006 + Result*RadiansPerArcSecond;
+end;
+
 procedure PrecessionIAU1976(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 //  reference: Lieske, J., et al. (1977). Astron. & Astrophys. 58, 1-16. (IAU 1976 Precession Model)
 //             Lieske, J. (1979). Astron. & Astrophys. 73, 282-284.
@@ -95,18 +155,11 @@ begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
 
 //  Precession angles (Lieske et al. 1977)
-  Eps0  := 84381.448; // obliquity of ecliptic at J2000.0 (in arcseconds)
-  EpsA  := Eps0 + (-   46.8150 + (- 0.00059 + (  0.001813)*t)*t)*t;
-  PsiA  :=        (  5038.7784 + (- 1.07259 + (- 0.001147)*t)*t)*t;
-  ChiA  :=        (    10.5526 + (- 2.38064 + (- 0.001125)*t)*t)*t;
-  OmegaA:= Eps0 + (              (  0.05127 + (- 0.007726)*t)*t)*t;
-
-//  change to radians
-  Eps0  := Eps0*RadiansPerArcSecond;
-  EpsA  := EpsA*RadiansPerArcSecond;
-  PsiA  := PsiA*RadiansPerArcSecond;
-  ChiA  := ChiA*RadiansPerArcSecond;
-  OmegaA:= OmegaA*RadiansPerArcSecond;
+  Eps0  := ObliquityJ2000IAU1980;
+  EpsA  := MeanObliquityIAU1980(TDB);
+  PsiA  :=        (  5038.7784 + (- 1.07259 + (- 0.001147)*t)*t)*t*RadiansPerArcSecond;;
+  ChiA  :=        (    10.5526 + (- 2.38064 + (- 0.001125)*t)*t)*t*RadiansPerArcSecond;;
+  OmegaA:= Eps0 + (              (  0.05127 + (- 0.007726)*t)*t)*t*RadiansPerArcSecond;;
 end;
 
 procedure PrecessionIAU2000(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
@@ -120,18 +173,11 @@ begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
 
 //  Precession angles (Lieske et al. 1977) with IAU 2000 precession corrections
-  Eps0  := 84381.448; // obliquity of ecliptic at J2000.0 (in arcseconds)
-  EpsA  := Eps0 + (-   46.84024 + (- 0.00059 + (  0.001813)*t)*t)*t;
-  PsiA  :=        (  5038.47875 + (- 1.07259 + (- 0.001147)*t)*t)*t;
-  ChiA  :=        (    10.5526  + (- 2.38064 + (- 0.001125)*t)*t)*t;
-  OmegaA:= Eps0 + (-    0.02524 + (  0.05127 + (- 0.007726)*t)*t)*t;
-
-//  change to radians
-  Eps0  := Eps0*RadiansPerArcSecond;
-  EpsA  := EpsA*RadiansPerArcSecond;
-  PsiA  := PsiA*RadiansPerArcSecond;
-  ChiA  := ChiA*RadiansPerArcSecond;
-  OmegaA:= OmegaA*RadiansPerArcSecond;
+  Eps0  := ObliquityJ2000IAU1980;
+  EpsA  := MeanObliquityIAU2000(TDB);
+  PsiA  :=        (  5038.47875 + (- 1.07259 + (- 0.001147)*t)*t)*t*RadiansPerArcSecond;
+  ChiA  :=        (    10.5526  + (- 2.38064 + (- 0.001125)*t)*t)*t*RadiansPerArcSecond;
+  OmegaA:= Eps0 + (-    0.02524 + (  0.05127 + (- 0.007726)*t)*t)*t*RadiansPerArcSecond;
 end;
 
 procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
@@ -145,18 +191,11 @@ begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
 
 //  Precession angles (Capitaine et al. 2003)
-  Eps0  := 84381.406; // obliquity of ecliptic at J2000.0 (in arcseconds)
-  EpsA  := Eps0 + (-   46.836769 + (- 0.0001831 + (  0.00200340 + (- 0.000000576 - 0.0000000434*t)*t)*t)*t)*t;
-  PsiA  :=        (  5038.481507 + (- 1.0790069 + (- 0.00114045 + (  0.000132851 - 0.0000000951*t)*t)*t)*t)*t;
-  ChiA  :=        (    10.556403 + (- 2.3814292 + (- 0.00121197 + (  0.000170663 - 0.0000000560*t)*t)*t)*t)*t;
-  OmegaA:= Eps0 + (-    0.025754 + (  0.0512623 + (- 0.00772503 + (- 0.000000467 + 0.0000003337*t)*t)*t)*t)*t;
-
-//  change to radians
-  Eps0  := Eps0*RadiansPerArcSecond;
-  EpsA  := EpsA*RadiansPerArcSecond;
-  PsiA  := PsiA*RadiansPerArcSecond;
-  ChiA  := ChiA*RadiansPerArcSecond;
-  OmegaA:= OmegaA*RadiansPerArcSecond;
+  Eps0  := ObliquityJ2000IAU2006;
+  EpsA  := MeanObliquityIAU2006(TDB);
+  PsiA  :=        (  5038.481507 + (- 1.0790069 + (- 0.00114045 + (  0.000132851 - 0.0000000951*t)*t)*t)*t)*t*RadiansPerArcSecond;
+  ChiA  :=        (    10.556403 + (- 2.3814292 + (- 0.00121197 + (  0.000170663 - 0.0000000560*t)*t)*t)*t)*t*RadiansPerArcSecond;
+  OmegaA:= Eps0 + (-    0.025754 + (  0.0512623 + (- 0.00772503 + (- 0.000000467 + 0.0000003337*t)*t)*t)*t)*t*RadiansPerArcSecond;
 end;
 
 procedure faL_IERS2003(TDB_C: Double; out L: Double);
