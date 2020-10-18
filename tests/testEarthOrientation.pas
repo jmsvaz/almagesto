@@ -652,11 +652,11 @@ begin
   // There are no test values
 
   TDB:= 2400000.5 + 53736.0;
-  ExpectedDeltaPsi:= -0.9630909107115518431e-5;
+  ExpectedDeltaPsi:= 0;
 
   NutationIAU2000A_IERS2003(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
-  AssertEquals('DeltaPsi IERS IAU2000A',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
+  AssertEquals('DeltaPsi IERS IAU2000A (no test value)',ExpectedDeltaPsi,ComputedDeltaPsi,1e-13);
 end;
 
 procedure TTestEarthOrientation.TestNutationDeltaEps_IAU2000A_IERS;
@@ -668,11 +668,11 @@ begin
   // There are no test values
 
   TDB:= 2400000.5 + 53736.0;
-  ExpectedDeltaEps:= 0.4063239174001678710e-4;
+  ExpectedDeltaEps:= 0;
 
   NutationIAU2000A_IERS2003(TDB,ComputedDeltaPsi,ComputedDeltaEps);
 
-  AssertEquals('DeltaEps IERS IAU2000A',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
+  AssertEquals('DeltaEps IERS IAU2000A (no test value)',ExpectedDeltaEps,ComputedDeltaEps,1e-13);
 end;
 
 procedure TTestEarthOrientation.TestNutationDeltaPsi_IAU2000A;
