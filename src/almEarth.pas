@@ -486,53 +486,45 @@ procedure NutationIAU2000A_IERS2003(TDB: TJulianDate; out DeltaPsi, DeltaEps: Do
 //  result = Nutation Angles (DeltaPsi, DeltaEps) (in arcsecs)
 //  uses: TDB
 var
-  t: Extended;
-  FundamentalArguments: array [1..14] of Extended;
-  Argument, sinArg, cosArg: Extended;
+  t: Double;
+  FundamentalArguments: array [1..14] of Double;
+  Argument, sinArg, cosArg: Double;
   dPsiLS, dEpsLS, dPsiPL, dEpsPL: Double;
   j, i: Integer;
 begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
 
-   // Fundamental (Delaunay) arguments from Simon et al. (1994)
-  //    l = mean anomaly of the Moon (in arcseconds)
-  FundamentalArguments[1]:= 134.96340251*ArcSecondsPerDegree + (1717915923.217800 +
-                             (31.879200 + (0.05163500 - 0.0002447000*t)*t)*t)*t;
-  //    l' = mean anomaly of the Sun (in arcseconds)
-  FundamentalArguments[2]:= 357.52910918*ArcSecondsPerDegree + (129596581.048100 +
-                             (-0.553200 + (0.00013600 - 0.0000114900*t)*t)*t)*t;
-  //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (in arcseconds)
-  FundamentalArguments[3]:= 93.27209062*ArcSecondsPerDegree + (1739527262.847800 +
-                             (-12.751200 + (-0.00103700 + 0.0000041700*t)*t)*t)*t;
-  //    D = mean elongation of the Moon from the Sun (in arcseconds)
-  FundamentalArguments[4]:= 297.85019547*ArcSecondsPerDegree + (1602961601.209000 +
-                             (-6.370600 + (0.00659300 - 0.0000316900*t)*t)*t)*t;
-  //    OM = mean longitude of the Moon's ascending node (in arcseconds)
-  FundamentalArguments[5]:= 125.04455501*ArcSecondsPerDegree + (-6962890.543100 +
-                             (7.472200 + (0.00770200 - 0.0000593900*t)*t)*t)*t;
-  // change Delaunay arguments to radians
-  for i:= 1 to 5 do
-    FundamentalArguments[i]:= RadiansPerArcSecond*FundamentalArguments[i];
+  // Fundamental (Delaunay) arguments (arcseconds converted to radians)
+  //    l = mean anomaly of the Moon (IERS 2003)
+  faL_IERS2003(t,FundamentalArguments[1]);
+  //    l' = mean anomaly of the Sun (IERS 2003)
+  faLP_IERS2003(t,FundamentalArguments[2]);
+  //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (IERS 2003)
+  faF_IERS2003(t,FundamentalArguments[3]);
+  //    D = mean elongation of the Moon from the Sun (IERS 2003)
+  faD_IERS2003(t,FundamentalArguments[4]);
+  //    OM = mean longitude of the Moon's ascending node (IERS 2003)
+  faOM_IERS2003(t,FundamentalArguments[5]);
 
   // Planetary longitudes, Mercury through Neptune (Souchay et al. 1999).
-  //    lMe = mean longitude of Mercury
-  FundamentalArguments[6]:= 4.402608842 + 2608.7903141574 * t;
-  //    lVe = mean longitude of Venus
-  FundamentalArguments[7]:= 3.176146697 + 1021.3285546211 * t;
-  //    lE = mean longitude of Earth
-  FundamentalArguments[8]:= 1.753470314 + 628.3075849991 * t;
-  //    lMa = mean longitude of Mars
-  FundamentalArguments[9]:= 6.203480913 + 334.0612426700 * t;
-  //    lJu = mean longitude of Jupiter
-  FundamentalArguments[10]:= 0.599546497 + 52.9690962641 * t;
-  //    lSa = mean longitude of Saturn
-  FundamentalArguments[11]:= 0.874016757 + 21.3299104960 * t;
-  //    lUr = mean longitude of Uranus
-  FundamentalArguments[12]:= 5.481293872 + 7.4781598567 * t;
-  //    lNe = mean longitude of Neptune
-  FundamentalArguments[13]:= 5.311886287 + 3.8133035638 * t;
+  //    lMe = mean longitude of Mercury (IERS 2003)
+  faMe_IERS2003(t,FundamentalArguments[6]);
+  //    lVe = mean longitude of Venus (IERS 2003)
+  faVe_IERS2003(t,FundamentalArguments[7]);
+  //    lE = mean longitude of Earth (IERS 2003)
+  faEa_IERS2003(t,FundamentalArguments[8]);
+  //    lMa = mean longitude of Mars (IERS 2003)
+  faMa_IERS2003(t,FundamentalArguments[9]);
+  //    lJu = mean longitude of Jupiter (IERS 2003)
+  faJu_IERS2003(t,FundamentalArguments[10]);
+  //    lSa = mean longitude of Saturn (IERS 2003)
+  faSa_IERS2003(t,FundamentalArguments[11]);
+  //    lUr = t longitude of Uranus (IERS 2003)
+  faUr_IERS2003(t,FundamentalArguments[12]);
+  //    lNe = mean longitude of Neptune (MHB2000)
+  faNe_IERS2003(t,FundamentalArguments[13]);
   //    Pa = general precession on longitude
-  FundamentalArguments[14]:= (0.024381750 + 0.00000538691 * t) * t;
+  faPa_IERS2003(t,FundamentalArguments[14]);
 
 //  Initialize Luni-Solar nutation components
   dPsiLS:= 0;
