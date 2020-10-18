@@ -882,8 +882,8 @@ const
 (	2	,	0	,	2	,	4	,	1	,	-3	,	0	,	0	,	0	,	2	,	0	,	0	,	0	));
   //  Coefficients of planetary IAU 2000A Nutation series
   NutationIAU2000A_PLCoeffsIERS2003: array[1..687,1..18] of Integer =
-     //    L     L'    F     D     Om    Lme     Lve     Lma     Lj     Lsa    Lu     Lne     pa          longitude  |   obliquity
-     //                                                                                                  sin,    cos |   cos,   sin
+//      L               L'              F               D               Om             Lme             Lve             Lea             Lma             Lj              Lsa             Lu              Lne             pa                   longitude           |           obliquity
+//                                                                                                                                                                                                                                       sin           cos      |      cos             sin
 ((	0	,	0	,	0	,	0	,	0	,	0	,	0	,	8	,	-16	,	4	,	5	,	0	,	0	,	0	,	1440	,	0	,	0	,	0	)	,
 (	0	,	0	,	0	,	0	,	0	,	0	,	0	,	-8	,	16	,	-4	,	-5	,	0	,	0	,	2	,	56	,	-117	,	-42	,	-40	)	,
 (	0	,	0	,	0	,	0	,	0	,	0	,	0	,	8	,	-16	,	4	,	5	,	0	,	0	,	2	,	125	,	-43	,	0	,	-54	)	,
