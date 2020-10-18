@@ -842,17 +842,6 @@ begin
  CT:= CT*RadiansPerArcSecond;
 end;
 
-procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; out EqEq: Double);
-var
-  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps, CT: Double;
-begin
-  PrecessionIAU1976(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
-  NutationIAU1980(TDB, DeltaPsi, DeltaEps);
-  EquationOfEquinoxesCT_IAU1994(TDB, CT);
-
-  EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
-end;
-
 procedure EquationOfEquinoxesCT_IAU2000(TDB: TJulianDate; out CT: Double);
 //  references: GMST: Capitaine et al, Astron. Astrophys. 406, 1135-149 (2003)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
@@ -1016,6 +1005,17 @@ begin
  CT:= CT*RadiansPerArcSecond;
 end;
 
+procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; out EqEq: Double);
+var
+  EpsA, DeltaPsi, DeltaEps, CT: Double;
+begin
+  EpsA:= MeanObliquityIAU1980(TDB);
+  NutationIAU1980(TDB, DeltaPsi, DeltaEps);
+  EquationOfEquinoxesCT_IAU1994(TDB, CT);
+
+  EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
+end;
+
 procedure EquationOfEquinoxes_IAU2000(TDB: TJulianDate; DeltaPsi, EpsA: Double;
   out EqEq: Double);
 //  references: GMST: Capitaine et al, Astron. Astrophys. 406, 1135-149 (2003)
@@ -1032,32 +1032,35 @@ end;
 
 procedure EquationOfEquinoxes_IAU2000A(TDB: TJulianDate; out EqEq: Double);
 var
-  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps: Double;
+  EpsA, DeltaPsi, DeltaEps, CT: Double;
 begin
-  PrecessionIAU2000(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
+  EpsA:= MeanObliquityIAU2000(TDB);
   NutationIAU2000A(TDB, DeltaPsi, DeltaEps);
+  EquationOfEquinoxesCT_IAU2000(TDB, CT);
 
-  EquationOfEquinoxes_IAU2000(TDB, DeltaPsi, EpsA, EqEq);
+  EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
 end;
 
 procedure EquationOfEquinoxes_IAU2000B(TDB: TJulianDate; out EqEq: Double);
 var
-  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps: Double;
+  EpsA, DeltaPsi, DeltaEps, CT: Double;
 begin
-  PrecessionIAU2000(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
+  EpsA:= MeanObliquityIAU2000(TDB);
   NutationIAU2000B(TDB, DeltaPsi, DeltaEps);
+  EquationOfEquinoxesCT_IAU2000(TDB, CT);
 
-  EquationOfEquinoxes_IAU2000(TDB, DeltaPsi, EpsA, EqEq);
+  EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
 end;
 
 procedure EquationOfEquinoxes_IAU2006A(TDB: TJulianDate; out EqEq: Double);
 var
-  Eps0, EpsA,PsiA,ChiA,OmegaA, DeltaPsi, DeltaEps: Double;
+  EpsA, DeltaPsi, DeltaEps, CT: Double;
 begin
-  PrecessionIAU2006(TDB, Eps0, EpsA,PsiA,ChiA,OmegaA);
+  EpsA:= MeanObliquityIAU2006(TDB);
   NutationIAU2000A(TDB, DeltaPsi, DeltaEps);
+  EquationOfEquinoxesCT_IAU2000(TDB, CT);
 
-  EquationOfEquinoxes_IAU2000(TDB, DeltaPsi, EpsA, EqEq);
+  EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
 end;
 
 
