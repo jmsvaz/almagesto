@@ -37,7 +37,7 @@ But we can set some advanced options if we need:
 	Observer.Precision:= opRelativistic;  // use relativistic aberration computation for BCRS to GCRS 
 	Observer.LightDeflectionModel:= LightDeflectionModel;
 	Observer.TimeServer:= TimeServer;  // set the time server
-	Observer.EOP:- EOP; // set the EOP provider
+	Observer.EOP:= EOP; // set the EOP provider
 	
 	Observer.SetPosition(ALat,Along,AHeight,ATimeZone,ADayLightSavings);  // position of observation
 	Observer.SetLocalTime(Now);  // time of observation
