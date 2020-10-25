@@ -17,7 +17,99 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
-//  This unit has Earth orientation routines.
+{  This unit has Earth orientation routines.
+
+The transformation to be used to relate the International Terrestrial Reference System (ITRS)
+to the Geocentric Celestial Reference System (GCRS) at the date t of the observation can be written as:
+
+[GCRS] = Q(t).R(t).W(t) [ITRS], where
+
+Q(t) = the transformation matrix arising from the motion of the celestial pole in the celestial reference system
+R(t) - the transformation matrix arising from the rotation of the Earth around the axis associated with the pole
+W(t) = the transformation matrix arising from polar motion
+
+According to IAU 2006 Resolution B2, the system at date t as realized from the ITRS by applying the
+transformation W(t) in both procedures is the “Terrestrial Intermediate Reference System” (TIRS). It
+uses the CIP as its z-axis and the TIO as its x-axis.
+
+The CIO based procedure realizes an intermediate celestial reference system at date t that uses the CIP
+as its z-axis and the CIO as its x-axis. According to IAU 2006 Resolution B2, it is called the “Celestial
+Intermediate Reference System” (CIRS). It uses the “Earth Rotation Angle” in the transformation matrix
+R(t), and the two coordinates of the CIP in the GCRS (Capitaine, 1990) in the transformation matrix
+Q(t).
+
+The classical procedure realizes an intermediate celestial reference system at date t that uses the CIP as
+its z-axis and the equinox as its x-axis. It is called the “true equinox and equator of date system”. It uses
+apparent Greenwich Sidereal Time (GST) in the transformation matrix R(t) and the classical precession
+and nutation parameters in the transformation matrix Q(t).
+
+Each of the transformation matrix components W(t), R(t) and Q(t) is a series of rotations about the
+axes 1, 2 and 3 of the coordinate frame. In the following, R1 , R2 and R3 denote rotation matrices
+with positive angle about the axes 1, 2 and 3.
+
+W(t) = R3(−s')·R2(xp)·R1(yp),
+
+xp and yp being the “polar coordinates” of the Celestial Intermediate Pole (CIP) in the ITRS and s' being a
+quantity, named “TIO locator”, which provides the position of the TIO on the equator of the CIP corresponding
+to the kinematical definition of the “non-rotating” origin (NRO) in the ITRS when the CIP is moving with
+respect to the ITRS due to polar motion.
+
+The standard pole coordinates to be used for the parameters xp and yp ,
+if not estimated from the observations, are those published by the IERS
+with additional components to account for the effects of ocean tides and
+for nutation terms with periods less than two days.
+(xp, yp) = (x,y)IERS + (∆x, ∆y)oceantides + (∆x, ∆y)libration
+
+R(t) = R3(−ERA), CIO based
+
+where ERA is the Earth Rotation Angle between the CIO and the TIO at date t on the equator of the CIP,
+which provides a rigorous definition of the sidereal rotation of the Earth.
+
+Q(t) = R3(−E)·R2(−d)·R3(E)·R3(s), CIO based
+
+E and d being such that the coordinates of the CIP in the GCRS are:
+X = sin d cos E,
+Y = sin d sin E,
+Z = cos d,
+
+and s being a quantity, named “CIO locator”, which provides the position of the CIO on the equator of the
+CIP corresponding to the kinematical definition of the NRO in the GCRS when the CIP is moving with respect
+to the GCRS, between the reference epoch and the date t due to precession and nutation.
+
+R(t) = R3(−GST), equinox based
+
+wher GST is the Apparent Greenwich Sidereal Time, i.e. the angle between the
+equinox and the TIO, to represent the Earth’s angle of rotation, instead of the ERA.
+
+Q(t) = B.P.N
+
+B = R3(-ẟα0).R2(-ẟψb.sin(ϵ0)).R1(ẟϵb).
+P(t) = R1(−ϵ0)·R3(ψA)·R1(ωA)·R3(−χA) or P(t) = R3(ζA)·R2(-θA)·R3(ZA)
+N(t) = R1(-ϵA).R3(Δψ).R1(ϵA+Δϵ)
+
+
+X = X̄ + ξ0 − ẟα0.Ȳ
+Y = Ȳ + η0 + ẟα0.X̄
+
+X̄ = sin(ω).sin(ψ)
+Ȳ = −sin(ϵ).cos(ω) + cos(ϵ0).sin(ω).cos(ψ)
+
+ω = ωA + ∆ϵ1
+ψ = ψA + ∆ψ1
+
+∆ψ1.sin(ωA) = ∆ψ.sin(ϵA).cos(χA) − ∆ϵ.sin(χA)
+∆ϵ1 = ∆ψ.sin(ϵA).sin(χA) + ∆ϵ.cos(χA)
+
+δX = δψ.sin(ϵA) + (ψA.cos(ϵ0) − χA).δϵ
+δY = δϵ − (ψA.cos(ϵ0) − χA).δψ.sin(ϵA)
+
+
+
+sources: McCarthy, IERS Conventions (1996), IERS Technical Note 21, 1996
+         McCarthy & Petit, IERS Conventions (2003), IERS Technical Note 32, 2003
+         Luzum & Petit, IERS Conventions (2010), IERS Technical Note 36, 2010
+}
+
 unit almEarth;
 
 {$mode objfpc}{$H+}

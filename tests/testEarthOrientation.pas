@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, fpcunit, testregistry;
 
 type
-                                           // Eps0, EpsA,PsiA,ChiA,OmegaA
+
   { TTestEarthOrientation }
 
   TTestEarthOrientation= class(TTestCase)
