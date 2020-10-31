@@ -70,6 +70,10 @@ type
     procedure TestEquationOfEquinoxes_IAU2000A;
     procedure TestEquationOfEquinoxes_IAU2000B;
     procedure TestEquationOfEquinoxes_IAU2006A;
+    procedure TestGST_IAU1994;
+    procedure TestGST_IAU2000A;
+    procedure TestGST_IAU2000B;
+    procedure TestGST_IAU2006A;
   end;
 
 implementation
@@ -981,6 +985,75 @@ begin
   EquationOfEquinoxes_IAU2006A(TDB, ComputedEqEq);
 
   AssertEquals('EqEq IAU2006A',ExpectedEqEq,ComputedEqEq,1e-18);
+end;
+
+procedure TTestEarthOrientation.TestGST_IAU1994;
+var
+  UT1, TDB: TJulianDate;
+  ComputedGST: Double;
+  ExpectedGST: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  UT1:= 2400000.5 +  53736.0;
+  TDB:= 2400000.5 +  53736.0;
+
+  ExpectedGST:= 1.754166136020645203;
+  ComputedGST:= GreenwichSiderealTime_IAU1994(UT1, TDB);
+
+  AssertEquals('GST IAU94',ExpectedGST,ComputedGST,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestGST_IAU2000A;
+var
+  UT1, TDB: TJulianDate;
+  ComputedGST: Double;
+  ExpectedGST: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  UT1:= 2400000.5 +  53736.0;
+  TDB:= 2400000.5 +  53736.0;
+
+  ExpectedGST:= 1.754166138018281369;
+  ComputedGST:= GreenwichSiderealTime_IAU2000A(UT1, TDB);
+
+  AssertEquals('GST IAU2000A',ExpectedGST,ComputedGST,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestGST_IAU2000B;
+var
+  UT1, TDB: TJulianDate;
+  ComputedGST: Double;
+  ExpectedGST: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  UT1:= 2400000.5 +  53736.0;
+  TDB:= 2400000.5 +  53736.0;
+
+  ExpectedGST:= 1.754166136510680589;
+  ComputedGST:= GreenwichSiderealTime_IAU2000B(UT1, TDB);
+
+  AssertEquals('GST IAU2000B',ExpectedGST,ComputedGST,1e-12);
+
+end;    //
+
+procedure TTestEarthOrientation.TestGST_IAU2006A;
+var
+  UT1, TDB: TJulianDate;
+  ComputedGST: Double;
+  ExpectedGST: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  UT1:= 2400000.5 +  53736.0;
+  TDB:= 2400000.5 +  53736.0;
+
+  ExpectedGST:= 1.754166137675019159;
+  ComputedGST:= GreenwichSiderealTime_IAU2006A(UT1, TDB);
+
+  AssertEquals('GST IAU2006A',ExpectedGST,ComputedGST,1e-12);
 end;
 
 

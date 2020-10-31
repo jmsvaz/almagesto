@@ -170,6 +170,15 @@ procedure EquationOfEquinoxes_IAU2000A(TDB: TJulianDate; out EqEq: Double); over
 procedure EquationOfEquinoxes_IAU2000B(TDB: TJulianDate; out EqEq: Double); overload;
 procedure EquationOfEquinoxes_IAU2006A(TDB: TJulianDate; out EqEq: Double); overload;
 
+function GreenwichSiderealTime(GMST, EqEq: Double): Double; overload;
+function GreenwichSiderealTime(GMST, DeltaPsi, EpsA, CT: Double): Double; overload;
+function GreenwichSiderealTime_IAU1994(UT1: TJulianDate; TDB: TJulianDate): Double;
+function GreenwichSiderealTime_IAU2000A(UT1: TJulianDate; TDB: TJulianDate): Double;
+function GreenwichSiderealTime_IAU2000B(UT1: TJulianDate; TDB: TJulianDate): Double;
+function GreenwichSiderealTime_IAU2006A(UT1: TJulianDate; TDB: TJulianDate): Double;
+
+
+
 implementation
 
 uses Math;
@@ -1203,6 +1212,73 @@ begin
   EquationOfEquinoxesCT_IAU2000(TDB, CT);
 
   EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
+end;
+
+function GreenwichSiderealTime(GMST, EqEq: Double): Double;
+begin
+  Result:= GMST + EqEq;
+  // put in range (2Pi)
+  Result:= fmod(Result,RadiansPerRev);
+end;
+
+function GreenwichSiderealTime(GMST, DeltaPsi, EpsA, CT: Double): Double;
+var
+  EqEq: Double;
+begin
+  EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
+  Result:= GreenwichSiderealTime(GMST, EqEq);
+end;
+
+function GreenwichSiderealTime_IAU1994(UT1: TJulianDate; TDB: TJulianDate
+  ): Double;
+var
+  GMST, EpsA, DeltaPsi, DeltaEps, CT: Double;
+begin
+  GreenwichMeanSiderealTimeIAU1982(UT1, GMST);
+  EpsA:= MeanObliquityIAU1980(TDB);
+  NutationIAU1980(TDB, DeltaPsi, DeltaEps);
+  EquationOfEquinoxesCT_IAU1994(TDB, CT);
+
+  Result:= GreenwichSiderealTime(GMST, DeltaPsi, EpsA, CT);
+end;
+
+function GreenwichSiderealTime_IAU2000A(UT1: TJulianDate; TDB: TJulianDate
+  ): Double;
+var
+  GMST, EpsA, DeltaPsi, DeltaEps, CT: Double;
+begin
+  GreenwichMeanSiderealTimeIAU2000(UT1, TDB, GMST);
+  EpsA:= MeanObliquityIAU2000(TDB);
+  NutationIAU2000A(TDB, DeltaPsi, DeltaEps);
+  EquationOfEquinoxesCT_IAU2000(TDB, CT);
+
+  Result:= GreenwichSiderealTime(GMST, DeltaPsi, EpsA, CT);
+end;
+
+function GreenwichSiderealTime_IAU2000B(UT1: TJulianDate; TDB: TJulianDate
+  ): Double;
+var
+  GMST, EpsA, DeltaPsi, DeltaEps, CT: Double;
+begin
+  GreenwichMeanSiderealTimeIAU2000(UT1, TDB, GMST);
+  EpsA:= MeanObliquityIAU2000(TDB);
+  NutationIAU2000B(TDB, DeltaPsi, DeltaEps);
+  EquationOfEquinoxesCT_IAU2000(TDB, CT);
+
+  Result:= GreenwichSiderealTime(GMST, DeltaPsi, EpsA, CT);
+end;
+
+function GreenwichSiderealTime_IAU2006A(UT1: TJulianDate; TDB: TJulianDate
+  ): Double;
+var
+  GMST, EpsA, DeltaPsi, DeltaEps, CT: Double;
+begin
+  GreenwichMeanSiderealTimeIAU2000(UT1, TDB, GMST);
+  EpsA:= MeanObliquityIAU2006(TDB);
+  NutationIAU2000A(TDB, DeltaPsi, DeltaEps);
+  EquationOfEquinoxesCT_IAU2000(TDB, CT);
+
+  Result:= GreenwichSiderealTime(GMST, DeltaPsi, EpsA, CT);
 end;
 
 
