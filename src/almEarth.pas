@@ -125,6 +125,13 @@ function MeanObliquityIAU1980(TDB: TJulianDate): Double;
 function MeanObliquityIAU2000(TDB: TJulianDate): Double;
 function MeanObliquityIAU2006(TDB: TJulianDate): Double;
 
+function FrameBiasInLongitudeIAU2000: Double;
+function FrameBiasInObiquityIAU2000: Double;
+function FrameBiasICRSRAIAU2000: Double;
+function FrameBiasInXIAU2000: Double;
+function FrameBiasInYIAU2000: Double;
+
+
 procedure PrecessionIAU1976(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 procedure PrecessionIAU2000(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
 procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
@@ -229,6 +236,49 @@ begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
   Result:= (-   46.836769 + (- 0.0001831 + (  0.00200340 + (- 0.000000576 - 0.0000000434*t)*t)*t)*t)*t;
   Result:= ObliquityJ2000IAU2006 + Result*RadiansPerArcSecond;
+end;
+
+function FrameBiasInLongitudeIAU2000: Double;
+//  reference: McCarthy & Petit, IERS Conventions (2003), p. 45, IERS Technical Note 32, November 2003
+//             International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+// result = frame bias in longitude (dPsiB): radians
+begin
+ Result:= -0.041775;     // in arcseconds
+ Result:= Result*RadiansPerArcSecond;
+end;
+
+function FrameBiasInObiquityIAU2000: Double;
+//  reference: McCarthy & Petit, IERS Conventions (2003), p. 45, IERS Technical Note 32, November 2003
+//             International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+// result = frame bias in obliquity (dEpsB): radians
+begin
+ Result:= -0.0068192;     // in arcseconds
+ Result:= Result*RadiansPerArcSecond;
+end;
+
+function FrameBiasICRSRAIAU2000: Double;
+//  reference: McCarthy & Petit, IERS Conventions (2003), p. 45, IERS Technical Note 32, November 2003
+//             International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+// result = ICRS RA of the J2000.0 equinox (dRA0): radians
+begin
+ Result:= -0.0146;     // in arcseconds
+ Result:= Result*RadiansPerArcSecond;
+end;
+
+function FrameBiasInXIAU2000: Double;
+//  reference: McCarthy & Petit, IERS Conventions (2003), p. 45, IERS Technical Note 32, November 2003
+// result = frame bias in X (Xi0): radians
+begin
+ Result:= -0.0166170;     // in arcseconds
+ Result:= Result*RadiansPerArcSecond;
+end;
+
+function FrameBiasInYIAU2000: Double;
+//  reference: McCarthy & Petit, IERS Conventions (2003), p. 45, IERS Technical Note 32, November 2003
+// result = frame bias in Y (Eta0): radians
+begin
+ Result:= -0.0068192;     // in arcseconds
+ Result:= Result*RadiansPerArcSecond;
 end;
 
 procedure PrecessionIAU1976(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);

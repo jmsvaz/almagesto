@@ -18,6 +18,11 @@ type
     procedure TestMeanObliquityIAU1980;
     procedure TestMeanObliquityIAU2000;
     procedure TestMeanObliquityIAU2006;
+    procedure TestFrameBiasInLongitudeIAU2000;
+    procedure TestFrameBiasInObiquityIAU2000;
+    procedure TestFrameBiasICRSRAIAU2000;
+    procedure TestFrameBiasInXIAU2000;
+    procedure TestFrameBiasInYIAU2000;
     procedure TestPrecessionEps0_IAU1976;
     procedure TestPrecessionEpsA_IAU1976;
     procedure TestPrecessionPsiA_IAU1976;
@@ -145,6 +150,76 @@ begin
   ComputedEpsA:= MeanObliquityIAU2006(TDB);
 
   AssertEquals('EpsA IAU2006',ExpectedEpsA,ComputedEpsA,1e-14);
+end;
+
+procedure TTestEarthOrientation.TestFrameBiasInLongitudeIAU2000;
+var
+  ComputeddPsiB: Double;
+  ExpecteddPsiB: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  ExpecteddPsiB:= -0.2025309152835086613e-6;
+
+  ComputeddPsiB:= FrameBiasInLongitudeIAU2000;
+
+  AssertEquals('Frame Bias In Longitude',ExpecteddPsiB,ComputeddPsiB,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestFrameBiasInObiquityIAU2000;
+var
+  ComputeddEpsB: Double;
+  ExpecteddEpsB: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  ExpecteddEpsB:= -0.3306041454222147847e-7;
+
+  ComputeddEpsB:= FrameBiasInObiquityIAU2000;
+
+  AssertEquals('Frame Bias In Obiquity',ExpecteddEpsB,ComputeddEpsB,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestFrameBiasICRSRAIAU2000;
+var
+  ComputeddRA0: Double;
+  ExpecteddRA0: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  ExpecteddRA0:= -0.7078279744199225506e-7;
+
+  ComputeddRA0:= FrameBiasICRSRAIAU2000;
+
+  AssertEquals('Frame Bias ICRF RA',ExpecteddRA0,ComputeddRA0,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestFrameBiasInXIAU2000;
+var
+  ComputeddXi0: Double;
+  ExpecteddXi0: Double;
+begin
+  // There are no test values
+
+  ExpecteddXi0:= 0;
+
+  ComputeddXi0:= FrameBiasInXIAU2000;
+
+  AssertEquals('Frame Bias In X (Xi0) (no test value)',ExpecteddXi0,ComputeddXi0,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestFrameBiasInYIAU2000;
+var
+  ComputeddEta0: Double;
+  ExpecteddEta0: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  ExpecteddEta0:= -0.3306041454222147847e-7;
+
+  ComputeddEta0:= FrameBiasInYIAU2000;
+
+  AssertEquals('Frame Bias In Y (Eta0)',ExpecteddEta0,ComputeddEta0,1e-12);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionEps0_IAU1976;
