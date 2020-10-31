@@ -24,7 +24,7 @@
 - LAST (radians): Local Apparent Sidereal Time
 - δψB,δεB (radians): Frame bias in longitude and obliquity, offsets of the mean equator and (dynamical) mean equinox of J2000.0, provided by the current model, with respect to the GCRS
 - ξ0, η0 (radians): Frame bias in rectangular coordinates, offsets of the mean equator and (dynamical) mean equinox of J2000.0, provided by the current model, with respect to the GCRS
-- dα0 (radianas): Frame bias in right ascension, equinox offset at J2000.0
+- dα0 (radians): Frame bias in right ascension, equinox offset at J2000.0
 - ε0 (radians): Obliquity of ecliptic at epoch (currently J2000.0)
 - εA (radians): Obliquity of the ecliptic at date (Mean Obliquity)
 - ζA, θA, zA (radians): Equatorial precession angles (1st, 2nd and 3rd 323 Euler angles)
