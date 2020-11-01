@@ -603,7 +603,7 @@ begin
 end;
 
 procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
-//  REFERENCE:   (IAU 2000B Theory of Nutation Model)
+//  REFERENCE:  McCarthy & Luzum, Cel.Mech.Dyn.Astron., 85, 37-49 (2003) (IAU 2000B Theory of Nutation Model)
 //              International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
 //  This routine computes the two Nutation angles in longitude and obliquity, with
 //  respect to the equinox and ecliptic of date, using the IAU 2000B Theory of Nutation Model
@@ -620,18 +620,18 @@ begin
 
   // Fundamental (Delaunay) arguments from Simon et al. (1994)
   //    l = mean anomaly of the Moon (in arcseconds)
-  FundamentalArguments[1]:= 134.96340251*ArcSecondsPerDegree + 1717915923.217800*t;
+  FundamentalArguments[1]:= 485868.249036 + 1717915923.2178*t;
   //    l' = mean anomaly of the Sun (in arcseconds)
-  FundamentalArguments[2]:= 357.52910918*ArcSecondsPerDegree + 129596581.048100*t;
+  FundamentalArguments[2]:= 1287104.79305 + 129596581.0481*t;
   //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (in arcseconds)
-  FundamentalArguments[3]:= 93.27209062*ArcSecondsPerDegree + 1739527262.847800*t;
+  FundamentalArguments[3]:= 335779.526232 + 1739527262.8478*t;
   //    D = mean elongation of the Moon from the Sun (in arcseconds)
-  FundamentalArguments[4]:= 297.85019547*ArcSecondsPerDegree + 1602961601.209000*t;
+  FundamentalArguments[4]:= 1072260.70369 + 1602961601.2090*t;
   //    OM = mean longitude of the Moon's ascending node (in arcseconds)
-  FundamentalArguments[5]:= 125.04455501*ArcSecondsPerDegree - 6962890.543100*t;
+  FundamentalArguments[5]:= 450160.398036 - 6962890.5431*t;
   // change Delaunay arguments to radians
   for i:= 1 to 5 do
-    FundamentalArguments[i]:= RadiansPerArcSecond*FundamentalArguments[i];
+    FundamentalArguments[i]:= fmod(RadiansPerArcSecond*FundamentalArguments[i],RadiansPerRev);
 
 //  Initialize nutation components.
   DeltaPsi:= 0;
@@ -654,17 +654,13 @@ begin
                   NutationIAU2000B_Coeffs[i,10]*t)*cosArg +
                   NutationIAU2000B_Coeffs[i,11]* sinArg;
     end;
-//    change to arcsecs
-  DeltaPsi:= DeltaPsi*1e-7;
-  DeltaEps:= DeltaEps*1e-7;
+//    Convert from 0.1 microarcsec units to radians
+  DeltaPsi:= DeltaPsi*RadiansPerArcSecond/1e7;
+  DeltaEps:= DeltaEps*RadiansPerArcSecond/1e7;
 
 //  Fixed offset to correct for missing terms in truncated series (planetary nutation)
-  DeltaPsi:= DeltaPsi - 0.135/MilliArcSecondsPerArcSecond;
-  DeltaEps:= DeltaEps + 0.388/MilliArcSecondsPerArcSecond;
-
-//    change to radians
-  DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
-  DeltaEps:= DeltaEps*RadiansPerArcSecond;
+  DeltaPsi:= DeltaPsi - 0.135*RadiansPerArcSecond/MilliArcSecondsPerArcSecond;
+  DeltaEps:= DeltaEps + 0.388*RadiansPerArcSecond/MilliArcSecondsPerArcSecond;
 end;
 
 procedure NutationIAU2000A_IERS2003(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
@@ -1004,46 +1000,49 @@ const
     NE1 = 1;
 
 //  Argument coefficients for t^0
-    KE0: array[1..NE0,1..14] of Integer =
-//       l,  l', F,  D, Om, LMe,LVe,LE, LMa,LJu,LSa, LU, LN, pA
-     (  (0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  2, -2,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  2, -2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  2, -2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  2,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  2,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  0,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  1,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  1,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (1,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (1,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  1,  2, -2,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  1,  2, -2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  4, -4,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  1, -1,  1,  0, -8, 12,  0,  0,  0,  0,  0,  0),
-        (0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  2,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (1,  0,  2,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (1,  0,  2,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  2, -2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  1, -2,  2, -3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  1, -2,  2, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  0,  0,  0,  0,  8,-13,  0,  0,  0,  0,  0, -1),
-        (0,  0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (2,  0, -2,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (1,  0,  0, -2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  1,  2, -2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (1,  0,  0, -2, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  4, -2,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (0,  0,  2, -2,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (1,  0, -2,  0, -3,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        (1,  0, -2,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0));
+    KE0: array[1..NE0,1..8] of Integer =
+//       l,  l', F,  D, Om, LVe,LE, pA
+     (  (0,  0,  0,  0,  1,  0,  0,  0),
+        (0,  0,  0,  0,  2,  0,  0,  0),
+        (0,  0,  2, -2,  3,  0,  0,  0),
+        (0,  0,  2, -2,  1,  0,  0,  0),
+        (0,  0,  2, -2,  2,  0,  0,  0),
+        (0,  0,  2,  0,  3,  0,  0,  0),
+        (0,  0,  2,  0,  1,  0,  0,  0),
+        (0,  0,  0,  0,  3,  0,  0,  0),
+        (0,  1,  0,  0,  1,  0,  0,  0),
+        (0,  1,  0,  0, -1,  0,  0,  0),
+      // 11-20
+        (1,  0,  0,  0, -1,  0,  0,  0),
+        (1,  0,  0,  0,  1,  0,  0,  0),
+        (0,  1,  2, -2,  3,  0,  0,  0),
+        (0,  1,  2, -2,  1,  0,  0,  0),
+        (0,  0,  4, -4,  4,  0,  0,  0),
+        (0,  0,  1, -1,  1, -8, 12,  0),
+        (0,  0,  2,  0,  0,  0,  0,  0),
+        (0,  0,  2,  0,  2,  0,  0,  0),
+        (1,  0,  2,  0,  3,  0,  0,  0),
+        (1,  0,  2,  0,  1,  0,  0,  0),
+     // 21-30
+        (0,  0,  2, -2,  0,  0,  0,  0),
+        (0,  1, -2,  2, -3,  0,  0,  0),
+        (0,  1, -2,  2, -1,  0,  0,  0),
+        (0,  0,  0,  0,  0,  8,-13, -1),
+        (0,  0,  0,  2,  0,  0,  0,  0),
+        (2,  0, -2,  0, -1,  0,  0,  0),
+        (1,  0,  0, -2,  1,  0,  0,  0),
+        (0,  1,  2, -2,  2,  0,  0,  0),
+        (1,  0,  0, -2, -1,  0,  0,  0),
+        (0,  0,  4, -2,  4,  0,  0,  0),
+     // 31-33
+        (0,  0,  2, -2,  4,  0,  0,  0),
+        (1,  0, -2,  0, -3,  0,  0,  0),
+        (1,  0, -2,  0, -1,  0,  0,  0));
 
 //  Argument coefficients for t^1
-    KE1: array[1..NE1,1..14] of Integer =
-//       l,  l', F,  D, Om, LMe,LVe,LE, LMa,LJu,LSa, LU, LN, pA
-     (  (0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0));
+    KE1: array[1..NE1,1..8] of Integer =
+//       l,  l', F,  D, Om, LVe,LE, pA
+     (  (0,  0,  0,  0,  1,  0,  0,  0));
 
 //  Sine and cosine coefficients for t^0
     SE0: array[1..NE0,1..2] of Extended =
@@ -1107,24 +1106,12 @@ begin
  //    OM = mean longitude of the Moon's ascending node (in arcseconds)
  faOM_IERS2003(t,FundamentalArguments[5]);
 
- //    lMe = mean longitude of Mercury
- faMe_IERS2003(t,FundamentalArguments[6]);
  //    lVe = mean longitude of Venus
- faVe_IERS2003(t,FundamentalArguments[7]);
+ faVe_IERS2003(t,FundamentalArguments[6]);
  //    lE = mean longitude of Earth
- faEa_IERS2003(t,FundamentalArguments[8]);
- //    lMa = mean longitude of Mars
- faMa_IERS2003(t,FundamentalArguments[9]);
- //    lJu = mean longitude of Jupiter
- faJu_IERS2003(t,FundamentalArguments[10]);
- //    lSa = mean longitude of Saturn
- faSa_IERS2003(t,FundamentalArguments[11]);
- //    lUr = mean longitude of Uranus
- faUr_IERS2003(t,FundamentalArguments[12]);
- //    lNe = mean longitude of Neptune
- faNe_IERS2003(t,FundamentalArguments[13]);
- //    Pa = general precession on longitude
- faPa_IERS2003(t,FundamentalArguments[14]);
+ faEa_IERS2003(t,FundamentalArguments[7]);
+  //    Pa = general precession on longitude
+ faPa_IERS2003(t,FundamentalArguments[8]);
 
 //  Evaluate the EE complementary terms.
  // Argument = Soma(Nj*Fj)
@@ -1136,7 +1123,7 @@ begin
  for i:= NE0 downto 1 do
    begin
      Argument:= 0;
-     for j:= 1 to 14 do
+     for j:= 1 to 8 do
        Argument:= Argument + KE0[i,j] * FundamentalArguments[j];
      SinCos(Argument,sinArg,cosArg);
      S0:= S0 + (SE0[i,1]*sinArg + SE0[i,2]*cosArg);
@@ -1145,7 +1132,7 @@ begin
    begin
      //   Form argument for current term
      Argument:= 0;
-     for j:= 1 to 14 do
+     for j:= 1 to 8 do
        Argument:= Argument + KE1[i,j] * FundamentalArguments[j];
      SinCos(Argument,sinArg,cosArg);
      S1:= S1 + (SE1[i,1]*sinArg + SE1[i,2]*cosArg);
@@ -1196,9 +1183,9 @@ procedure EquationOfEquinoxes_IAU2000B(TDB: TJulianDate; out EqEq: Double);
 var
   EpsA, DeltaPsi, DeltaEps, CT: Double;
 begin
-  EpsA:= MeanObliquityIAU2000(TDB);
-  NutationIAU2000B(TDB, DeltaPsi, DeltaEps);
-  EquationOfEquinoxesCT_IAU2000(TDB, CT);
+ EpsA:= MeanObliquityIAU2000(TDB);
+ NutationIAU2000B(TDB, DeltaPsi, DeltaEps);
+ EquationOfEquinoxesCT_IAU2000(TDB, CT);
 
   EquationOfEquinoxes(DeltaPsi, EpsA, CT, EqEq);
 end;
