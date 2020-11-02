@@ -344,14 +344,13 @@ var
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
   ExpectedPsiA: Double;
 begin
-  // There are no test values
-
+  // Test value extracted from running a modified iauBp00 function in order to export precession angles from IAU SOFA C version 2020-07-21 Release
   TDB:= 2400000.5 + 52541.0;
-  ExpectedPsiA:= 0;
+  ExpectedPsiA:= 0.66643662150584609665e-3;
 
   PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('PsiA IAU2000 (no test value)',ExpectedPsiA,ComputedPsiA,1e-15);
+  AssertEquals('PsiA IAU2000',ExpectedPsiA,ComputedPsiA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionChiA_IAU2000;
@@ -360,14 +359,13 @@ var
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
   ExpectedChiA: Double;
 begin
-  // There are no test values
-
+  // Test value extracted from running a modified iauBp00 function in order to export precession angles from IAU SOFA C version 2020-07-21 Release
   TDB:= 2400000.5 + 52541.0;
-  ExpectedChiA:= 0;
+  ExpectedChiA:= 1.3872032121142764299e-06;
 
   PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('ChiA IAU2000 (no test value)',ExpectedChiA,ComputedChiA,1e-15);
+  AssertEquals('ChiA IAU2000',ExpectedChiA,ComputedChiA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionOmegaA_IAU2000;
@@ -376,14 +374,14 @@ var
   ComputedEps0, ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA: Double;
   ExpectedOmegaA: Double;
 begin
-  // There are no test values
+  // Test value extracted from running a modified iauBp00 function in order to export precession angles from IAU SOFA C version 2020-07-21 Release
 
   TDB:= 2400000.5 + 52541.0;
-  ExpectedOmegaA:= 0;
+  ExpectedOmegaA:= 0.40909280106808626476;
 
   PrecessionIAU2000(TDB,ComputedEps0,ComputedEpsA,ComputedPsiA,ComputedChiA,ComputedOmegaA);
 
-  AssertEquals('OmegaA IAU2000 (no test value)',ExpectedOmegaA,ComputedOmegaA,1e-15);
+  AssertEquals('OmegaA IAU2000',ExpectedOmegaA,ComputedOmegaA,1e-15);
 end;
 
 procedure TTestEarthOrientation.TestPrecessionEps0_IAU2006;
@@ -977,14 +975,13 @@ var
   ComputedEqEq: Double;
   ExpectedEqEq: Double;
 begin
-  // Test values from IAU SOFA C version 2020-07-21 Release
+  // // Test value from "e_tilt" function from NOVAS 3.0 release
 
   TDB:= 2400000.5 + 53736.0;
-  ExpectedEqEq:= -0.8834195072043790156e-5;
-
+  ExpectedEqEq:= -8.8341932353687364953e-06;
   EquationOfEquinoxes_IAU2006A(TDB, ComputedEqEq);
 
-  AssertEquals('EqEq IAU2006A',ExpectedEqEq,ComputedEqEq,1e-18);
+  AssertEquals('EqEq IAU2006A',ExpectedEqEq,ComputedEqEq,1e-17);
 end;
 
 procedure TTestEarthOrientation.TestGST_IAU1994;
@@ -1045,12 +1042,12 @@ var
   ComputedGST: Double;
   ExpectedGST: Double;
 begin
-  // Test values from IAU SOFA C version 2020-07-21 Release
+  // Test value from "sidereal_time" funtion from NOVAS 3.0 release
 
   UT1:= 2400000.5 +  53736.0;
   TDB:= 2400000.5 +  53736.0;
 
-  ExpectedGST:= 1.754166137675019159;
+  ExpectedGST:= 1.7541661376768511449;
   ComputedGST:= GreenwichSiderealTime_IAU2006A(UT1, TDB);
 
   AssertEquals('GST IAU2006A',ExpectedGST,ComputedGST,1e-12);
