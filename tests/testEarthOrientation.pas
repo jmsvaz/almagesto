@@ -74,6 +74,7 @@ type
     procedure TestGST_IAU2000A;
     procedure TestGST_IAU2000B;
     procedure TestGST_IAU2006A;
+    procedure TestTIOLocatorSpIAU2000;
   end;
 
 implementation
@@ -1051,6 +1052,22 @@ begin
   ComputedGST:= GreenwichSiderealTime_IAU2006A(UT1, TDB);
 
   AssertEquals('GST IAU2006A',ExpectedGST,ComputedGST,1e-12);
+end;
+
+procedure TTestEarthOrientation.TestTIOLocatorSpIAU2000;
+var
+  TDB: TJulianDate;
+  ComputedSp: Double;
+  ExpectedSp: Double;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+
+  TDB:= 2400000.5 + 52541.0;
+  ExpectedSp:= -0.6216698469981019309e-11;
+
+  ComputedSp:= TIOLocatorSpIAU2000(TDB);
+
+  AssertEquals('S'' IAU2000',ExpectedSp,ComputedSp,1e-12);
 end;
 
 

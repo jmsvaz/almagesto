@@ -177,7 +177,7 @@ function GreenwichSiderealTime_IAU2000A(UT1: TJulianDate; TDB: TJulianDate): Dou
 function GreenwichSiderealTime_IAU2000B(UT1: TJulianDate; TDB: TJulianDate): Double;
 function GreenwichSiderealTime_IAU2006A(UT1: TJulianDate; TDB: TJulianDate): Double;
 
-
+function TIOLocatorSpIAU2000(TDB: TJulianDate): Double;
 
 implementation
 
@@ -1266,6 +1266,21 @@ begin
   EquationOfEquinoxesCT_IAU2000(TDB, CT);
 
   Result:= GreenwichSiderealTime(GMST, DeltaPsi, EpsA, CT);
+end;
+
+function TIOLocatorSpIAU2000(TDB: TJulianDate): Double;
+//  reference: McCarthy & Petit, IERS Conventions (2003), p. 38, IERS Technical Note 32, November 2003
+//             International Astronomical Union's SOFA (Standards of Fundamental Astronomy) software collection.
+//  result = The quantity s', positioning the Terrestrial Intermediate Origin
+//           on the equator of the Celestial Intermediate Pole.
+var
+  t: Double;
+begin
+  t:= (TDB - J2000)/JulianDaysPerCentury;
+  //  Approximate S' (in arcseconds)
+  Result:= -47e-6 * t;
+  // change to Radians
+  Result:= Result*RadiansPerArcSecond;
 end;
 
 
