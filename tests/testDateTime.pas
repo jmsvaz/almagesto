@@ -37,7 +37,10 @@ type
     procedure Test1977Origins;
     procedure TestDeltaTAI;
     procedure TestDeltaTCG;
-    procedure TestDeltaTCB;
+    procedure TestDeltaTCB; 
+    procedure TestDeltaAT1;
+    procedure TestDeltaAT2;
+    procedure TestDeltaAT3;
   end;
 
   { TTestTimeScalesClass }
@@ -138,6 +141,39 @@ begin
   Expected:= (TCBFrac - TDBFrac)*SecondsPerDay;
   Computed:= DeltaTCB(JD + TCBFrac);
   AssertEquals(Expected,Computed,1e-9);
+end;
+
+procedure TTestTimeDeltas.TestDeltaAT1;
+var
+  JD, Computed, Expected: TJulianDate;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+  JD:= DateTimeToJulianDate(Encodedate(2003, 6, 1));
+  Expected:= (32.0);
+  Computed:= DeltaAT(JD);
+  AssertEquals(Expected,Computed,0);
+end;
+
+procedure TTestTimeDeltas.TestDeltaAT2;
+var
+  JD, Computed, Expected: TJulianDate;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+  JD:= DateTimeToJulianDate(Encodedate(2008, 1, 17));
+  Expected:= (33.0);
+  Computed:= DeltaAT(JD);
+  AssertEquals(Expected,Computed,0);
+end;
+
+procedure TTestTimeDeltas.TestDeltaAT3;
+var
+  JD, Computed, Expected: TJulianDate;
+begin
+  // Test values from IAU SOFA C version 2020-07-21 Release
+  JD:= DateTimeToJulianDate(Encodedate(2017, 9, 1));
+  Expected:= (37.0);
+  Computed:= DeltaAT(JD);
+  AssertEquals(Expected,Computed,0);
 end;
 
 

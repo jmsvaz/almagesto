@@ -18,6 +18,10 @@ The last bulletin can be found at ftp://hpiers.obspm.fr/iers/bul/bulc/bulletinc.
 
 The complete series can be found at ftp://maia.usno.navy.mil/ser7/tai-utc.dat
 
+* The USNO site is currently unavaiable, so the series can be found at
+ftp://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat (after 1970-01-01) and
+ftp://hpiers.obspm.fr/iers/bul/bulc/UTC-TAI.history (complete, but without expiration date)
+
 - MinDate is the JulianDate of the first leap second introduced at 1961-01-01;
 - MaxDate is the JulianDate of the date at the bulletin;
 - NLeapSeconds should be incremented as a new leap second is annnounced;
