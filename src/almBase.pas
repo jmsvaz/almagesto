@@ -124,24 +124,27 @@ const
   // number of Tropical days in one century
     TropicalDaysPerCentury  = 100*TropicalDaysPerYear;
 
+  // radians
   //number of radians in one revolution
     RadiansPerRev = 2*Pi;
-  //number of degrees in one revolution
-    DegreesPerRev = 360;
-  //number of hours in one revolution
-    HoursPerRev   = 24;
 
+  // degrees, arcminutes, arcseconds and milliarcseconds
+  //number of degrees in one revolution
+    DegreesPerRev               = 360;
   //number of arcminutes in one degree
     ArcMinutesPerDegree         = 60;
   //number of arcseconds in one arcminute
     ArcSecondsPerArcMinute      = 60;
-  //number of milliseconds in one second
+  //number of milliseconds in one arcsecond
     MilliArcSecondsPerArcSecond = 1000;
   //number of arcseconds in one degress
     ArcSecondsPerDegree         = ArcSecondsPerArcMinute * ArcMinutesPerDegree;
-  //number of milliseconds in one day
+  //number of milliseconds in one degree
     MilliArcSecondsPerDegree    = MilliArcSecondsPerArcSecond * ArcSecondsPerDegree;
 
+  // hours, minutes, seconds, milliseconds and microseconds
+  //number of hours in one revolution
+    HoursPerRev            = 24;
   //number of hours in one day
     HoursPerDay            = HoursPerRev;
   //number of minutes in one hour
@@ -161,8 +164,11 @@ const
   //number of milliseconds in one day
     MilliSecondsPerDay     = MilliSecondsPerSecond * SecondsPerDay;
 
+  //hours x degrees
   //number of hours in one degree
     HoursPerDegree         = HoursPerDay/DegreesPerRev;
+
+  // degrees x hours
   //number of degrees in one hour
     DegreesPerHour         = DegreesPerRev/HoursPerRev;
   //number of degrees in one minute
@@ -170,16 +176,21 @@ const
   //number of degrees in one second
     DegreesPerSecond       = DegreesPerRev/SecondsPerDay;
 
+  // radians x degrees
   //number of radians in one degree
     RadiansPerDegree       = RadiansPerRev/DegreesPerRev;
+  //number of radians in one arcsecond
+    RadiansPerArcSecond    = RadiansPerDegree/ArcSecondsPerDegree;
+
+  // degrees x radians
+  //number of arcseconds in one radian
+    ArcSecondsPerRadian    = 1/RadiansPerArcSecond;
+
+  // radians x hours
   //number of radians in one hour
     RadiansPerHour         = RadiansPerRev/HoursPerRev;
   //number of radians in one minute
     RadiansPerMinute       = RadiansPerRev/MinutesPerDay;
-  //number of radians in one arcsecond
-    RadiansPerArcSecond    = RadiansPerDegree/ArcSecondsPerDegree;
-  //number of arcseconds in one radian
-    ArcSecondsPerRadian    = 1/RadiansPerArcSecond;
 
 function fmod(X, Range: Extended): Extended;
 function fmod(X, Max, Min: Extended): Extended;
