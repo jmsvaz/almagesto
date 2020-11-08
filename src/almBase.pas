@@ -192,43 +192,36 @@ const
   //number of radians in one minute
     RadiansPerMinute       = RadiansPerRev/MinutesPerDay;
 
-function fmod(X, Range: Extended): Extended;
-function fmod(X, Max, Min: Extended): Extended;
+function fmod(X, Range: Double): Double;
+function fmod(X, Max, Min: Double): Double;
 
 {$I consts.inc}
 
 implementation
 
-function fmod(X, Range: Extended): Extended;
+function fmod(X, Range: Double): Double;
 begin
-  if Range = 0 then
-    Result:= 0
-  else
-    begin
-      Result:= Range*Frac(X/Range);
-      while Result < 0 do
-        Result:= Result + Range;
-    end;
+  Result:= fmod(X, Range, 0);
 end;
 
-function fmod(X, Max, Min: Extended): Extended;
+function fmod(X, Max, Min: Double): Double;
 var
-  range: Extended;
+  Range: Double;
 begin
   if Max < Min then
     begin
-      range:= Min;
+      Range:= Min;
       Min:= Max;
-      Max:= range;
+      Max:= Range;
     end;
-  range:= Max - Min;
+  Range:= Max - Min;
   if Range = 0 then
     Result:= 0
   else
     begin
-      Result:= range*Frac(X/range);
+      Result:= Range*Frac(X/range);
       while Result < Min do
-        Result:= Result + range;
+        Result:= Result + Range;
     end;
 end;
 
