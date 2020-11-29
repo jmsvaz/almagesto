@@ -119,6 +119,65 @@ interface
 uses
   Classes, SysUtils, almBase;
 
+type
+  TPrecessionNutationModel = (pnNewcomb, pnIAU1948, pnIAU1976, pnIAU1980, pnIAU1982, pnIAU1994, pnIERS1996, pnIAU2000A, pnIAU2000B, pnIAU2006A, pnIAU2006B);
+
+  { TEarthOrientation }
+
+  TEarthOrientation = class
+    private
+      fCT: Double;
+      fChiA: Double;
+      fDeltaEps: Double;
+      fDeltaPsi: Double;
+      fEps0: Double;
+      fEpsA: Double;
+      fGAST: Double;
+      fGMST: Double;
+      fOmegaA: Double;
+      fPsiA: Double;
+      fTrueObliquity: Double;
+      FTDB: TJulianDate;
+      FUT1: TJulianDate;
+      fPrecessionNutationModel: TPrecessionNutationModel;
+      procedure SetPrecessionNutationModel(AValue: TPrecessionNutationModel);
+      procedure SetTDB(AValue: TJulianDate);
+      procedure SetUT1(AValue: TJulianDate);
+
+    public
+      constructor Create;
+      constructor Create(aUT1: TJulianDate; aTDB: TJulianDate);
+      procedure Update(aUT1: TJulianDate; aTDB: TJulianDate);
+      property UT1: TJulianDate read FUT1 write SetUT1;
+      property TDB: TJulianDate read FTDB write SetTDB;
+      property PrecessionNutationModel: TPrecessionNutationModel read fPrecessionNutationModel write SetPrecessionNutationModel;
+
+      //** Obliquity of the ecliptic at epoch (in radians)
+      property Eps0: Double read fEps0;
+      //** Precession in longitude, referred to the ecliptic of epoch (in radians)
+      property PsiA: Double read fPsiA;
+      //** Precession in obliquity, referred to the ecliptic of epoch (in radians)
+      property OmegaA: Double read fOmegaA;
+      //** Planetary precession along the Equator (in radians)
+      property ChiA: Double read fChiA;
+      //** Nutation in longitude (in radians)
+      property DeltaPsi: Double read fDeltaPsi;
+      //** Nutation in obliquity (in radians)
+      property DeltaEpsilon: Double read fDeltaEps;
+      //** Mean obliquity of the ecliptic (in radians)
+      property EpsA: Double read fEpsA;
+      //** Mean obliquity of the ecliptic (in radians)
+      property MeanObliquity: Double read fEpsA;
+      //** True obliquity of the ecliptic (in radians)
+      property TrueObliquity: Double read fTrueObliquity;
+      //** Greenwich Mean Sidereal Time (in radians)
+      property GreenwichMeanSiderealTime: Double read fGMST;
+      //** Greenwich Apparent Sidereal Time (in radians)
+      property GreenwichAparentSiderealTime: Double read fGAST;
+
+
+  end;
+
 function ObliquityJ2000IAU1980: Double;
 function ObliquityJ2000IAU2006: Double;
 function MeanObliquityIAU1980(TDB: TJulianDate): Double;
@@ -301,7 +360,7 @@ procedure PrecessionIAU1976(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: D
 //  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in radians)
 //  uses: TDB
 var
-  t: Extended;
+  t: Double;
 begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
 
@@ -319,7 +378,7 @@ procedure PrecessionIAU2000(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: D
 //  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in radians)
 //  uses: TDB
 var
-  t: Extended;
+  t: Double;
 begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
 
@@ -337,7 +396,7 @@ procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: D
 //  result = compute Precession Angles (PsiA, ChiA, OmegaA) (in radians)
 //  uses: TT
 var
-  t: Extended;
+  t: Double;
 begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
 
@@ -548,9 +607,9 @@ procedure NutationIAU1980(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  result = Nutation Angles (DeltaPsi, DeltaEps) (in arcsecs)
 //  uses: TDB
 var
-  t: Extended;
-  Argument, sinArg, cosArg: Extended;
-  FundamentalArguments: array [1..5] of Extended;
+  t: Double;
+  Argument, sinArg, cosArg: Double;
+  FundamentalArguments: array [1..5] of Double;
   j, i: Integer;
 begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
@@ -611,9 +670,9 @@ procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
 //  result = Nutation Angles (DeltaPsi, DeltaEps) (in arcsecs)
 //  uses: TT
 var
-  t: Extended;
-  FundamentalArguments: array [1..5] of Extended;
-  Argument, sinArg, cosArg: Extended;
+  t: Double;
+  FundamentalArguments: array [1..5] of Double;
+  Argument, sinArg, cosArg: Double;
   j, i: Integer;
 begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
@@ -1045,7 +1104,7 @@ const
      (  (0,  0,  0,  0,  1,  0,  0,  0));
 
 //  Sine and cosine coefficients for t^0
-    SE0: array[1..NE0,1..2] of Extended =
+    SE0: array[1..NE0,1..2] of Double =
 //             sin                cos
      (  ( +2640.96e-6,          -0.39e-6),
         (   +63.52e-6,          -0.02e-6),
@@ -1082,7 +1141,7 @@ const
         (    +0.11e-6,          +0.00e-6));
 
 //  Sine and cosine coefficients for t^1
-    SE1: array[1..NE1,1..2] of Extended =
+    SE1: array[1..NE1,1..2] of Double =
 //             sin                cos
      (  (    -0.87e-6,          +0.00e-6));
 var
@@ -1283,6 +1342,185 @@ begin
   Result:= Result*RadiansPerArcSecond;
 end;
 
+{ TEarthOrientation }
+
+procedure TEarthOrientation.SetPrecessionNutationModel(
+  AValue: TPrecessionNutationModel);
+begin
+  if AValue in [pnNewcomb, pnIAU1948, pnIAU1976, pnIAU1980, pnIAU1982, pnIERS1996] then exit;
+//    Error('Model not yet implemented.');
+
+  if fPrecessionNutationModel <> AValue then
+    begin
+      fPrecessionNutationModel:= AValue;
+      Update(UT1, TDB); // ??
+    end;
+end;
+
+constructor TEarthOrientation.Create;
+begin
+  Create(0,0)
+end;
+
+constructor TEarthOrientation.Create(aUT1: TJulianDate; aTDB: TJulianDate);
+begin
+ PrecessionNutationModel:= pnIAU2000B;
+ Update(aUT1,aTDB);
+end;
+
+procedure TEarthOrientation.Update(aUT1: TJulianDate; aTDB: TJulianDate);
+begin
+  TDB:= aTDB;
+  UT1:= aUT1;
+end;
+
+procedure TEarthOrientation.SetTDB(AValue: TJulianDate);
+var
+  dummy: Double;
+begin
+  if TDB = AValue then exit;
+  fTDB:= AValue;
+
+  case PrecessionNutationModel of
+    pnNewcomb:
+     begin
+    //       Precession_Newcomb;
+    //       Nutation_Newcomb;
+    //       fCT:= 0;
+     end;
+    pnIAU1948:
+     begin
+    //       Precession_Newcomb;
+    //       Nutation_IAU1948;
+    //       fCT:= 0;
+     end;
+    pnIAU1976:
+     begin
+    //       Precession_IAU1976;
+    //       Nutation_IAU1948;
+    //       fCT:= 0;
+     end;
+    pnIAU1980:
+      begin
+        fEps0:= ObliquityJ2000IAU1980;
+        fEpsA:= MeanObliquityIAU1980(TDB);
+        PrecessionIAU1976(TDB, dummy, dummy,fPsiA,fChiA,fOmegaA);
+        NutationIAU1980(TDB, fDeltaPsi, fDeltaEps);
+        fCT:= 0;
+      end;
+    pnIAU1982:
+     begin
+       fEps0:= ObliquityJ2000IAU1980;
+       fEpsA:= MeanObliquityIAU1980(TDB);
+       PrecessionIAU1976(TDB, dummy, dummy,fPsiA,fChiA,fOmegaA);
+       NutationIAU1980(TDB, fDeltaPsi, fDeltaEps);
+       fCT:= 0;
+     end;
+    pnIAU1994:
+     begin
+       fEps0:= ObliquityJ2000IAU1980;
+       fEpsA:= MeanObliquityIAU1980(TDB);
+       PrecessionIAU1976(TDB, dummy, dummy,fPsiA,fChiA,fOmegaA);
+       NutationIAU1980(TDB, fDeltaPsi, fDeltaEps);
+       EquationOfEquinoxesCT_IAU1994(TDB, fCT);
+     end;
+    pnIERS1996:
+     begin
+//       fEps0:= ObliquityJ2000IAU1980;
+//       fEpsA:= MeanObliquityIAU1980(TDB);
+//       PrecessionIAU1976(TDB, dummy, dummy,fPsiA,fChiA,fOmegaA);
+//       NutationIERS1996(TDB, fDeltaPsi, fDeltaEps);
+//       EquationOfEquinoxesCT_IAU1994(TDB, fCT);
+     end;
+    pnIAU2000A:
+     begin
+       fEps0:= ObliquityJ2000IAU1980;
+       fEpsA:= MeanObliquityIAU2000(TDB);
+       PrecessionIAU2000(TDB, dummy, dummy,fPsiA,fChiA,fOmegaA);
+       NutationIAU2000A(TDB, fDeltaPsi, fDeltaEps);
+       EquationOfEquinoxesCT_IAU2000(TDB, fCT);
+     end;
+    pnIAU2000B:
+     begin
+       fEps0:= ObliquityJ2000IAU1980;
+       fEpsA:= MeanObliquityIAU2000(TDB);
+       PrecessionIAU2000(TDB, dummy, dummy,fPsiA,fChiA,fOmegaA);
+       NutationIAU2000B(TDB, fDeltaPsi, fDeltaEps);
+       EquationOfEquinoxesCT_IAU2000(TDB, fCT);
+     end;
+    pnIAU2006A:
+     begin
+       fEps0:= ObliquityJ2000IAU2006;
+       fEpsA:= MeanObliquityIAU2006(TDB);
+       PrecessionIAU2006(TDB, dummy, dummy,fPsiA,fChiA,fOmegaA);
+       NutationIAU2000A(TDB, fDeltaPsi, fDeltaEps);
+       EquationOfEquinoxesCT_IAU2000(TDB, fCT);
+     end;
+    pnIAU2006B:
+     begin
+       fEps0:= ObliquityJ2000IAU2006;
+       fEpsA:= MeanObliquityIAU2006(TDB);
+       PrecessionIAU2006(TDB, dummy, dummy,fPsiA,fChiA,fOmegaA);
+       NutationIAU2000B(TDB, fDeltaPsi, fDeltaEps);
+       EquationOfEquinoxesCT_IAU2000(TDB, fCT);
+     end;
+  end;
+  fTrueObliquity:= MeanObliquity + DeltaEpsilon;
+end;
+
+procedure TEarthOrientation.SetUT1(AValue: TJulianDate);
+begin
+  if UT1 = AValue then exit;
+  fUT1:= AValue;
+
+  case PrecessionNutationModel of
+    pnNewcomb:
+     begin
+    //       fGMST:= GMST_Newcomb;
+     end;
+    pnIAU1948:
+     begin
+    //       fGMST:= GMST_Newcomb;
+     end;
+    pnIAU1976:
+     begin
+    //       fGMST:= GMST_Newcomb;
+     end;
+    pnIAU1980:
+      begin
+    //        fGMST:= GMST_Newcomb;
+      end;
+    pnIAU1982:
+     begin
+       GreenwichMeanSiderealTimeIAU1982(UT1, fGMST);
+     end;
+    pnIAU1994:
+     begin
+       GreenwichMeanSiderealTimeIAU1982(UT1, fGMST);
+     end;
+    pnIERS1996:
+     begin
+       GreenwichMeanSiderealTimeIAU1982(UT1, fGMST);
+     end;
+    pnIAU2000A:
+     begin
+       GreenwichMeanSiderealTimeIAU2000(UT1, TDB, fGMST);
+     end;
+    pnIAU2000B:
+     begin
+       GreenwichMeanSiderealTimeIAU2000(UT1, TDB, fGMST);
+     end;
+    pnIAU2006A:
+     begin
+       GreenwichMeanSiderealTimeIAU2006(UT1, TDB, fGMST);
+     end;
+    pnIAU2006B:
+     begin
+       GreenwichMeanSiderealTimeIAU2006(UT1, TDB, fGMST);
+     end;
+  end;
+  fGAST:= GreenwichSiderealTime(GreenwichMeanSiderealTime, DeltaPsi, EpsA, fCT)
+end;
 
 
 
