@@ -206,7 +206,11 @@ uses Math;
 
 constructor TTimeScales.Create;
 begin
-  Create(J2000);
+ fUTC:= 0;
+ fDUT1:= 0;
+ fTDB:= 0;
+ fTT:= 0;
+ fUT1:= 0;
 end;
 
 constructor TTimeScales.Create(aUTC: TJulianDate);
@@ -216,11 +220,7 @@ end;
 
 constructor TTimeScales.Create(aUTC: TJulianDate; aDUT1: TJulianDate);
 begin
-  fUTC:= 0;
-  fDUT1:= 0;
-  fTDB:= 0;
-  fTT:= 0;
-  fUT1:= 0;
+  Create;
   SetUTC(aUTC,aDUT1);
 end;
 
