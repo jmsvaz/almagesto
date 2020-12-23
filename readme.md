@@ -2,12 +2,12 @@
 
 ## What is Almagesto?
 
-Almagesto is a free source-code library in pascal that provides common astronomical and astrometric quantities and transformations. The algorithms used in Almagesto are based on a vector and matrix formulation that is rigorous and consistent with the recommendations by the International Astronomical Union (IAU) and IERS conventions.
+Almagesto is a free source-code library in pascal that provides common astronomical and astrometric quantities and transformations. The algorithms used in Almagesto are based on a vector and matrix formulation that is rigorous and consistent with the recommendations by the International Astronomical Union (IAU) and the conventions by the International Earth Rotation and Reference Systems Service (IERS).
 
 ## Requirements
 
-- [Free Pascal Compiler] (http://www.freepascal.org/)
-- [Lazarus IDE] (http://www.lazarus.freepascal.org/) (optional)
+- Free Pascal Compiler: [<http://www.freepascal.org/>]
+- Lazarus IDE: [<https://www.lazarus-ide.org/>] (optional)
 
 The library is tested with the latest stable Free Pascal Compiler (currently 3.2.0) and Lazarus IDE (currently 2.0.10).
 
