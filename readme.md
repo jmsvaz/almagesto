@@ -2,7 +2,7 @@
 
 ## What is Almagesto?
 
-Almagesto is a Free Pascal Astronomical Library.
+Almagesto is a free source-code library in pascal that provides common astronomical and astrometric quantities and transformations. The algorithms used in Almagesto are based on a vector and matrix formulation that is rigorous and consistent with the recommendations by the International Astronomical Union (IAU) and IERS conventions.
 
 ## Requirements
 
