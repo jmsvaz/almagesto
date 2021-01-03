@@ -1,8 +1,8 @@
-\documentclass[a4paper,11pt]{scrreport}
+\documentclass[a4paper,11pt,bibliography=totoc]{scrreport}
 
 \usepackage{hyperref}
-\usepackage[nottoc]{tocbibind}
-\usepackage[acronyms,toc]{glossaries}
+%\usepackage[nottoc]{tocbibind}
+\usepackage[acronyms,toc,sort=standard]{glossaries}
 
 \makeglossaries
 \makeindex
@@ -42,15 +42,31 @@ The algorithms used in Almagesto are based on a vector and matrix formulation th
 
 The following sections describe the calculation methods that implement the models used in fundamental astronomy.
 
-\gls{maths}
-
 \chapter{Coordinate Systems}\label{CoordinateSystems}
-\chapter{Time Scales}\label{TimeScales}
+
+\chapter{Date and Time}\label{TimeScales}
+
+The astronomical computations use two main time scales, \gls{UT1} and \gls{TDB}. Both can be derived from \gls{UTC}.
+
+\gls{UTC} is the primary time standard by which the world regulates clocks and time and can be obtained from \gls{StandardTime}, \gls{gls-TZ} and \gls{gls-DST}.
+
+The difference between \gls{UT1} and \gls{UTC} is derived from observation and the uniform timescale \gls{UTC}. Forecast values are published at \gls{IERSBulletinA} and daily final values at 0:00 UT of UT1-UTC can obtained from \gls{IERSBulletinB} with the following time span: one month with final values and one month with preliminary values. Weekly updated values of DUT1 with 0.1 s precision are announced at \gls{IERSBulletinD}. The latest \gls{IERS} Bulletins can be accessed at \url{https://www.iers.org/IERS/EN/Publications/Bulletins/bulletins.html}.
+
+\gls{UTC} is based on \gls{TAI}, with \glspl{LeapSecond} added to keep it within 0.9 second of \gls{UT1}. \gls{IERS} publishes announcements every six months, whether leap seconds are to occur or not, in its \gls{IERSBulletinC}. All \glspl{LeapSecond} can be obtained from \url{https://hpiers.obspm.fr/eoppc/bul/bulc/UTC-TAI.history}\footnote{As of January 2021, there have been 27 \glspl{LeapSecond} in total, all positive, putting \gls{UTC} 37 seconds behind \gls{TAI}.}.
+
+\gls{UT1R} and \gls{UT2} can be obtained from \gls{UT1}:
+
+
+
+
+
 \chapter{Coordinate Systems Transformations}\label{CoordinateSystemsTransformations}
+
 \chapter{Ephemerides and Star Catalogs}\label{EphemeridesAndStarCatalogs}
+
 \chapter{Map Projections}\label{MapProjections}
 
-\nocite{*}% only for demo to get all entries from the bib data file
+\chapter{Calendars}\label{Calendars}
 
 \appendix
 \chapter{Conversion Constants}\label{Conversion Constants}
@@ -61,7 +77,7 @@ The following sections describe the calculation methods that implement the model
 \input{fdl-1.3}
 
 %\backmatter
-\bibliographystyle{apalike}
+\bibliographystyle{naturemag} %apalike
 \bibliography{techman}
 \printglossary
 
