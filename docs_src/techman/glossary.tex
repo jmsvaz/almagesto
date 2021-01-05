@@ -86,9 +86,28 @@
 }
 
 \newglossaryentry{LeapSecond} {
-	name={Leap Second},
+	name={leap second},
 	description={It's a one-second adjustment that is occasionally applied to \gls{UTC}, to accommodate the difference between precise time (as measured by atomic clocks) and imprecise observed solar time (known as \gls{UT1} and which varies due to irregularities and long-term slowdown in the Earth's rotation)~\cite{LeapSecond2021}},
 }
+
+\newglossaryentry{DeltaAT} {
+	name={\ensuremath{\Delta}AT},
+	description={It's the current difference between \gls{UTC} and \gls{TAI} (accumulated \glspl{LeapSecond})},
+	sort={DeltaAT},
+}
+
+\newglossaryentry{DeltaUT1} {
+	name={\ensuremath{\Delta}UT1},
+	description={It's the difference between the \gls{UT1} parameter derived from observation and the uniform time
+scale \gls{UTC} always less than 0.9 second},
+	sort={DeltaUT1},
+}
+
+\newglossaryentry{DUT1} {
+	name={DUT1},
+	description={It's the value of \gls{UT1}-\gls{UTC} transmitted with time signals with a precision of +/-0.1s and by the \gls{IERSBulletinD}},
+}
+
 
 \longnewglossaryentry{IERSBulletinA}
 	{name=IERS Bulletin A}

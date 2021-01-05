@@ -1,5 +1,7 @@
 \documentclass[a4paper,11pt,bibliography=totoc]{scrreport}
 
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 \usepackage{hyperref}
 %\usepackage[nottoc]{tocbibind}
 \usepackage[acronyms,toc,sort=standard]{glossaries}
@@ -48,11 +50,39 @@ The following sections describe the calculation methods that implement the model
 
 The astronomical computations use two main time scales, \gls{UT1} and \gls{TDB}. Both can be derived from \gls{UTC}.
 
-\gls{UTC} is the primary time standard by which the world regulates clocks and time and can be obtained from \gls{StandardTime}, \gls{gls-TZ} and \gls{gls-DST}.
+\section{Coordinated Universal Time (UTC)}\label{UTC}
 
-The difference between \gls{UT1} and \gls{UTC} is derived from observation and the uniform timescale \gls{UTC}. Forecast values are published at \gls{IERSBulletinA} and daily final values at 0:00 UT of UT1-UTC can obtained from \gls{IERSBulletinB} with the following time span: one month with final values and one month with preliminary values. Weekly updated values of DUT1 with 0.1 s precision are announced at \gls{IERSBulletinD}. The latest \gls{IERS} Bulletins can be accessed at \url{https://www.iers.org/IERS/EN/Publications/Bulletins/bulletins.html}.
+\gls{UTC} is the primary time standard by which the world regulates clocks and time and can be obtained from \gls{StandardTime}, \gls{TZ} and \gls{DST}.
 
-\gls{UTC} is based on \gls{TAI}, with \glspl{LeapSecond} added to keep it within 0.9 second of \gls{UT1}. \gls{IERS} publishes announcements every six months, whether leap seconds are to occur or not, in its \gls{IERSBulletinC}. All \glspl{LeapSecond} can be obtained from \url{https://hpiers.obspm.fr/eoppc/bul/bulc/UTC-TAI.history}\footnote{As of January 2021, there have been 27 \glspl{LeapSecond} in total, all positive, putting \gls{UTC} 37 seconds behind \gls{TAI}.}.
+\begin{equation}
+	\gls{UTC} = \gls{StandardTime} - \gls{TZ} - \gls{DST}	
+\end{equation}
+
+\section{Universal Time (UT1)}\label{UT1}
+
+The difference between \gls{UT1} and \gls{UTC} is derived from observation and the uniform time
+scale \gls{UTC}. 
+
+Forecast values are published at \gls{IERSBulletinA} and daily final values at 0:00 UT of \gls{DeltaUT1} can obtained from \gls{IERSBulletinB} with the following time span: one month with final values and one month with preliminary values. 
+
+Weekly updated values of \gls{DUT1} with 0.1 s precision are announced at \gls{IERSBulletinD}. The latest \gls{IERS} Bulletins can be accessed at \url{https://www.iers.org/IERS/EN/Publications/Bulletins/bulletins.html}.
+
+\begin{align}
+	\gls{UT1} = \gls{UTC} + \gls{DeltaUT1}	\\
+	\gls{UT1} = \gls{UTC} + \gls{DUT1}
+\end{align}
+
+\section{International Atomic Time (TAI)}\label{TAI}
+
+\gls{UTC} is based on \gls{TAI}, with \glspl{LeapSecond} (\gls{DeltaAT}) added to keep it within 0.9 second of \gls{UT1}. 
+
+\gls{IERS} publishes announcements every six months, whether leap seconds are to occur or not, in its \gls{IERSBulletinC}. 
+
+All \glspl{LeapSecond} can be obtained from \url{https://hpiers.obspm.fr/eoppc/bul/bulc/UTC-TAI.history}\footnote{As of January 2021, there have been 27 \glspl{LeapSecond} in total, all positive, putting \gls{UTC} 37 seconds behind \gls{TAI}.}.
+
+\begin{equation}
+	\gls{TAI} = \gls{UTC} + \gls{DeltaAT}
+\end{equation}
 
 \gls{UT1R} and \gls{UT2} can be obtained from \gls{UT1}:
 
