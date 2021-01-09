@@ -72,6 +72,7 @@
         <Type Value="Include"/>
       </Item12>
     </Files>
+    <LazDoc Paths="..\docs_src\api"/>
     <RequiredPkgs Count="1">
       <Item1>
         <PackageName Value="FCL"/>
