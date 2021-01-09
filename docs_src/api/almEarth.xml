@@ -1,0 +1,1595 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fpdoc-descriptions>
+<package name="Almagesto">
+
+<!--
+  ====================================================================
+    almEarth
+  ====================================================================
+-->
+
+<module name="almEarth">
+<short></short>
+<descr>
+</descr>
+
+<!-- uses unit Visibility: default -->
+<element name="Classes">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="SysUtils">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="almBase">
+<short></short>
+</element>
+
+<!-- enumeration type Visibility: default -->
+<element name="TPrecessionNutationModel">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnNewcomb">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIAU1948">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIAU1976">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIAU1980">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIAU1982">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIAU1994">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIERS1996">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIAU2000A">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIAU2000B">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIAU2006A">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TPrecessionNutationModel.pnIAU2006B">
+<short></short>
+</element>
+
+<!-- class Visibility: default -->
+<element name="TEarthOrientation">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fCT">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fChiA">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fDeltaEps">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fDeltaPsi">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fEps0">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fEpsA">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fGAST">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fGMST">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fOmegaA">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fPsiA">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fTrueObliquity">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.FTDB">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.FUT1">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEarthOrientation.fPrecessionNutationModel">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- procedure Visibility: private -->
+<element name="TEarthOrientation.SetPrecessionNutationModel">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEarthOrientation.SetPrecessionNutationModel.AValue">
+<short></short>
+</element>
+
+<!-- procedure Visibility: private -->
+<element name="TEarthOrientation.SetTDB">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEarthOrientation.SetTDB.AValue">
+<short></short>
+</element>
+
+<!-- procedure Visibility: private -->
+<element name="TEarthOrientation.SetUT1">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEarthOrientation.SetUT1.AValue">
+<short></short>
+</element>
+
+<!-- constructor Visibility: public -->
+<element name="TEarthOrientation.Create">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEarthOrientation.Create.aUT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEarthOrientation.Create.aTDB">
+<short></short>
+</element>
+
+<!-- procedure Visibility: public -->
+<element name="TEarthOrientation.Update">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEarthOrientation.Update.aUT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEarthOrientation.Update.aTDB">
+<short></short>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.UT1">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.TDB">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.PrecessionNutationModel">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.Eps0">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.PsiA">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.OmegaA">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.ChiA">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.DeltaPsi">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.DeltaEpsilon">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.EpsA">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.MeanObliquity">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.TrueObliquity">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.GreenwichMeanSiderealTime">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEarthOrientation.GreenwichAparentSiderealTime">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- function Visibility: default -->
+<element name="ObliquityJ2000IAU1980">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="ObliquityJ2000IAU1980.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="ObliquityJ2000IAU2006">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="ObliquityJ2000IAU2006.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="MeanObliquityIAU1980">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="MeanObliquityIAU1980.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MeanObliquityIAU1980.TDB">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="MeanObliquityIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="MeanObliquityIAU2000.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MeanObliquityIAU2000.TDB">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="MeanObliquityIAU2006">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="MeanObliquityIAU2006.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MeanObliquityIAU2006.TDB">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FrameBiasInLongitudeIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FrameBiasInLongitudeIAU2000.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FrameBiasInObiquityIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FrameBiasInObiquityIAU2000.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FrameBiasICRSRAIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FrameBiasICRSRAIAU2000.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FrameBiasInXIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FrameBiasInXIAU2000.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FrameBiasInYIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FrameBiasInYIAU2000.Result">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="PrecessionIAU1976">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU1976.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU1976.Eps0">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU1976.EpsA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU1976.PsiA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU1976.ChiA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU1976.OmegaA">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="PrecessionIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2000.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2000.Eps0">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2000.EpsA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2000.PsiA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2000.ChiA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2000.OmegaA">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="PrecessionIAU2006">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2006.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2006.Eps0">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2006.EpsA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2006.PsiA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2006.ChiA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="PrecessionIAU2006.OmegaA">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faL_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faL_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faL_IERS2003.L">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faLP_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faLP_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faLP_IERS2003.LP">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faF_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faF_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faF_IERS2003.F">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faD_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faD_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faD_IERS2003.D">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faOM_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faOM_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faOM_IERS2003.OM">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faMe_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faMe_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faMe_IERS2003.Me">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faVe_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faVe_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faVe_IERS2003.Ve">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faEa_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faEa_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faEa_IERS2003.Ea">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faMa_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faMa_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faMa_IERS2003.Ma">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faJu_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faJu_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faJu_IERS2003.Ju">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faSa_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faSa_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faSa_IERS2003.Sa">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faUr_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faUr_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faUr_IERS2003.Ur">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faNe_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faNe_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faNe_IERS2003.Ne">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="faPA_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faPA_IERS2003.TDB_C">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="faPA_IERS2003.Pa">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="NutationIAU1980">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU1980.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU1980.DeltaPsi">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU1980.DeltaEps">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="NutationIAU2000A_IERS2003">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU2000A_IERS2003.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU2000A_IERS2003.DeltaPsi">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU2000A_IERS2003.DeltaEps">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="NutationIAU2000A">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU2000A.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU2000A.DeltaPsi">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU2000A.DeltaEps">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="NutationIAU2000B">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU2000B.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU2000B.DeltaPsi">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NutationIAU2000B.DeltaEps">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="EarthRotationAngleIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EarthRotationAngleIAU2000.UT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EarthRotationAngleIAU2000.ERA">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU1982">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU1982.UT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU1982.GMST">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU2000.UT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU2000.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU2000.GMST">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU2006">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU2006.UT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU2006.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichMeanSiderealTimeIAU2006.GMST">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="EquationOfEquinoxes">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes.DeltaPsi">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes.EpsA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes.CT">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes.EqEq">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="EquationOfEquinoxesCT_IAU1994">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxesCT_IAU1994.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxesCT_IAU1994.CT">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="EquationOfEquinoxes_IAU1994">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU1994.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU1994.EqEq">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000.DeltaPsi">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000.EpsA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000.EqEq">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="EquationOfEquinoxesCT_IAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxesCT_IAU2000.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxesCT_IAU2000.CT">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000A">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000A.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000A.EqEq">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000B">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000B.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2000B.EqEq">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2006A">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2006A.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EquationOfEquinoxes_IAU2006A.EqEq">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="GreenwichSiderealTime">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="GreenwichSiderealTime.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime.GMST">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime.EqEq">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime.DeltaPsi">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime.EpsA">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime.CT">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="GreenwichSiderealTime_IAU1994">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="GreenwichSiderealTime_IAU1994.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime_IAU1994.UT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime_IAU1994.TDB">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2000A">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2000A.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2000A.UT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2000A.TDB">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2000B">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2000B.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2000B.UT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2000B.TDB">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2006A">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2006A.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2006A.UT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GreenwichSiderealTime_IAU2006A.TDB">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="TIOLocatorSpIAU2000">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TIOLocatorSpIAU2000.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TIOLocatorSpIAU2000.TDB">
+<short></short>
+</element>
+
+</module> <!-- almEarth -->
+
+</package>
+</fpdoc-descriptions>

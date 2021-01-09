@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fpdoc-descriptions>
+<package name="Almagesto">
+
+<!--
+  ====================================================================
+    almDateTime
+  ====================================================================
+-->
+
+<module name="almDateTime">
+<short></short>
+<descr>
+</descr>
+
+<!-- uses unit Visibility: default -->
+<element name="Classes">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="SysUtils">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="almBase">
+<short></short>
+</element>
+
+<!-- class Visibility: default -->
+<element name="TTimeScales">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TTimeScales.fUTC">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TTimeScales.fDUT1">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TTimeScales.fTDB">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TTimeScales.fTT">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TTimeScales.fUT1">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- procedure Visibility: private -->
+<element name="TTimeScales.SetUTC">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TTimeScales.SetUTC.aUTC">
+<short></short>
+</element>
+
+<!-- function Visibility: private -->
+<element name="TTimeScales.GetTAI">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TTimeScales.GetTAI.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: private -->
+<element name="TTimeScales.GetTCB">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TTimeScales.GetTCB.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: private -->
+<element name="TTimeScales.GetTCG">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TTimeScales.GetTCG.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: private -->
+<element name="TTimeScales.GetUT0">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TTimeScales.GetUT0.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: private -->
+<element name="TTimeScales.GetUT2">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TTimeScales.GetUT2.Result">
+<short></short>
+</element>
+
+<!-- procedure Visibility: protected -->
+<element name="TTimeScales.UTCChanged">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- constructor Visibility: public -->
+<element name="TTimeScales.Create">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TTimeScales.Create.aUTC">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TTimeScales.Create.aDUT1">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TTimeScales.SetUTC.aDUT1">
+<short></short>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TTimeScales.UTC">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TTimeScales.TAI">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TTimeScales.TT">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TTimeScales.TDB">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TTimeScales.TCG">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TTimeScales.TCB">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TTimeScales.UT1">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TTimeScales.UT2">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TTimeScales.UT0">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DeltaTDB_FB2001">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DeltaTDB_FB2001.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DeltaTDB_FB2001.TDB">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DeltaTDB_FB2001.AmpCut">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DeltaAT">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DeltaAT.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DeltaAT.UTC">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DeltaTAI">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DeltaTAI.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DeltaT">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DeltaT.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DeltaT.UT1">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DeltaTDB">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DeltaTDB.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DeltaTDB.TDB">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DeltaTCG">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DeltaTCG.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DeltaTCG.TT">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DeltaTCB">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DeltaTCB.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DeltaTCB.TCB">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DUT1">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DUT1.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DUT1.UTC">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DeltaUT2">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DeltaUT2.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DeltaUT2.UT1">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DeltaUT0">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DeltaUT0.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DeltaUT0.UT1">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="JulianDateToMJD">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="JulianDateToMJD.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianDateToMJD.JulianDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="MJDToJulianDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="MJDToJulianDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MJDToJulianDate.MJD">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="JulianDateToDateTime">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="JulianDateToDateTime.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianDateToDateTime.JulianDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DateTimeToJulianDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DateTimeToJulianDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DateTimeToJulianDate.DateTime">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="JulianDateToBesselianEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="JulianDateToBesselianEpoch.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianDateToBesselianEpoch.JD">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="StandardTimeToUTC">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="StandardTimeToUTC.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="StandardTimeToUTC.StandardTime">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="StandardTimeToUTC.TimeZone">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="StandardTimeToUTC.DayLightSavings">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="UTCToStandardTime">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="UTCToStandardTime.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="UTCToStandardTime.UTC">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="UTCToStandardTime.TimeZone">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="UTCToStandardTime.DayLightSavings">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="LocalMeanTimeToUniversalTime">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="LocalMeanTimeToUniversalTime.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="LocalMeanTimeToUniversalTime.LocalMeanTime">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="LocalMeanTimeToUniversalTime.Longitude">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="UniversalTimeToLocalMeanTime">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="UniversalTimeToLocalMeanTime.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="UniversalTimeToLocalMeanTime.UniversalTime">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="UniversalTimeToLocalMeanTime.Longitude">
+<short></short>
+</element>
+
+</module> <!-- almDateTime -->
+
+</package>
+</fpdoc-descriptions>

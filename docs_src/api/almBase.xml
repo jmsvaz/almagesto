@@ -1,0 +1,778 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fpdoc-descriptions>
+<package name="Almagesto">
+
+<!--
+  ====================================================================
+    almBase
+  ====================================================================
+-->
+
+<module name="almBase">
+<short></short>
+<descr>
+</descr>
+
+<!-- uses unit Visibility: default -->
+<element name="Classes">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="SysUtils">
+<short></short>
+</element>
+
+<!-- alias type Visibility: default -->
+<element name="TJulianDate">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- alias type Visibility: default -->
+<element name="TMJD">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- record type Visibility: default -->
+<element name="TTriplet">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: default -->
+<element name="TTriplet.X">
+<short></short>
+</element>
+
+<!-- variable Visibility: default -->
+<element name="TTriplet.Y">
+<short></short>
+</element>
+
+<!-- variable Visibility: default -->
+<element name="TTriplet.Z">
+<short></short>
+</element>
+
+<!-- alias type Visibility: default -->
+<element name="TPosition">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- alias type Visibility: default -->
+<element name="TVelocity">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- alias type Visibility: default -->
+<element name="TAcceleration">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- record type Visibility: default -->
+<element name="TBodyState">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: default -->
+<element name="TBodyState.Pos">
+<short></short>
+</element>
+
+<!-- variable Visibility: default -->
+<element name="TBodyState.Vel">
+<short></short>
+</element>
+
+<!-- variable Visibility: default -->
+<element name="TBodyState.Accel">
+<short></short>
+</element>
+
+<!-- enumeration type Visibility: default -->
+<element name="TSolarSystemBody">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.stSun">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.plMercury">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.plVenus">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.plEarth">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.plMars">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.plJupiter">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.plSaturn">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.plUranus">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.plNeptune">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.dpCeres">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.dpPluto">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.dpHaumea">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.dpMakemake">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.dpEris">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.pmMoon">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.pmPhobos">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TSolarSystemBody.pmDeimos">
+<short></short>
+</element>
+
+<!-- class Visibility: default -->
+<element name="TEphemeridesModel">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: protected -->
+<element name="TEphemeridesModel.fName">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- function Visibility: public -->
+<element name="TEphemeridesModel.HasBody">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TEphemeridesModel.HasBody.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEphemeridesModel.HasBody.ABody">
+<short></short>
+</element>
+
+<!-- function Visibility: public -->
+<element name="TEphemeridesModel.GetState">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TEphemeridesModel.GetState.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEphemeridesModel.GetState.ABody">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEphemeridesModel.GetState.TDB">
+<short></short>
+</element>
+
+<!-- property Visibility: public -->
+<element name="TEphemeridesModel.Name">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMinStar">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMaxStar">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMinPlanet">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMaxPlanet">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMinDwarfPlanet">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMaxDwarfPlanet">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMinEarthMoon">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMaxEarthMoon">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMinMarsMoon">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ssbMaxMarsMoon">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="J2000">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="J1900">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="B1950">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="B1900">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="B1850">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="JulianDate2000">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="JulianDaysPerYear">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="JulianDaysPerCentury">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="JulianDaysPerMillenium">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="TropicalDaysPerYear">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="TropicalDaysPerCentury">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="RadiansPerRev">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="DegreesPerRev">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ArcMinutesPerDegree">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ArcSecondsPerArcMinute">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="MilliArcSecondsPerArcSecond">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ArcSecondsPerDegree">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="MilliArcSecondsPerDegree">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="HoursPerRev">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="HoursPerDay">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="MinutesPerHour">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="SecondsPerMinute">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="MilliSecondsPerSecond">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="MicroSecondsPerSecond">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="MinutesPerDay">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="SecondsPerHour">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="SecondsPerDay">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="MilliSecondsPerDay">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="HoursPerDegree">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="DegreesPerHour">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="DegreesPerMinute">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="DegreesPerSecond">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="RadiansPerDegree">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="RadiansPerArcSecond">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="ArcSecondsPerRadian">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="RadiansPerHour">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="RadiansPerMinute">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- function Visibility: default -->
+<element name="fmod">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="fmod.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="fmod.X">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="fmod.Range">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="fmod.Max">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="fmod.Min">
+<short></short>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="LB">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="LG">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="T0">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+</module> <!-- almBase -->
+
+</package>
+</fpdoc-descriptions>

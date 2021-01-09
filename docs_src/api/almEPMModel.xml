@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fpdoc-descriptions>
+<package name="Almagesto">
+
+<!--
+  ====================================================================
+    almEPMModel
+  ====================================================================
+-->
+
+<module name="almEPMModel">
+<short></short>
+<descr>
+</descr>
+
+<!-- uses unit Visibility: default -->
+<element name="Classes">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="SysUtils">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="almBase">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="almEphemerides">
+<short></short>
+</element>
+
+<!-- class Visibility: default -->
+<element name="TEPMModel">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEPMModel.jdb">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEPMModel.djb">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEPMModel.delta">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEPMModel.ncoef">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEPMModel.ndim">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEPMModel.nbl">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: private -->
+<element name="TEPMModel.coef">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: protected -->
+<element name="TEPMModel.fObjects">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: protected -->
+<element name="TEPMModel.fRHO">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: protected -->
+<element name="TEPMModel.fDisp">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: protected -->
+<element name="TEPMModel.fFileNames">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- variable Visibility: protected -->
+<element name="TEPMModel.fTextFileExtension">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- procedure Visibility: protected -->
+<element name="TEPMModel.InitModel">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- procedure Visibility: protected -->
+<element name="TEPMModel.ReadText">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEPMModel.ReadText.ObjectNumber">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEPMModel.ReadText.FileName">
+<short></short>
+</element>
+
+<!-- procedure Visibility: protected -->
+<element name="TEPMModel.ReadBin">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEPMModel.ReadBin.ObjectNumber">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEPMModel.ReadBin.FileName">
+<short></short>
+</element>
+
+<!-- constructor Visibility: public -->
+<element name="TEPMModel.Create">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function Visibility: public -->
+<element name="TEPMModel.HasBody">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TEPMModel.HasBody.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEPMModel.HasBody.ABody">
+<short></short>
+</element>
+
+<!-- function Visibility: public -->
+<element name="TEPMModel.GetState">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="TEPMModel.GetState.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEPMModel.GetState.ABody">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEPMModel.GetState.TDB">
+<short></short>
+</element>
+
+<!-- procedure Visibility: public -->
+<element name="TEPMModel.SetTextPath">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="TEPMModel.SetTextPath.APath">
+<short></short>
+</element>
+
+<!-- class Visibility: default -->
+<element name="TEPM04Model">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- procedure Visibility: protected -->
+<element name="TEPM04Model.InitModel">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- class Visibility: default -->
+<element name="TEPM08Model">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- procedure Visibility: protected -->
+<element name="TEPM08Model.InitModel">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+</module> <!-- almEPMModel -->
+
+</package>
+</fpdoc-descriptions>

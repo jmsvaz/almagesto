@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fpdoc-descriptions>
+<package name="Almagesto">
+
+<!--
+  ====================================================================
+    almLocalReferenceSystems
+  ====================================================================
+-->
+
+<module name="almLocalReferenceSystems">
+<short></short>
+<descr>
+</descr>
+
+<!-- uses unit Visibility: default -->
+<element name="Classes">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="SysUtils">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="Math">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="almBase">
+<short></short>
+</element>
+
+<!-- enumeration type Visibility: default -->
+<element name="TEarthEllipsoid">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeWGS60">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeIAU64">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeWGS66">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeSA69">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeGRS67">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeWGS72">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeIAU75">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeIAU76">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeGRS80">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeMERIT83">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeWGS84">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeIERS1989">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TEarthEllipsoid.eeIERS2003">
+<short></short>
+</element>
+
+<!-- constant Visibility: default -->
+<element name="DefaultEarthEllipsoid">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="GetEarthEllipsoid">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GetEarthEllipsoid.Ellipsoid">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GetEarthEllipsoid.a">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GetEarthEllipsoid.f">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="GeodeticToGeocentric">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="GeodeticToGeocentric.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GeodeticToGeocentric.Latitude">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GeodeticToGeocentric.Longitude">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GeodeticToGeocentric.Height">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GeodeticToGeocentric.a">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GeodeticToGeocentric.f">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GeodeticToGeocentric.Ellipsoid">
+<short></short>
+</element>
+
+</module> <!-- almLocalReferenceSystems -->
+
+</package>
+</fpdoc-descriptions>

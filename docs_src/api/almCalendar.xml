@@ -1,0 +1,1785 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fpdoc-descriptions>
+<package name="Almagesto">
+
+<!--
+  ====================================================================
+    almCalendar
+  ====================================================================
+-->
+
+<module name="almCalendar">
+<short></short>
+<descr>
+</descr>
+
+<!-- uses unit Visibility: default -->
+<element name="Classes">
+<short></short>
+</element>
+
+<!-- uses unit Visibility: default -->
+<element name="SysUtils">
+<short></short>
+</element>
+
+<!-- alias type Visibility: default -->
+<element name="TFixedDate">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FixedDateToJulianDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FixedDateToJulianDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToJulianDate.FixedDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="JulianDateToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="JulianDateToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianDateToFixedDate.JulianDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FixedDateToRataDie">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FixedDateToRataDie.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToRataDie.FixedDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="RataDieToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="RataDieToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="RataDieToFixedDate.RataDie">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FixedDateToDateTime">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FixedDateToDateTime.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToDateTime.FixedDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DateTimeToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DateTimeToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DateTimeToFixedDate.DateTime">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DayOfWeekFromFixed">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DayOfWeekFromFixed.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="DayOfWeekFromFixed.FixedDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="KDayOnOrBefore">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="KDayOnOrBefore.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayOnOrBefore.k">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayOnOrBefore.FixedDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="KDayOnOrAfter">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="KDayOnOrAfter.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayOnOrAfter.k">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayOnOrAfter.FixedDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="KDayNearest">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="KDayNearest.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayNearest.k">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayNearest.FixedDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="KDayBefore">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="KDayBefore.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayBefore.k">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayBefore.FixedDate">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="KDayAfter">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="KDayAfter.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayAfter.k">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="KDayAfter.FixedDate">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToJulianCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToJulianCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToJulianCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToJulianCalendar.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToJulianCalendar.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="JulianCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="JulianCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianCalendarToFixedDate.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianCalendarToFixedDate.Day">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToJulianCalendar.Event">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToJulianCalendar.Count">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToJulianCalendar.Leap">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianCalendarToFixedDate.Event">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianCalendarToFixedDate.Count">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianCalendarToFixedDate.Leap">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="JulianLeapYear">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="JulianLeapYear.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="JulianLeapYear.Year">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToRomanCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToRomanCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToRomanCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToRomanCalendar.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToRomanCalendar.Event">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToRomanCalendar.Count">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToRomanCalendar.Leap">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="RomanCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="RomanCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="RomanCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="RomanCalendarToFixedDate.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="RomanCalendarToFixedDate.Event">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="RomanCalendarToFixedDate.Count">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="RomanCalendarToFixedDate.Leap">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="RomanLeapYear">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="RomanLeapYear.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="RomanLeapYear.Year">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToGregorianCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToGregorianCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToGregorianCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToGregorianCalendar.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToGregorianCalendar.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="GregorianCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="GregorianCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GregorianCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GregorianCalendarToFixedDate.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GregorianCalendarToFixedDate.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="GregorianLeapYear">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="GregorianLeapYear.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="GregorianLeapYear.Year">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="NthKDay">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="NthKDay.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NthKDay.n">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NthKDay.k">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NthKDay.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NthKDay.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="NthKDay.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FirstKDay">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FirstKDay.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FirstKDay.k">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FirstKDay.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FirstKDay.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FirstKDay.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="LastKDay">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="LastKDay.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="LastKDay.k">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="LastKDay.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="LastKDay.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="LastKDay.Day">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToISOCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToISOCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToISOCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToISOCalendar.Week">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToISOCalendar.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="ISOCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="ISOCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="ISOCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="ISOCalendarToFixedDate.Week">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="ISOCalendarToFixedDate.Day">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToEgyptianCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToEgyptianCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToEgyptianCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToEgyptianCalendar.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToEgyptianCalendar.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="EgyptianCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="EgyptianCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EgyptianCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EgyptianCalendarToFixedDate.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EgyptianCalendarToFixedDate.Day">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToArmenianCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToArmenianCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToArmenianCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToArmenianCalendar.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToArmenianCalendar.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="ArmenianCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="ArmenianCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="ArmenianCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="ArmenianCalendarToFixedDate.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="ArmenianCalendarToFixedDate.Day">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToZoroastrianCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToZoroastrianCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToZoroastrianCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToZoroastrianCalendar.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToZoroastrianCalendar.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="ZoroastrianCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="ZoroastrianCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="ZoroastrianCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="ZoroastrianCalendarToFixedDate.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="ZoroastrianCalendarToFixedDate.Day">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToCopticCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToCopticCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToCopticCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToCopticCalendar.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToCopticCalendar.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="CopticCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="CopticCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="CopticCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="CopticCalendarToFixedDate.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="CopticCalendarToFixedDate.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="CopticLeapYear">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="CopticLeapYear.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="CopticLeapYear.Year">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToEthiopicCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToEthiopicCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToEthiopicCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToEthiopicCalendar.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToEthiopicCalendar.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="EthiopicCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="EthiopicCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EthiopicCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EthiopicCalendarToFixedDate.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="EthiopicCalendarToFixedDate.Day">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToIslamicCalendar">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToIslamicCalendar.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToIslamicCalendar.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToIslamicCalendar.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToIslamicCalendar.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="IslamicCalendarToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="IslamicCalendarToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="IslamicCalendarToFixedDate.Year">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="IslamicCalendarToFixedDate.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="IslamicCalendarToFixedDate.Day">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="IslamicLeapYear">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="IslamicLeapYear.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="IslamicLeapYear.Year">
+<short></short>
+</element>
+
+<!-- enumeration type Visibility: default -->
+<element name="TMayanCorrelation">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TMayanCorrelation.mcGoodmanMartinezThompson">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TMayanCorrelation.mcSpinden">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="MayanLongCountToFixedDate">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="MayanLongCountToFixedDate.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MayanLongCountToFixedDate.Baktun">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MayanLongCountToFixedDate.Katun">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MayanLongCountToFixedDate.Tun">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MayanLongCountToFixedDate.Uinal">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MayanLongCountToFixedDate.Kin">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MayanLongCountToFixedDate.MayanCorrelation">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToMayanLongCount">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanLongCount.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanLongCount.Baktun">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanLongCount.Katun">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanLongCount.Tun">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanLongCount.Uinal">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanLongCount.Kin">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanLongCount.MayanCorrelation">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToMayanHaab">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanHaab.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanHaab.Day">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanHaab.Month">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanHaab.MayanCorrelation">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToMayanTzolkin">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanTzolkin.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanTzolkin.Number">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanTzolkin.Name">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToMayanTzolkin.MayanCorrelation">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToAztecXihuitl">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToAztecXihuitl.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToAztecXihuitl.Day">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToAztecXihuitl.Month">
+<short></short>
+</element>
+
+<!-- procedure Visibility: default -->
+<element name="FixedDateToAztecTonalpohualli">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToAztecTonalpohualli.FixedDate">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToAztecTonalpohualli.Number">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateToAztecTonalpohualli.Name">
+<short></short>
+</element>
+
+<!-- enumeration type Visibility: default -->
+<element name="TFixedDateEpochType">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TFixedDateEpochType.fdeJulianDate">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TFixedDateEpochType.fdeRataDie">
+<short></short>
+</element>
+
+<!-- enumeration value Visibility: default -->
+<element name="TFixedDateEpochType.fdeDateTime">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="FixedDateEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="FixedDateEpoch.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="FixedDateEpoch.FixedDateEpochType">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="JulianDateEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="JulianDateEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="RataDieEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="RataDieEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="DateTimeEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="DateTimeEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="JulianCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="JulianCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="GregorianCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="GregorianCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="MayanLongCountEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="MayanLongCountEpoch.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MayanLongCountEpoch.MayanCorrelation">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="MayanHaabEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="MayanHaabEpoch.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MayanHaabEpoch.MayanCorrelation">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="MayanTzolkinEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="MayanTzolkinEpoch.Result">
+<short></short>
+</element>
+
+<!-- argument Visibility: default -->
+<element name="MayanTzolkinEpoch.MayanCorrelation">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="AztecXihuitlEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="AztecXihuitlEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="AztecTonalpohualliEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="AztecTonalpohualliEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="EgyptianCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="EgyptianCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="ArmenianCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="ArmenianCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="ZoroastrianCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="ZoroastrianCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="CopticCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="CopticCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="EthiopicCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="EthiopicCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="IslamicCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="IslamicCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="HebrewCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="HebrewCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- function Visibility: default -->
+<element name="HinduCalendarEpoch">
+<short></short>
+<descr>
+</descr>
+<errors>
+</errors>
+<seealso>
+</seealso>
+</element>
+
+<!-- function result Visibility: default -->
+<element name="HinduCalendarEpoch.Result">
+<short></short>
+</element>
+
+<!-- variable Visibility: default -->
+<element name="FixedDateEpochType">
+<short></short>
+<descr>
+</descr>
+<seealso>
+</seealso>
+</element>
+
+</module> <!-- almCalendar -->
+
+</package>
+</fpdoc-descriptions>
