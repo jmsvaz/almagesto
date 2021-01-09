@@ -1,9 +1,11 @@
-\documentclass[a4paper,11pt,bibliography=totoc]{scrreport}
+%\documentclass[a4paper,11pt,bibliography=totoc]{scrreport}
+\documentclass{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{siunitx}
 \usepackage{hyperref}
-%\usepackage[nottoc]{tocbibind}
+\usepackage[nottoc]{tocbibind}
 \usepackage[acronyms,toc,sort=standard]{glossaries}
 
 \makeglossaries
@@ -12,7 +14,7 @@
 \loadglsentries{glossary.tex}
 
 \title{ALMAGESTO - Technical Manual}
-\subtitle{A Free Pascal Astronomical Library}
+%\subtitle{A Free Pascal Astronomical Library}
 \author{João Marcelo S. Vaz}
 \date{\today}
 
@@ -85,6 +87,21 @@ All \glspl{LeapSecond} can be obtained from \url{https://hpiers.obspm.fr/eoppc/b
 \end{equation}
 
 \gls{UT1R} and \gls{UT2} can be obtained from \gls{UT1}:
+
+\begin{equation}
+	\gls{TT} = \gls{TAI} + \SI{32.184}{\second}
+\end{equation}
+
+\begin{align}
+	\gls{TCG} - \gls{TT} =  (\frac {L_G}{1-L_G}) \cdot (\gls{TT} - T_0) \cdot \SI{86400}{\second} \quad \textrm{where}\\
+	T_0 = \textrm{JD}\num{2443144.5003725}\\
+	L_G = \num{6.969290134e-10}
+\end{align}
+
+
+
+
+
 
 
 
