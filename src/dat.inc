@@ -23,7 +23,7 @@ ftp://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat (after 1970-01-01) and
 ftp://hpiers.obspm.fr/iers/bul/bulc/UTC-TAI.history (complete, but without expiration date)
 
 - MinDate is the JulianDate of the first leap second introduced at 1961-01-01;
-- MaxDate is the JulianDate of the date at the bulletin;
+- BulletinDate is the date of the new possible time step in UTC;
 - NLeapSeconds should be incremented as a new leap second is annnounced;
 - LeapSeconds is the array of leap seconds; a new row should be added as a new leap second is annnounced.
 
@@ -34,7 +34,7 @@ The current IERS Bulletin C is Number 64 released at 05 July 2022:
 
 const
   MinDate = 2437300.5; // >= 1961-01-01
-  MaxDate = 2460126.5; // <  2023-07-01
+  BulletinDate = '2022-12-31';
   NLeapSeconds = 41;
   LeapSeconds: array [1..NLeapSeconds,1..4] of Single =
   // TAI-UTC (T) = A + (MJD - B) x C (in seconds)

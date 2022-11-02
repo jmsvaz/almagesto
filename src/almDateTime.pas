@@ -455,10 +455,12 @@ var
  i, this: Integer;
  More: Boolean;
  Offset: Double;
+ MaxDate: TJulianDate; // Bulletin date plus 6 months (date of new bulletin)
 begin
  Result:= 0;
  // DAT = (TT - UTC) - (TT - TAI)
  // DAT = DeltaT - DeltaTAI
+ MaxDate:= DateTimeToJulianDate(IncMonth(StrToDate(BulletinDate, 'y/m/d', '-'),6));
  if (UTC < MinDate) then // use historical Delta T -> UTC = UT1
    Result:= DeltaT(UTC) - DeltaTAI
  else
