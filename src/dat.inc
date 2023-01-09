@@ -27,14 +27,14 @@ ftp://hpiers.obspm.fr/iers/bul/bulc/UTC-TAI.history (complete, but without expir
 - NLeapSeconds should be incremented as a new leap second is annnounced;
 - LeapSeconds is the array of leap seconds; a new row should be added as a new leap second is annnounced.
 
-The current IERS Bulletin C is Number 64 released at 05 July 2022:
-- NO leap second will be introduced at the end of December 2022.
+The current IERS Bulletin C is Number 65 released at 09 January 2023:
+- NO leap second will be introduced at the end of June 2023.
 - from 2017 January 1, 0h UTC, until further notice : UTC-TAI = -37 s
 }
 
 const
   MinDate = 2437300.5; // >= 1961-01-01
-  BulletinDate = '2022-12-31';
+  BulletinDate = '2023-06-30';
   NLeapSeconds = 41;
   LeapSeconds: array [1..NLeapSeconds,1..4] of Single =
   // TAI-UTC (T) = A + (MJD - B) x C (in seconds)
