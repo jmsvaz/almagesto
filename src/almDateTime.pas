@@ -33,8 +33,9 @@ uses
 
 type
 
-  { TTimeValue is a representation class for a time value. It provides some
-  common astronomical time formats.
+  { TTimeValue is a representation class for a time value. It provides common
+  astronomical time formats like JulianDate, Modified Julian Date, Julian Epoch,
+  Besselian Epoch and th native TDateTime format.
   }
 
   TTimeValue = class
