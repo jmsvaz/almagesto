@@ -44,11 +44,13 @@ type
       fJulianDateFrac: TJulianDate;
       function GetBesselianEpoch: Extended;
       function GetDateTime: TDateTime;
+      function GetISO8601: string;
       function GetJD: TJulianDate;
       function GetJulianEpoch: Extended;
       function GetMJD: TMJD;
       procedure SetBesselianEpoch(AValue: Extended);
       procedure SetDateTime(AValue: TDateTime);
+      procedure SetISO8601(AValue: string);
       procedure SetJD(AValue: TJulianDate);
       procedure SetJulianEpoch(AValue: Extended);
       procedure SetMJD(AValue: TMJD);
@@ -59,6 +61,7 @@ type
       property DateTime: TDateTime read GetDateTime write SetDateTime;
       property BesselianEpoch: Extended read GetBesselianEpoch write SetBesselianEpoch;
       property JulianEpoch: Extended read GetJulianEpoch write SetJulianEpoch;
+      property ISO8601: string read GetISO8601 write SetISO8601;
       function JDAsStr(Digits: Integer = 5): String;
       function MJDAsStr(Digits: Integer = 5): String;
       function DateTimeAsStr(Digits: Integer = 5): String;
@@ -209,7 +212,7 @@ type
 
 implementation
 
-uses Math;
+uses Math, DateUtils;
 
 { TTimeValue }
 
@@ -260,6 +263,11 @@ begin
  Result:= JulianDateToDateTime(JD);
 end;
 
+function TTimeValue.GetISO8601: string;
+begin
+ Result := FormatDateTime('yyyy"-"mm"-"dd"T"hh":"nn":"ss"."zzz', DateTime);
+end;
+
 function TTimeValue.GetBesselianEpoch: Extended;
 begin
   Result:= JulianDateToBesselianEpoch(JD);
@@ -278,6 +286,11 @@ end;
 procedure TTimeValue.SetDateTime(AValue: TDateTime);
 begin
   JD:= DateTimeToJulianDate(AValue);
+end;
+
+procedure TTimeValue.SetISO8601(AValue: string);
+begin
+  DateTime:= ISO8601ToDate(AValue,True);
 end;
 
 procedure TTimeValue.SetJD(AValue: TJulianDate);
