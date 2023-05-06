@@ -159,6 +159,15 @@ type
   //  This function is used to compute UT2
   function JulianDateToBesselianEpoch(JD: TJulianDate): Double;
 
+  //  BesselianEpochToJulianDate converts a Besselian Epoch to a JulianDate value value
+  function BesselianEpochToJulianDate(BesselianEpoch: Double): TJulianDate;
+
+  //  JulianDateToJulieanEpoch converts a JulianDate value to a Julian Epoch value
+  function JulianDateToJulianEpoch(JD: TJulianDate): Double;
+
+  //  JulianEpochToJulianDate converts a Julian Epoch value to a JulianDate value
+  function JulianEpochToJulianDate(JulianEpoch: Double): TJulianDate;
+
   function StandardTimeToUTC(StandardTime: TDateTime; TimeZone: Double; DayLightSavings: Double): TDateTime;
   function UTCToStandardTime(UTC: TDateTime; TimeZone: Double; DayLightSavings: Double): TDateTime;
   function LocalMeanTimeToUniversalTime(LocalMeanTime: TDateTime; Longitude: Double): TDateTime;
@@ -2387,8 +2396,27 @@ begin
 end;
 
 function JulianDateToBesselianEpoch(JD: TJulianDate): Double;
+// REFERENCE: Lieske, J.H., 1979, Astron.Astrophys. 73, 282
 begin
-  Result:= 1900 + (JD - B1900)/TropicalDaysPerYear;
+  Result:= 1900.0 + (JD - B1900)/TropicalDaysPerYear;
+end;
+
+function BesselianEpochToJulianDate(BesselianEpoch: Double): TJulianDate;
+// REFERENCE: Lieske, J.H., 1979, Astron.Astrophys. 73, 282
+begin
+   Result:= TropicalDaysPerYear*(BesselianEpoch - 1900.0) + B1900;
+end;
+
+function JulianDateToJulianEpoch(JD: TJulianDate): Double;
+// REFERENCE: Lieske, J.H., 1979, Astron.Astrophys. 73, 282
+begin
+ Result:= 2000.0 + (JD - J2000)/JulianDaysPerYear;
+end;
+
+function JulianEpochToJulianDate(JulianEpoch: Double): TJulianDate;
+// REFERENCE: Lieske, J.H., 1979, Astron.Astrophys. 73, 282
+begin
+ Result:= JulianDaysPerYear*(JulianEpoch - 2000.0) + J2000;
 end;
 
 function StandardTimeToUTC(StandardTime: TDateTime; TimeZone: Double;

@@ -28,6 +28,10 @@ type
     procedure TestStandardTimeConversion;
     procedure TestLocalMeanTimeConversion;
     procedure TestJulianDateConversion;
+    procedure TestJulianEpochToJulianDDate;
+    procedure TestJulianDateToJulianEpoch;
+    procedure TestBesselianEpochToJulianDDate;
+    procedure TestJulianDateToBesselianEpoch;
   end;
 
   { TTestTimeDeltas }
@@ -86,6 +90,55 @@ begin
   Expected:= 2451544.5;
   JD:= DateTimeToJulianDate(LocalTime);
   AssertEquals(Expected,JD,0);
+end;
+
+procedure TTestTimeConversion.TestJulianEpochToJulianDDate;
+var
+  JulianEpoch, Computed, Expected: TJulianDate;
+begin
+  // This function tests Julian Epoch conversion from JulianEpochToJulianDate
+  // Test values from IAU SOFA C version 2020-07-21 Release
+  JulianEpoch:= 1996.8;
+  Expected:= 2400000.5 + 50375.7;
+  Computed:= JulianEpochToJulianDate(JulianEpoch);
+  AssertEquals(Expected,Computed,1e-9);
+end;
+
+procedure TTestTimeConversion.TestJulianDateToJulianEpoch;
+var
+  JD, Computed, Expected: TJulianDate;
+begin
+  // This function tests Julian Epoch conversion from JulianDateToJulianEpoch
+  // Test values from IAU SOFA C version 2020-07-21 Release
+  JD:= 2451545 -7392.5;
+  Expected:= 1979.760438056125941;
+  Computed:= JulianDateToJulianEpoch(JD);
+  AssertEquals(Expected,Computed,1e-12);
+end;
+
+procedure TTestTimeConversion.TestBesselianEpochToJulianDDate;
+var
+  BesselianEpoch, Computed, Expected: TJulianDate;
+begin
+  // This function tests Besselian Epoch conversion from BesselianEpochToJulianDate
+  // Test values from IAU SOFA C version 2020-07-21 Release
+  BesselianEpoch:= 1957.3;
+  Expected:= 2400000.5 + 35948.1915101513;
+  Computed:= BesselianEpochToJulianDate(BesselianEpoch);
+  AssertEquals(Expected,Computed,1e-9);
+end;
+
+procedure TTestTimeConversion.TestJulianDateToBesselianEpoch;
+var
+  JD, Computed, Expected: TJulianDate;
+begin
+  // This function tests Besselian Epoch conversion from JulianDateToBesselianEpoch
+  // Test values from IAU SOFA C version 2020-07-21 Release
+  JD:= 2415019.8135 + 30103.18648;
+  Expected:= 1982.418424159278580;
+  Computed:= JulianDateToBesselianEpoch(JD);
+  AssertEquals(Expected,Computed,1e-12);
+
 end;
 
 
