@@ -33,6 +33,38 @@ uses
 
 type
 
+  { TTimeValue is a representation class for a time value. It provides some
+  common astronomical time formats.
+  }
+
+  TTimeValue = class
+    private
+      fJulianDate: TJulianDate;
+      fJulianDateFrac: TJulianDate;
+      function GetBesselianEpoch: Extended;
+      function GetDateTime: TDateTime;
+      function GetJD: TJulianDate;
+      function GetJulianEpoch: Extended;
+      function GetMJD: TMJD;
+      procedure SetBesselianEpoch(AValue: Extended);
+      procedure SetDateTime(AValue: TDateTime);
+      procedure SetJD(AValue: TJulianDate);
+      procedure SetJulianEpoch(AValue: Extended);
+      procedure SetMJD(AValue: TMJD);
+    public
+      constructor Create(aJulianDate: TJulianDate = 0; aJulianDateFrac: TJulianDate = 0);
+      property JD: TJulianDate read GetJD write SetJD;
+      property MJD: TMJD read GetMJD write SetMJD;
+      property DateTime: TDateTime read GetDateTime write SetDateTime;
+      property BesselianEpoch: Extended read GetBesselianEpoch write SetBesselianEpoch;
+      property JulianEpoch: Extended read GetJulianEpoch write SetJulianEpoch;
+      function JDAsStr(Digits: Integer = 5): String;
+      function MJDAsStr(Digits: Integer = 5): String;
+      function DateTimeAsStr(Digits: Integer = 5): String;
+      function BesselianEpochAsStr(Digits: Integer = 1): String;
+      function JulianEpochAsStr(Digits: Integer = 1): String;
+    end;
+
   {TTimeScales is a class used to compute some astronomical time scales.
    You should set UTC to get the other time scales.
 
@@ -177,6 +209,91 @@ type
 implementation
 
 uses Math;
+
+{ TTimeValue }
+
+constructor TTimeValue.Create(aJulianDate: TJulianDate;
+  aJulianDateFrac: TJulianDate);
+begin
+  fJulianDate:= aJulianDate;
+  fJulianDateFrac:= aJulianDateFrac;
+end;
+
+function TTimeValue.JDAsStr(Digits: Integer): String;
+begin
+  Result:= FloatToStrF(JD, ffFixed,0, Digits);
+end;
+
+function TTimeValue.MJDAsStr(Digits: Integer): String;
+begin
+ Result:= FloatToStrF(MJD, ffFixed,0, Digits);
+end;
+
+function TTimeValue.DateTimeAsStr(Digits: Integer): String;
+begin
+ Result:= FloatToStrF(DateTime, ffFixed,0, Digits);
+end;
+
+function TTimeValue.BesselianEpochAsStr(Digits: Integer): String;
+begin
+ Result:= 'B' + FloatToStrF(DateTime, ffFixed,0, Digits);
+end;
+
+function TTimeValue.JulianEpochAsStr(Digits: Integer): String;
+begin
+ Result:= 'J' + FloatToStrF(DateTime, ffFixed,0, Digits);
+end;
+
+function TTimeValue.GetJD: TJulianDate;
+begin
+  Result:= fJulianDate + fJulianDateFrac;
+end;
+
+function TTimeValue.GetJulianEpoch: Extended;
+begin
+  Result:= JulianDateToJulianEpoch(JD);
+end;
+
+function TTimeValue.GetDateTime: TDateTime;
+begin
+ Result:= JulianDateToDateTime(JD);
+end;
+
+function TTimeValue.GetBesselianEpoch: Extended;
+begin
+  Result:= JulianDateToBesselianEpoch(JD);
+end;
+
+function TTimeValue.GetMJD: TMJD;
+begin
+  Result:= JulianDateToMJD(JD);
+end;
+
+procedure TTimeValue.SetBesselianEpoch(AValue: Extended);
+begin
+ JD:= BesselianEpochToJulianDate(AValue);
+end;
+
+procedure TTimeValue.SetDateTime(AValue: TDateTime);
+begin
+  JD:= DateTimeToJulianDate(AValue);
+end;
+
+procedure TTimeValue.SetJD(AValue: TJulianDate);
+begin
+ fJulianDate:= Int(AValue);
+ fJulianDateFrac:= Frac(AValue);
+end;
+
+procedure TTimeValue.SetJulianEpoch(AValue: Extended);
+begin
+ JD:= JulianEpochToJulianDate(AValue);
+end;
+
+procedure TTimeValue.SetMJD(AValue: TMJD);
+begin
+  JD:= MJDToJulianDate(AValue);
+end;
 
 {
 **  An approximation to TDB-TT, the difference between barycentric
