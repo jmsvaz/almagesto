@@ -56,11 +56,29 @@ type
       procedure SetMJD(AValue: TMJD);
     public
       constructor Create(aJulianDate: TJulianDate = 0; aJulianDateFrac: TJulianDate = 0);
+      {Julian Date is a continuous count of days starting at noon on Monday, January 1, 4713 BC,
+      proleptic Julian calendar (November 24, 4714 BC, in the proleptic Gregorian calendar),
+      plus the fraction of a day since the preceding noon in Universal Time.
+      }
       property JD: TJulianDate read GetJD write SetJD;
+      {Modified Julian Date is the Julian Date with a more recente starting point
+      (0:00 November 17, 1858).
+      MJD = JD − 2400000.5
+      }
       property MJD: TMJD read GetMJD write SetMJD;
       property DateTime: TDateTime read GetDateTime write SetDateTime;
+      {Besselian Epoch is defined at Lieske, J.H., 1979, Astron.Astrophys. 73, 282 as
+      BE = 1900.0 + (JED - 2415020.31352)/365.242198781
+      At the notes on Recomendation 2 of the XVIth General Assembly Grenoble, France,  1976
+      the Besselian year was fixed at the length of the tropical year at B1900.0.
+      }
       property BesselianEpoch: Extended read GetBesselianEpoch write SetBesselianEpoch;
+      {JulianEpoch is defined at Lieske, J.H., 1979, Astron.Astrophys. 73, 282 as
+      JE = 2000.0 + (JED - 2451545.0)/365.25
+      }
       property JulianEpoch: Extended read GetJulianEpoch write SetJulianEpoch;
+      {ISO8601 is the date and time expressed according to the international standard ISO 8601.
+      }
       property ISO8601: string read GetISO8601 write SetISO8601;
       function JDAsStr(Digits: Integer = 5): String;
       function MJDAsStr(Digits: Integer = 5): String;
