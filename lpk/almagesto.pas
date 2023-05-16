@@ -4,11 +4,12 @@
 
 unit almagesto;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
   almEPMModel, almEOP, almBase, almEphemerides, almCalendar, almDateTime, 
-  almLocalReferenceSystems, almEarth;
+  almLocalReferenceSystems, almEarth, almUnits;
 
 implementation
 

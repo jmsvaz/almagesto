@@ -230,7 +230,7 @@ type
 
 implementation
 
-uses Math, DateUtils;
+uses Math, almUnits, DateUtils;
 
 { TTimeValue }
 
@@ -398,35 +398,35 @@ end;
 
 procedure TTimeScales.UTCChanged;
 begin
-  fUT1:= UTC + fDUT1/SecondsPerDay;
-  fTT:=  TAI + DeltaTAI/SecondsPerDay;   // TODO: Use DeltaT => fTT:= UT1 - DeltaT(UT1)
-  fTDB:= TT  + DeltaTDB(TT)/SecondsPerDay; // it should be DeltaTDB(TDB), but it's OK
+  fUT1:= UTC + Convert(fDUT1,cSeconds,cDays);
+  fTT:=  TAI + Convert(DeltaTAI,cSeconds,cDays);   // TODO: Use DeltaT => fTT:= UT1 - DeltaT(UT1)
+  fTDB:= TT  + Convert(DeltaTDB(TT),cSeconds,cDays); // it should be DeltaTDB(TDB), but it's OK
 end;
 
 function TTimeScales.GetTAI: TJulianDate;
 begin
-  Result:= UTC + DeltaAT(UTC)/SecondsPerDay;
+  Result:= UTC + Convert(DeltaAT(UTC),cSeconds,cDays);
 end;
 
 function TTimeScales.GetTCB: TJulianDate;
 begin
   //TODO: it should be DeltaTCB(TCB). Should make a loop to converge
-  Result:= TDB + DeltaTCB(TDB)/SecondsPerDay;
+  Result:= TDB +  Convert(DeltaTCB(TDB),cSeconds,cDays);
 end;
 
 function TTimeScales.GetTCG: TJulianDate;
 begin
-  Result:= TT  + DeltaTCG(TT)/SecondsPerDay;
+  Result:= TT  + Convert(DeltaTCG(TT),cSeconds,cDays);
 end;
 
 function TTimeScales.GetUT0: TJulianDate;
 begin
-  Result:= UT1 + DeltaUT0(UT1)/SecondsPerDay;
+  Result:= UT1 + Convert(DeltaUT0(UT1),cSeconds,cDays);
 end;
 
 function TTimeScales.GetUT2: TJulianDate;
 begin
-  Result:= UT1 + DeltaUT2(UT1)/SecondsPerDay;
+  Result:= UT1 + Convert(DeltaUT2(UT1),cSeconds,cDays);
 end;
 
 
@@ -686,7 +686,7 @@ function DeltaTCB(TCB: TJulianDate): Double;
 const
  TDBo = -6.55E-5; // TDB−TCB at JD 2443144.5 TAI - consistency with the widely used TDB - TT formula of Fairhead & Bretagnon (1990)
 begin
-  Result:= LB*(TCB - T0)*SecondsPerDay - TDBo;
+  Result:= Convert(LB*(TCB - T0),cDays,cSeconds) - TDBo;
 end;
 
 //    dTCG = TCG - TT   in Seconds
@@ -698,7 +698,7 @@ function DeltaTCG(TT: TJulianDate): Double;
                              Kartographie und Geodäsie, 2010
 }
 begin
- Result:= SecondsPerDay*(TT - T0)*LG/(1-LG);
+ Result:= Convert((TT - T0),cDays,cSeconds)*LG/(1-LG);
 end;
 
 //     dTDB = TDB - TT   in Seconds
@@ -2452,7 +2452,8 @@ begin
       w[Trunc(FBSeries[i,2])]:= w[Trunc(FBSeries[i,2])] + FBSeries[i,3]*sin(T*FBSeries[i,4] + FBSeries[i,5]);
 
   Result:= T*(T*(T*(T*(T*w[5] + w[4]) + w[3]) + w[2]) + w[1]) + w[0];
-  Result:= Result/MicroSecondsPerSecond;
+  Result:= Convert(Result,cMicroSeconds,cSeconds);
+//  Result:= Result/MicroSecondsPerSecond;
 end;
 
 
@@ -2488,7 +2489,7 @@ begin
  1. The expression is given in IERS Conventions (2010), eq. 10.5
  2. This function is a Pascal version of IERS Conventions (2010) routine 'XHF2002 IERS.F'.
 }
-  Result:= DeltaTDB_HF2002(TDB)/(1-LB) + C4TERMS*(TDB-T0)*SecondsPerDay;
+  Result:= DeltaTDB_HF2002(TDB)/(1-LB) +  C4TERMS*Convert((TDB-T0),cDays,cSeconds);
 end;
 
 

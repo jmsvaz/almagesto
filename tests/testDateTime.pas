@@ -58,7 +58,7 @@ type
 
 implementation
 
-uses almBase, almDateTime;
+uses almBase, almDateTime, almUnits;
 
 procedure TTestTimeConversion.TestStandardTimeConversion;
 var
@@ -177,7 +177,7 @@ begin
   JD:= 2453750.5;
   TTFrac:=  0.892482639;
   TCGFrac:= 0.8924900312508587113;
-  Expected:= (TCGFrac - TTFrac)*SecondsPerDay;
+  Expected:= Convert((TCGFrac - TTFrac),cDays,cSeconds);
   Computed:= DeltaTCG(JD + TTFrac);
   AssertEquals(Expected,Computed,1e-9);
 end;
@@ -191,7 +191,7 @@ begin
   JD:= 2453750.5;
   TCBFrac:= 0.893019599;
   TDBFrac:= 0.8928551362746343397;
-  Expected:= (TCBFrac - TDBFrac)*SecondsPerDay;
+  Expected:= Convert((TCBFrac - TDBFrac),cDays,cSeconds);
   Computed:= DeltaTCB(JD + TCBFrac);
   AssertEquals(Expected,Computed,1e-9);
 end;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <PathDelim Value="\"/>
     <Name Value="almagesto"/>
     <AddToProjectUsesSection Value="True"/>
@@ -22,7 +22,7 @@
     <Description Value="Almagesto is a Free Pascal astronomical library"/>
     <License Value="Almagesto is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."/>
     <Version Minor="1"/>
-    <Files Count="12">
+    <Files Count="13">
       <Item1>
         <Filename Value="..\src\almEPMModel.pas"/>
         <UnitName Value="almEPMModel"/>
@@ -71,7 +71,12 @@
         <Filename Value="..\src\nutation.inc"/>
         <Type Value="Include"/>
       </Item12>
+      <Item13>
+        <Filename Value="..\src\almUnits.pas"/>
+        <UnitName Value="almUnits"/>
+      </Item13>
     </Files>
+    <CompatibilityMode Value="True"/>
     <LazDoc Paths="..\docs_src\api"/>
     <RequiredPkgs Count="1">
       <Item1>

@@ -240,7 +240,7 @@ function TIOLocatorSpIAU2000(TDB: TJulianDate): Double;
 
 implementation
 
-uses Math;
+uses Math, almUnits;
 
 {$I nutation.inc}
 
@@ -259,7 +259,7 @@ function ObliquityJ2000IAU1980: Double;
 // result = obliquity of ecliptic at J2000.0 (Eps0): radians
 begin
   Result:= 84381.448;     // = 23°26'21".448 in arcseconds
-  Result:= Result*RadiansPerArcSecond;
+  Result:= Convert(Result,cArcSeconds,cRadians);
 end;
 
 function MeanObliquityIAU1980(TDB: TJulianDate): Double;
@@ -272,7 +272,7 @@ var
 begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
   Result:= (-   46.8150 + (- 0.00059 + (  0.001813)*t)*t)*t;
-  Result:= ObliquityJ2000IAU1980 + Result*RadiansPerArcSecond;
+  Result:= ObliquityJ2000IAU1980 + Convert(Result,cArcSeconds,cRadians);
 end;
 
 function MeanObliquityIAU2000(TDB: TJulianDate): Double;
@@ -284,7 +284,7 @@ begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
   // IAU 1976 obliquity with precession-rate part of the IAU 2000 precession-nutation models
   Result:= (-   46.84024 + (- 0.00059 + (  0.001813)*t)*t)*t;
-  Result:= ObliquityJ2000IAU1980 + Result*RadiansPerArcSecond;
+  Result:= ObliquityJ2000IAU1980 + Convert(Result,cArcSeconds,cRadians);
 end;
 
 function ObliquityJ2000IAU2006: Double;
@@ -292,7 +292,7 @@ function ObliquityJ2000IAU2006: Double;
 // result = obliquity of ecliptic at J2000.0 (Eps0): radians
 begin
   Result:= 84381.406;     // = 23°26'21".406 in arcseconds
-  Result:= Result*RadiansPerArcSecond;
+  Result:= Convert(Result,cArcSeconds,cRadians);
 end;
 
 function MeanObliquityIAU2006(TDB: TJulianDate): Double;
@@ -303,7 +303,7 @@ var
 begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
   Result:= (-   46.836769 + (- 0.0001831 + (  0.00200340 + (- 0.000000576 - 0.0000000434*t)*t)*t)*t)*t;
-  Result:= ObliquityJ2000IAU2006 + Result*RadiansPerArcSecond;
+  Result:= ObliquityJ2000IAU2006 + Convert(Result,cArcSeconds,cRadians);
 end;
 
 function FrameBiasInLongitudeIAU2000: Double;
@@ -312,7 +312,7 @@ function FrameBiasInLongitudeIAU2000: Double;
 // result = frame bias in longitude (dPsiB): radians
 begin
  Result:= -0.041775;     // in arcseconds
- Result:= Result*RadiansPerArcSecond;
+ Result:= Convert(Result,cArcSeconds,cRadians);
 end;
 
 function FrameBiasInObiquityIAU2000: Double;
@@ -321,7 +321,7 @@ function FrameBiasInObiquityIAU2000: Double;
 // result = frame bias in obliquity (dEpsB): radians
 begin
  Result:= -0.0068192;     // in arcseconds
- Result:= Result*RadiansPerArcSecond;
+ Result:= Convert(Result,cArcSeconds,cRadians);
 end;
 
 function FrameBiasICRSRAIAU2000: Double;
@@ -330,7 +330,7 @@ function FrameBiasICRSRAIAU2000: Double;
 // result = ICRS RA of the J2000.0 equinox (dRA0): radians
 begin
  Result:= -0.0146;     // in arcseconds
- Result:= Result*RadiansPerArcSecond;
+ Result:= Convert(Result,cArcSeconds,cRadians);
 end;
 
 function FrameBiasInXIAU2000: Double;
@@ -338,7 +338,7 @@ function FrameBiasInXIAU2000: Double;
 // result = frame bias in X (Xi0): radians
 begin
  Result:= -0.0166170;     // in arcseconds
- Result:= Result*RadiansPerArcSecond;
+ Result:= Convert(Result,cArcSeconds,cRadians);
 end;
 
 function FrameBiasInYIAU2000: Double;
@@ -346,7 +346,7 @@ function FrameBiasInYIAU2000: Double;
 // result = frame bias in Y (Eta0): radians
 begin
  Result:= -0.0068192;     // in arcseconds
- Result:= Result*RadiansPerArcSecond;
+ Result:= Convert(Result,cArcSeconds,cRadians);
 end;
 
 procedure PrecessionIAU1976(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
@@ -367,9 +367,9 @@ begin
 //  Precession angles (Lieske et al. 1977)
   Eps0  := ObliquityJ2000IAU1980;
   EpsA  := MeanObliquityIAU1980(TDB);
-  PsiA  :=        (  5038.7784 + (- 1.07259 + (- 0.001147)*t)*t)*t*RadiansPerArcSecond;;
-  ChiA  :=        (    10.5526 + (- 2.38064 + (- 0.001125)*t)*t)*t*RadiansPerArcSecond;;
-  OmegaA:= Eps0 + (              (  0.05127 + (- 0.007726)*t)*t)*t*RadiansPerArcSecond;;
+  PsiA  := Convert((  5038.7784 + (- 1.07259 + (- 0.001147)*t)*t)*t, cArcSeconds, cRadians);
+  ChiA  := Convert((    10.5526 + (- 2.38064 + (- 0.001125)*t)*t)*t, cArcSeconds, cRadians);
+  OmegaA:= Eps0 + Convert((       (  0.05127 + (- 0.007726)*t)*t)*t, cArcSeconds, cRadians);
 end;
 
 procedure PrecessionIAU2000(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
@@ -385,9 +385,9 @@ begin
 //  Precession angles (Lieske et al. 1977) with IAU 2000 precession corrections
   Eps0  := ObliquityJ2000IAU1980;
   EpsA  := MeanObliquityIAU2000(TDB);
-  PsiA  :=        (  5038.47875 + (- 1.07259 + (- 0.001147)*t)*t)*t*RadiansPerArcSecond;
-  ChiA  :=        (    10.5526  + (- 2.38064 + (- 0.001125)*t)*t)*t*RadiansPerArcSecond;
-  OmegaA:= Eps0 + (-    0.02524 + (  0.05127 + (- 0.007726)*t)*t)*t*RadiansPerArcSecond;
+  PsiA  := Convert((  5038.47875 + (- 1.07259 + (- 0.001147)*t)*t)*t, cArcSeconds, cRadians);
+  ChiA  := Convert((    10.5526  + (- 2.38064 + (- 0.001125)*t)*t)*t, cArcSeconds, cRadians);
+  OmegaA:= Eps0 + Convert((-    0.02524 + (  0.05127 + (- 0.007726)*t)*t)*t, cArcSeconds, cRadians);
 end;
 
 procedure PrecessionIAU2006(TDB: TJulianDate; out Eps0, EpsA,PsiA,ChiA,OmegaA: Double);
@@ -403,9 +403,9 @@ begin
 //  Precession angles (Capitaine et al. 2003)
   Eps0  := ObliquityJ2000IAU2006;
   EpsA  := MeanObliquityIAU2006(TDB);
-  PsiA  :=        (  5038.481507 + (- 1.0790069 + (- 0.00114045 + (  0.000132851 - 0.0000000951*t)*t)*t)*t)*t*RadiansPerArcSecond;
-  ChiA  :=        (    10.556403 + (- 2.3814292 + (- 0.00121197 + (  0.000170663 - 0.0000000560*t)*t)*t)*t)*t*RadiansPerArcSecond;
-  OmegaA:= Eps0 + (-    0.025754 + (  0.0512623 + (- 0.00772503 + (- 0.000000467 + 0.0000003337*t)*t)*t)*t)*t*RadiansPerArcSecond;
+  PsiA  := Convert((  5038.481507 + (- 1.0790069 + (- 0.00114045 + (  0.000132851 - 0.0000000951*t)*t)*t)*t)*t, cArcSeconds, cRadians);
+  ChiA  := Convert((    10.556403 + (- 2.3814292 + (- 0.00121197 + (  0.000170663 - 0.0000000560*t)*t)*t)*t)*t, cArcSeconds, cRadians);
+  OmegaA:= Eps0 + Convert((-    0.025754 + (  0.0512623 + (- 0.00772503 + (- 0.000000467 + 0.0000003337*t)*t)*t)*t)*t, cArcSeconds, cRadians);
 end;
 
 procedure faL_IERS2003(TDB_C: Double; out L: Double);
@@ -417,7 +417,7 @@ procedure faL_IERS2003(TDB_C: Double; out L: Double);
 //  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  L: radians
 begin
-  L:= RadiansPerArcSecond*(485868.249036 + (1717915923.2178 + (31.8792 + (0.051635 - 0.00024470*TDB_C)*TDB_C)*TDB_C)*TDB_C);
+  L:= Convert((485868.249036 + (1717915923.2178 + (31.8792 + (0.051635 - 0.00024470*TDB_C)*TDB_C)*TDB_C)*TDB_C), cArcSeconds, cRadians);
   L:= fmod(L,RadiansPerRev);
 end;
 
@@ -430,7 +430,7 @@ procedure faLP_IERS2003(TDB_C: Double; out LP: Double);
 //  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  LP: radians
 begin
-  LP:= RadiansPerArcSecond*(1287104.793048 + (129596581.0481 + (-0.5532 + (0.000136 - 0.00001149*TDB_C)*TDB_C)*TDB_C)*TDB_C);
+  LP:= Convert((1287104.793048 + (129596581.0481 + (-0.5532 + (0.000136 - 0.00001149*TDB_C)*TDB_C)*TDB_C)*TDB_C), cArcSeconds, cRadians);
   LP:= fmod(LP,RadiansPerRev);
 end;
 
@@ -443,7 +443,7 @@ procedure faF_IERS2003(TDB_C: Double; out F: Double);
 //  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  F: radians
 begin
-  F:= RadiansPerArcSecond*(335779.526232 + (1739527262.8478 + (-12.7512 + (-0.001037 + 0.00000417*TDB_C)*TDB_C)*TDB_C)*TDB_C);
+  F:= Convert((335779.526232 + (1739527262.8478 + (-12.7512 + (-0.001037 + 0.00000417*TDB_C)*TDB_C)*TDB_C)*TDB_C), cArcSeconds, cRadians);
   F:= fmod(F,RadiansPerRev);
 end;
 
@@ -456,7 +456,7 @@ procedure faD_IERS2003(TDB_C: Double; out D: Double);
 //  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  D: radians
 begin
-  D:= RadiansPerArcSecond*(1072260.703692 + (1602961601.2090 + (-6.3706 + (0.006593 - 0.00003169*TDB_C)*TDB_C)*TDB_C)*TDB_C);
+  D:= Convert((1072260.703692 + (1602961601.2090 + (-6.3706 + (0.006593 - 0.00003169*TDB_C)*TDB_C)*TDB_C)*TDB_C), cArcSeconds, cRadians);
   D:= fmod(D,RadiansPerRev);
 end;
 
@@ -469,7 +469,7 @@ procedure faOM_IERS2003(TDB_C: Double; out OM: Double);
 //  TDB_C = TDB, Julian centuries since J2000.0
 //  result =  OM: radians
 begin
-  OM:= RadiansPerArcSecond*(450160.398036 + (-6962890.5431 + (7.4722 + (0.007702 - 0.00005939*TDB_C)*TDB_C)*TDB_C)*TDB_C);
+  OM:= Convert((450160.398036 + (-6962890.5431 + (7.4722 + (0.007702 - 0.00005939*TDB_C)*TDB_C)*TDB_C)*TDB_C), cArcSeconds, cRadians);
   OM:= fmod(OM,RadiansPerRev);
 end;
 
@@ -657,8 +657,8 @@ begin
   DeltaPsi:= DeltaPsi*1e-4;
   DeltaEps:= DeltaEps*1e-4;
 //    change to radians
-  DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
-  DeltaEps:= DeltaEps*RadiansPerArcSecond;
+  DeltaPsi:= Convert(DeltaPsi, cArcSeconds, cRadians);
+  DeltaEps:= Convert(DeltaEps, cArcSeconds, cRadians);
 end;
 
 procedure NutationIAU2000B(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
@@ -690,7 +690,7 @@ begin
   FundamentalArguments[5]:= 450160.398036 - 6962890.5431*t;
   // change Delaunay arguments to radians
   for i:= 1 to 5 do
-    FundamentalArguments[i]:= fmod(RadiansPerArcSecond*FundamentalArguments[i],RadiansPerRev);
+    FundamentalArguments[i]:= fmod(Convert(FundamentalArguments[i],cArcSeconds,cRadians),RadiansPerRev);
 
 //  Initialize nutation components.
   DeltaPsi:= 0;
@@ -714,12 +714,12 @@ begin
                   NutationIAU2000B_Coeffs[i,11]* sinArg;
     end;
 //    Convert from 0.1 microarcsec units to radians
-  DeltaPsi:= DeltaPsi*RadiansPerArcSecond/1e7;
-  DeltaEps:= DeltaEps*RadiansPerArcSecond/1e7;
+  DeltaPsi:= Convert(DeltaPsi,10*cMicroArcSeconds,cRadians);
+  DeltaEps:= Convert(DeltaEps,10*cMicroArcSeconds,cRadians);
 
 //  Fixed offset to correct for missing terms in truncated series (planetary nutation)
-  DeltaPsi:= DeltaPsi - 0.135*RadiansPerArcSecond/MilliArcSecondsPerArcSecond;
-  DeltaEps:= DeltaEps + 0.388*RadiansPerArcSecond/MilliArcSecondsPerArcSecond;
+  DeltaPsi:= DeltaPsi - Convert(0.135,cMilliArcSeconds,cRadians);
+  DeltaEps:= DeltaEps + Convert(0.388,cMilliArcSeconds,cRadians);
 end;
 
 procedure NutationIAU2000A_IERS2003(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
@@ -815,13 +815,9 @@ begin
   DeltaPsi:= dPsiLS + dPsiPL;
   DeltaEps:= dEpsLS + dEpsPL;
 
-//    change to arcsecs
-  DeltaPsi:= DeltaPsi*1e-7;
-  DeltaEps:= DeltaEps*1e-7;
-
-//    change to radians
-  DeltaPsi:= DeltaPsi*RadiansPerArcSecond;
-  DeltaEps:= DeltaEps*RadiansPerArcSecond;
+//    change from 0.1 microarcsec units to radians
+  DeltaPsi:= Convert(DeltaPsi,10*cMicroArcSeconds,cRadians);
+  DeltaEps:= Convert(DeltaEps,10*cMicroArcSeconds,cRadians);
 end;
 
 procedure NutationIAU2000A(TDB: TJulianDate; out DeltaPsi, DeltaEps: Double);
@@ -845,13 +841,16 @@ begin
   //    l = mean anomaly of the Moon (IERS 2003)
   faL_IERS2003(t,el);
   //    l' = mean anomaly of the Sun (MHB2000)
-  elp:= fmod(RadiansPerArcSecond*(1287104.79305 + (129596581.0481 +
-                             (-0.5532 + (0.000136 - 0.00001149*t)*t)*t)*t),RadiansPerRev);
+
+  elp:= Convert((1287104.79305 + (129596581.0481 + (-0.5532 + (0.000136 - 0.00001149*t)*t)*t)*t),
+                 cArcSeconds,cRadians);
+  elp:= fmod(elp,RadiansPerRev);
   //    F = L - OM = mean longitude of the Moon - mean longitude of the Moon's ascending node (IERS 2003)
   faF_IERS2003(t,f);
   //    D = mean elongation of the Moon from the Sun (MHB2000)
-  d:= fmod(RadiansPerArcSecond*(1072260.70369 + (1602961601.2090 +
-                             (-6.3706 + (0.006593 - 0.00003169*t)*t)*t)*t),RadiansPerRev);
+  d:= Convert((1072260.70369 + (1602961601.2090 + (-6.3706 + (0.006593 - 0.00003169*t)*t)*t)*t),
+                 cArcSeconds,cRadians);
+  d:= fmod(d,RadiansPerRev);
   //    OM = mean longitude of the Moon's ascending node (IERS 2003)
   faOM_IERS2003(t,om);
 
@@ -877,8 +876,8 @@ begin
               NutationIAU2000A_LSCoeffsSOFA[i,11]*sinArg;
    end;
  // Convert from 0.1 microarcsec units to radians
- dPsiLS:= dPsiLS*RadiansPerArcSecond/1e7;
- dEpsLS:= dEpsLS*RadiansPerArcSecond/1e7;
+ dPsiLS:= Convert(dPsiLS,10*cMicroArcSeconds,cRadians);
+ dEpsLS:= Convert(dEpsLS,10*cMicroArcSeconds,cRadians);
 
  // Fundamental (Delaunay) arguments
 //    l = mean anomaly of the Moon (MHB2000)
@@ -939,8 +938,8 @@ begin
               NutationIAU2000A_PLCoeffsSOFA[i,17]*cosArg;
    end;
  // Convert from 0.1 microarcsec units to radians
- dPsiPL:= dPsiPL*RadiansPerArcSecond/1e7;
- dEpsPL:= dEpsPL*RadiansPerArcSecond/1e7;
+ dPsiPL:= Convert(dPsiPL,10*cMicroArcSeconds,cRadians);
+ dEpsPL:= Convert(dEpsPL,10*cMicroArcSeconds,cRadians);
 
 //  Add Luni-Solar and Planetary components
   DeltaPsi:= dPsiLS + dPsiPL;
@@ -976,13 +975,13 @@ var
 begin
   t:= (UT1 - J2000)/JulianDaysPerCentury;
   // fractional part of JD(UT1)
-  F:= SecondsPerDay * Frac(UT1);
+  F:= Convert(Frac(UT1),cDays,cSeconds);
 
   // compute Greenwich Mean Sidereal Time (in seconds)
   // The first constant has to be adjusted by 12 hours because the UT1 is supplied as a Julian date, which begins at noon.           */
-  GMST:= (24110.54841 - SecondsPerDay/2 + (8640184.812866 + (0.093104 - 6.2e-6*t)*t)*t) + F;
+  GMST:= (24110.54841 - Convert(12,cHours,cSeconds) + (8640184.812866 + (0.093104 - 6.2e-6*t)*t)*t) + F;
   // change to radians
-  GMST:= GMST*RadiansPerRev/SecondsPerDay;
+  GMST:= Convert(GMST,cSeconds,cRadians);
   // put in range (2Pi)
   GMST:= fmod(GMST,RadiansPerRev);
 end;
@@ -1000,8 +999,9 @@ begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
   // compute IAU2000 Earth Rotation Angle
   EarthRotationAngleIAU2000(UT1,ERA);
-  // compute IAU2000 Greenwich Mean Sidereal Time (in arcseconds)
-  GMST:= ERA + (0.014506 + (4612.15739966 + (1.39667721 + (- 0.00009344 + (0.00001882)*T)*T)*T)*T)*RadiansPerArcSecond;
+  // compute IAU2000 Greenwich Mean Sidereal Time
+  GMST:= (0.014506 + (4612.15739966 + (1.39667721 + (- 0.00009344 + (0.00001882)*T)*T)*T)*T);  // in arcseconds
+  GMST:= ERA + Convert(GMST,cArcSeconds,cRadians);  // in radians
    // put in range (2Pi)
   GMST:= fmod(GMST,RadiansPerRev);
 end;
@@ -1019,8 +1019,9 @@ begin
   t:= (TDB - J2000)/JulianDaysPerCentury;
   // compute IAU2000 Earth Rotation Angle
   EarthRotationAngleIAU2000(UT1,ERA);
-  // compute IAU2000 Greenwich Mean Sidereal Time (in radians)
-  GMST:= ERA + (0.014506 + (4612.156534 + (1.3915817 + (- 0.00000044 + (- 0.000029956 - 0.0000000368*T)*T)*T)*T)*T)*RadiansPerArcSecond;
+  // compute IAU2000 Greenwich Mean Sidereal Time
+  GMST:= (0.014506 + (4612.156534 + (1.3915817 + (- 0.00000044 + (- 0.000029956 - 0.0000000368*T)*T)*T)*T)*T);  // in arcseconds
+  GMST:= ERA + Convert(GMST,cArcSeconds,cRadians);  // in radians
    // put in range (2Pi)
   GMST:= fmod(GMST,RadiansPerRev);
 end;
@@ -1045,7 +1046,7 @@ begin
  // compute Complementary Terms (in arcseconds)
  CT:= 0.00264*sin(Omega) + 0.000063*sin(Omega+Omega);
  // change to Radians
- CT:= CT*RadiansPerArcSecond;
+ CT:= Convert(CT,cArcSeconds,cRadians)
 end;
 
 procedure EquationOfEquinoxesCT_IAU2000(TDB: TJulianDate; out CT: Double);
@@ -1199,7 +1200,7 @@ begin
  // CT in arcseconds
  CT:= S0 + S1*t;
  // change to Radians
- CT:= CT*RadiansPerArcSecond;
+ CT:= Convert(CT,cArcSeconds,cRadians)
 end;
 
 procedure EquationOfEquinoxes_IAU1994(TDB: TJulianDate; out EqEq: Double);
@@ -1339,7 +1340,7 @@ begin
   //  Approximate S' (in arcseconds)
   Result:= -47e-6 * t;
   // change to Radians
-  Result:= Result*RadiansPerArcSecond;
+  Result:= Convert(Result,cArcSeconds,cRadians)
 end;
 
 { TEarthOrientation }
