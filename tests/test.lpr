@@ -4,7 +4,7 @@ program test;
 
 uses
   Interfaces, Forms, GuiTestRunner, testDateTime, testEphemerides, 
-testLocalReferenceSystems, testEarthOrientation, testCalendar;
+testLocalReferenceSystems, testEarthOrientation, testCalendar, testEOP;
 
 {$R *.res}
 
