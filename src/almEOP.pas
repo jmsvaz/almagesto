@@ -243,6 +243,15 @@ var
   InputStr: String;
   aEOPItem: TEOPItem;
 begin
+{
+From https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now:
+# EARTH ORIENTATION PARAMETER (EOP) PRODUCT CENTER CENTER (PARIS OBSERVATORY) - INTERNATIONAL EARTH ROTATION AND REFERENCE SYSTEMS SERVICE
+# EOP (IERS) 20 C04 TIME SERIES  consistent with ITRF 2020 - sampled at 0h UTC
+# Description: https://hpiers.obspm.fr/eoppc/eop/eopc04/eopc04.txt        Contact: christian.bizouard@obspm.fr
+# Reference Precession-Nutation Model: IAU 2000
+# format(4(i4),f10.2,2(f12.6),f12.7,2(f12.6),2(f12.6),f12.7,2(f12.6),f12.7,2(f12.6),2(f12.6),f12.7)
+# YR  MM  DD  HH       MJD        x(")        y(")  UT1-UTC(s)     dPsi(")     dEps(")      xrt(")      yrt(")      LOD(s)        x Er        y Er  UT1-UTC Er     dPsi Er     dEps Er      xrt Er      yrt Er      LOD Er
+}
   Result:= TEOPData.Create;
   try
     if FileExists(FileName) then
