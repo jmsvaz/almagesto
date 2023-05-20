@@ -38,6 +38,10 @@ type
       function Download(aURL, aFileName: string): string;
     public
       constructor Create(DownloadPath: String = '');
+      { Download EOP (IERS) 20 C04 TIME SERIES  consistent with ITRF 2020 - sampled at 0h UTC
+      from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+      Reference Precession-Nutation Model: IAU 2000
+      }
       function DownloadEOPC04: string;
     end;
 
@@ -96,6 +100,9 @@ type
 
   TEOPReader = class
     public
+      { Process EOP (IERS) 20 C04 TIME SERIES  consistent with ITRF 2020 - sampled at 0h UTC
+       Reference Precession-Nutation Model: IAU 2000
+      }
       class function ReadEOPC04File(FileName: String): TEOPData;
     end;
 
@@ -332,6 +339,7 @@ function TEOPDownload.DownloadEOPC04: string;
 const
   URL = 'http://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now';
   FileName = 'eopc04.1962-now';
+//  URL = 'https://datacenter.iers.org/data/234/eopc04_20.1962-now.txt';
 begin
   Result:= Download(URL, FileName);
 end;
