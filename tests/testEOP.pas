@@ -15,7 +15,7 @@ type
     procedure SetUp; override;
     procedure TearDown; override;
   published
-    procedure TestDownload;
+    procedure TestDownloadEOPC04;
   end;
 
   { TTestEOP }
@@ -38,7 +38,7 @@ uses almBase;
 
 procedure TTestEOP.SetUp;
 begin
-  fEOP:= TEOP.Create;
+  fEOP:= TEOP.Create(GetCurrentDir);
 end;
 
 procedure TTestEOP.TearDown;
@@ -105,11 +105,11 @@ begin
   AssertEquals('MinDate',Expected,Computed,1e-7);
 end;
 
-procedure TTestEOPDownload.TestDownload;
+procedure TTestEOPDownload.TestDownloadEOPC04;
 var
   DownloadedFile: string;
 begin
-  DownloadedFile:= fEOPDownload.Download;
+  DownloadedFile:= fEOPDownload.DownloadEOPC04;
   Assert(FileExists(DownloadedFile));
 end;
 

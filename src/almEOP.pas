@@ -38,41 +38,8 @@ type
       function Download(aURL, aFileName: string): string;
     public
       constructor Create(DownloadPath: String = '');
-      function Download: string;
+      function DownloadEOPC04: string;
     end;
-
-  { TEOP  is a class that gets the Earth Orientation Parameters from a file
-  http://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
-  Description: https://hpiers.obspm.fr/eoppc/eop/eopc04/eopc04.txt
-  }
-
-  TEOP = class
-    private
-      FAutoDownload: Boolean;
-      fEOPDownload: TEOPDownload;
-      fFileLoaded: Boolean;
-      fDB: TStringList;
-      fMaxDate: TMJD;
-      fMinDate: TMJD;
-    private
-      procedure ProcessEOPData(aEOPData: TStringList);
-    public
-      constructor Create(aAutoDownload: Boolean = False);
-      destructor Destroy; override;
-      function LoadEOPC04File(FileName: String): Boolean;
-      function GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double): Boolean;
-      function Download: boolean;
-      property AutoDownload: Boolean read FAutoDownload write FAutoDownload;
-      property MinDate: TMJD read fMinDate;
-      property MaxDate: TMJD read fMaxDate;
-    end;
-
-
-implementation
-
-uses   fphttpclient, openssl, opensslsockets;
-
-type
 
   { TEOPItem }
 
@@ -100,26 +67,177 @@ type
       property LOD: Double read fLOD;
     end;
 
-  { TEOPLoader }
 
-  TEOPLoader = class
+  { TEOPData }
+
+  TEOPData = class
+    private
+      fList: TList;
+      Sorted: Boolean;
+      function GetCount: Integer;
+      function GetItem(Index: Integer): TEOPItem;
+      function GetMaxDate: TMJD;
+      function GetMinDate: TMJD;
+      procedure Sort;
+      function Find(const MJD: TMJD; out Index: Integer): Boolean;
     public
-      class function LoadEOPC04File(FileName: String): TStringList;
+      constructor Create;
+      destructor Destroy; override;
+      function IndexOf(const MJD: TMJD): Integer;
+      function Add(aEOPItem: TEOPItem): Integer;
+      procedure Clear;
+      property Count: Integer read GetCount;
+      property Items[Index: Integer]: TEOPItem read GetItem; default;
+      property MinDate: TMJD read GetMinDate;
+      property MaxDate: TMJD read GetMaxDate;
+  end;
+
+  { TEOPReader }
+
+  TEOPReader = class
+    public
+      class function ReadEOPC04File(FileName: String): TEOPData;
     end;
+
+
+  { TEOP  is a class that gets the Earth Orientation Parameters from a file
+  http://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+  Description: https://hpiers.obspm.fr/eoppc/eop/eopc04/eopc04.txt
+  }
+
+  TEOP = class
+    private
+      FAutoDownload: Boolean;
+      fEOPDownload: TEOPDownload;
+      fFileLoaded: Boolean;
+      fDB: TEOPData;
+      fMaxDate: TMJD;
+      fMinDate: TMJD;
+    private
+    public
+      constructor Create(aDownloadPath: string = ''; aAutoDownload: Boolean = False);
+      destructor Destroy; override;
+      procedure LoadEOPData(aEOPData: TEOPData);
+      function Download: boolean;
+      function GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double): Boolean;
+      property AutoDownload: Boolean read FAutoDownload write FAutoDownload;
+      property MinDate: TMJD read fMinDate;
+      property MaxDate: TMJD read fMaxDate;
+    end;
+
+
+implementation
+
+uses   fphttpclient, openssl, opensslsockets, Math;
+
+function CompareEOPItem(Item1, Item2: Pointer): Integer;
+begin
+  Result:= CompareValue(TEOPItem(Item1).MJD,TEOPItem(Item2).MJD);
+end;
+
+constructor TEOPData.Create;
+begin
+  fList:= TList.Create;
+  Sorted:= False;
+end;
+
+destructor TEOPData.Destroy;
+begin
+  Clear;
+  FreeAndNil(fList);
+  inherited Destroy;
+end;
+
+function TEOPData.GetCount: Integer;
+begin
+  Result:= fList.Count;
+end;
+
+function TEOPData.GetItem(Index: Integer): TEOPItem;
+begin
+  Result:= TEOPItem(fList[Index]);
+end;
+
+function TEOPData.GetMaxDate: TMJD;
+begin
+  Result:= 0;
+  if Count > 0 then
+    Result:= Items[Count-1].MJD;
+end;
+
+function TEOPData.GetMinDate: TMJD;
+begin
+  Result:= 0;
+  if Count > 0 then
+    Result:= Items[0].MJD;
+end;
+
+function TEOPData.IndexOf(const MJD: TMJD): Integer;
+begin
+  if not Find(MJD,Result) then
+    Result:= -1;
+end;
+
+procedure TEOPData.Sort;
+begin
+  fList.Sort(@CompareEOPItem);
+end;
+
+function TEOPData.Find(const MJD: TMJD; out Index: Integer): Boolean;
+var
+  L, R, I: Integer;
+  CompareRes: PtrInt;
+begin
+  Result:= False;
+  Index:= -1;
+  if not Sorted then
+    Sort;
+  // Use binary search.
+  L:= 0;
+  R:= Count - 1;
+  while (L <= R) do
+    begin
+      I:= L + (R - L) div 2;
+      CompareRes:= CompareValue(MJD,TEOPItem(fList[I]).MJD);
+      if (CompareRes>0) then
+        L:= I + 1
+      else
+        begin
+          R:= I - 1;
+          if (CompareRes=0) then
+            begin
+               Result:= True;
+               L:= I; // forces end of while loop
+            end;
+        end;
+    end;
+  Index:= L;
+end;
+
+function TEOPData.Add(aEOPItem: TEOPItem): Integer;
+begin
+  Result:= fList.Add(aEOPItem);
+  Sorted:= False;
+end;
+
+procedure TEOPData.Clear;
+begin
+  if Count = 0 then Exit;
+  fList.Clear;
+  Sorted:= False;
+end;
 
 { TEOPLoader }
 
-class function TEOPLoader.LoadEOPC04File(FileName: String): TStringList;
+class function TEOPReader.ReadEOPC04File(FileName: String): TEOPData;
 var
   aRow: TStringList;
   InputFile: TextFile;
   InputStr: String;
   aEOPItem: TEOPItem;
 begin
-  Result:= TStringList.Create;
+  Result:= TEOPData.Create;
   try
-    Result.OwnsObjects:= True;;
-    Result.Sorted:= True;
     if FileExists(FileName) then
       begin
         AssignFile(InputFile, FileName);
@@ -139,7 +257,7 @@ begin
                   aEOPItem:= TEOPItem.Create(StrToFloat(aRow[4]),StrToFloat(aRow[5]),StrToFloat(aRow[6]),
                              StrToFloat(aRow[7]),StrToFloat(aRow[8]),StrToFloat(aRow[9]),
                              StrToFloat(aRow[10]),StrToFloat(aRow[11]),StrToFloat(aRow[12]));
-                  Result.AddObject(IntToStr(Round(StrToFloat(aRow[4]))),aEOPItem);
+                  Result.Add(aEOPItem);
                 end
               else
                 raise Exception.Create('Incorrect number of fields.');
@@ -210,7 +328,7 @@ begin
   fDownloadPath:= IncludeTrailingPathDelimiter(fDownloadPath);
 end;
 
-function TEOPDownload.Download: string;
+function TEOPDownload.DownloadEOPC04: string;
 const
   URL = 'http://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now';
   FileName = 'eopc04.1962-now';
@@ -221,21 +339,19 @@ end;
 
 { TEOP }
 
-constructor TEOP.Create(aAutoDownload: Boolean);
+constructor TEOP.Create(aDownloadPath: string; aAutoDownload: Boolean);
 begin
   fMaxDate:= 0;
   fMinDate:= 0;
-  fDB:= TStringList.Create;
-  fDB.OwnsObjects:= True;;
-  fDB.Sorted:= True;
-  fEOPDownload:= TEOPDownload.Create(EmptyStr);
+  fEOPDownload:= TEOPDownload.Create(aDownloadPath);
   AutoDownload:= aAutoDownload;
   fFileLoaded:= False;
 end;
 
 destructor TEOP.Destroy;
 begin
-  FreeAndNil(fDB);
+  if Assigned(fDB) then
+    FreeAndNil(fDB);
   FreeAndNil(fEOPDownload);
   inherited Destroy;
 end;
@@ -243,55 +359,53 @@ end;
 function TEOP.GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double ): Boolean;
 var
   id: Integer;
-  MJD: string;
 begin
   Result:= False;
-  MJD:= IntToStr(Round(UTC));
   if (not fFileLoaded) and AutoDownload then
     Download;
   if fFileLoaded then
     begin
-      id:= fDB.IndexOf(MJD);
+      id:= fDB.IndexOf(UTC);
       if id >= 0 then
         begin
-          DUT1:= TEOPItem(fDB.Objects[id]).DUT1;
-          Xp:= TEOPItem(fDB.Objects[id]).Xp;
-          Yp:= TEOPItem(fDB.Objects[id]).Yp;
-          LOD:= TEOPItem(fDB.Objects[id]).LOD;
-          dX:= TEOPItem(fDB.Objects[id]).dX;
-          dY:= TEOPItem(fDB.Objects[id]).dY;
-          xrt:= TEOPItem(fDB.Objects[id]).xrt;
-          yrt:= TEOPItem(fDB.Objects[id]).yrt;
+          DUT1:= fDB[id].DUT1;
+          Xp:= fDB[id].Xp;
+          Yp:= fDB[id].Yp;
+          LOD:= fDB[id].LOD;
+          dX:= fDB[id].dX;
+          dY:= fDB[id].dY;
+          xrt:= fDB[id].xrt;
+          yrt:= fDB[id].yrt;
+          Result:= True;
         end;
     end;
 end;
 
 function TEOP.Download: boolean;
+var
+  FileName: string;
 begin
-  Result:= LoadEOPC04File(fEOPDownload.Download);
-end;
-
-function TEOP.LoadEOPC04File(FileName: String): Boolean;
-begin
+  FileName:= fEOPDownload.DownloadEOPC04;
   if FileExists(FileName) then
-    ProcessEOPData(TEOPLoader.LoadEOPC04File(FileName));
+    LoadEOPData(TEOPReader.ReadEOPC04File(FileName));
   Result:= fFileLoaded;
 end;
 
-procedure TEOP.ProcessEOPData(aEOPData: TStringList);
+procedure TEOP.LoadEOPData(aEOPData: TEOPData);
 begin
   fFileLoaded:= False;
-  fDB.Clear;
-  fMaxDate:= 0;
-  fMinDate:= 0;
-  fDB.Assign(aEOPData);
-  if fDB.Count > 0 then
-    begin
-      fMinDate:= StrToFloat(fDB[0]);
-      fMaxDate:= StrToFloat(fDB[fDB.Count-1]);
+  if Assigned(fDB) then
+    FreeAndNil(fDB);
+  if aEOPData.Count > 0 then
+    try
+      fDB:= aEOPData;
+      fMinDate:= fDB.MinDate;
+      fMaxDate:= fDB.MaxDate;
       fFileLoaded:= True;
+    except;
+      if Assigned(fDB) then
+        FreeAndNil(fDB);
     end;
 end;
-
 
 end.
