@@ -104,6 +104,14 @@ X̄ = sin(ω).sin(ψ)
 δY = δε − (ψA.cos(ε0) − χA).δψ.sin(εA)
 
 
+{
+This approximation has an error below 1 microarcsecond over 1980-2020:
+
+δψ sin(ε0) = δX
+δε = δY
+
+source: https://hpiers.obspm.fr/eop-pc/index.php?index=eoptable&lang=en
+}
 
 sources: McCarthy, IERS Conventions (1996), IERS Technical Note 21, 1996
          McCarthy & Petit, IERS Conventions (2003), IERS Technical Note 32, 2003

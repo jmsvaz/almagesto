@@ -43,6 +43,8 @@ type
       Reference Precession-Nutation Model: IAU 2000
       }
       function DownloadEOPC04: string;
+      // TODO: Download leap second data: https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat
+      // https://hpiers.obspm.fr/iers/bul/bulc/BULLETINC.GUIDE.html
     end;
 
   { TEOPItem }
@@ -100,18 +102,37 @@ type
 
   TEOPReader = class
     public
-      { Process EOP (IERS) 20 C04 TIME SERIES  consistent with ITRF 2020 - sampled at 0h UTC
+      { Read EOP (IERS) 20 C04 TIME SERIES  consistent with ITRF 2020 - sampled at 0h UTC
+        downloaded from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
        Reference Precession-Nutation Model: IAU 2000
       }
       class function ReadEOPC04File(FileName: String): TEOPData;
     end;
 
 
-  { TEOP  is a class that gets the Earth Orientation Parameters from a file
-  http://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
-  Description: https://hpiers.obspm.fr/eoppc/eop/eopc04/eopc04.txt
-  }
+  { TEOP  is a class that gets the Earth Orientation Parameters
+  The Earth Orientation Parameters may be used to relate the International Celestial and
+  Terrestrial Reference Systems as realized operationally by the International and Celestial Reference Frames
+  respectively. The rigorous details are outlined in the publications of the International Earth Rotation and
+  Reference Systems Service (IERS).
+   - x and y: Polar motion refers to the motion of the Celestial Intermediate Pole (CIP) in the International Terrestrial
+  Reference System (ITRS). It is described, in practice, by two angular coordinates with respect to an origin at the
+  pole of the ITRF: x, along the meridian of 0° longitude and y along the meridian of 90° west longitude. The data
+  are derived from astro-geodetic observations using models including high-frequency variations.
+   - DUT1 (UT1-UTC): Coordinated Universal Time (UTC) is the standard atomic based time scale in normal everyday use
+  throughout the world. It is defined by the International Radio Consultative Committee (CCIR) Recommendation
+  460-4 (CCIR, 1986) to differ from International Atomic Time (TAI) by an integral number of seconds in such a
+  way that UT1-UTC remains smaller than 0.9s in absolute value.
+   - dX and dY: Precession-Nutation is referred to the CIP and exhibits, by definition, only motions
+   with periods greater than two days with respect to an inertial observer in space. The IERS determines
+   observational residuals with respect to the precession and nutation models, called celestial pole offsets.
+   The celestial pole offsets values can be represented in two forms. The first, X and Y refers
+   to use with the model IAU 2006/2000A (Capitaine et al., 2009). The second refers to use with
+   the classical nutation angles in longitude and obliquity (δ∆ε, and δ∆ψ).
+   LOD: The difference between the astronomically determined duration of the mean solar day (D) and
+   86400s of TAI, is called the excess of the length of day (LOD).
 
+  }
   TEOP = class
     private
       FAutoDownload: Boolean;
