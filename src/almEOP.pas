@@ -163,6 +163,29 @@ begin
   Result:= CompareValue(TEOPItem(Item1).MJD,TEOPItem(Item2).MJD);
 end;
 
+
+{
+Interpolate performs a Lagrangian interpolation within a set of nPoints (X,Y) pairs.
+}
+function Interpolate(x: Double; nPoints: Integer; XArray, YArray: array of Double): Double;
+var
+  i, j: Integer;
+  Term: Double;
+begin
+  Result:= 0;
+  if nPoints < 2 then
+    raise Exception.Create('Interpolate needs at least 2 points!');
+
+  for i:= 0 to nPoints - 1 do
+    begin
+      term:= YArray[i];
+      for j:= 0 to nPoints - 1 do
+        if i <> j then
+          term:= term * (X - XArray[j])/(XArray[i] - XArray[j]);
+      Result:= Result + term;
+    end;
+end;
+
 constructor TEOPData.Create;
 begin
   fList:= TList.Create;

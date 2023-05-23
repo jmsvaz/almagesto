@@ -246,6 +246,11 @@ function GreenwichSiderealTime_IAU2006A(UT1: TJulianDate; TDB: TJulianDate): Dou
 
 function TIOLocatorSpIAU2000(TDB: TJulianDate): Double;
 
+// Transformation of the celestial pole offsets (dPsi,dEps) into the celestial pole offsets (dX,dY).
+procedure dPsidEps2dXdY(const dPsi, dEps, Eps0, EpsA, PsiA, ChiA: Double; out dX, dY: double);
+// Transformation of the celestial pole offsets (dX,dY) into the celestial pole offsets (dPsi,dEps).
+procedure dXdY2dPsidEps(const dX, dY, Eps0, EpsA, PsiA, ChiA: Double; out dPsi, dEps: double);
+
 implementation
 
 uses Math, almUnits;
@@ -1349,6 +1354,30 @@ begin
   Result:= -47e-6 * t;
   // change to Radians
   Result:= Convert(Result,cArcSeconds,cRadians)
+end;
+
+procedure dPsidEps2dXdY(const dPsi, dEps, Eps0, EpsA, PsiA, ChiA: Double; out
+  dX, dY: double);
+// reference: Luzum & Petit, IERS Conventions (2010), IERS Technical Note 36, 2010, chap. 5
+var
+  sinEpsA, cosEps0: Double;
+begin
+  sinEpsA:= sin(EpsA);
+  cosEps0:= cos(Eps0);
+  dX:= dPsi*sinEpsA + (PsiA*cosEps0 - ChiA)*dEps;
+  dY:= dEps - (PsiA*cosEps0 - ChiA)*dpsi*sinEpsA;
+end;
+
+procedure dXdY2dPsidEps(const dX, dY, Eps0, EpsA, PsiA, ChiA: Double; out dPsi,
+  dEps: double);
+// reference: Luzum & Petit, IERS Conventions (2010), IERS Technical Note 36, 2010, chap. 5
+var
+  sinEpsA, cosEps0: Double;
+begin
+ sinEpsA:= sin(EpsA);
+ cosEps0:= cos(Eps0);
+ dPsi:= dX/sinEpsA - (PsiA*cosEps0 - ChiA)*dY/sinEpsA;
+ dEps:= dY         + (PsiA*cosEps0 - ChiA)*dX;
 end;
 
 { TEarthOrientation }
