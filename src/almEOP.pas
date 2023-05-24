@@ -235,6 +235,8 @@ begin
 end;
 
 function TEOPData.Find(const MJD: TMJD; out Index: Integer): Boolean;
+// Does a binary search and returns the Left index of the previous value.
+// If the search value exists it returns its index
 var
   L, R, I: Integer;
   CompareRes: PtrInt;
@@ -250,19 +252,18 @@ begin
     begin
       I:= L + (R - L) div 2;
       CompareRes:= CompareValue(MJD,TEOPItem(fList[I]).MJD);
-      if (CompareRes>0) then
+      if (CompareRes = GreaterThanValue) then
         L:= I + 1
       else
         begin
+//          R:= I;
           R:= I - 1;
-          if (CompareRes=0) then
-            begin
-               Result:= True;
-               L:= I; // forces end of while loop
-            end;
+          if (CompareRes = EqualsValue) then
+            L:= I;
         end;
     end;
   Index:= L;
+  Result:= (L = I);
 end;
 
 function TEOPData.Add(aEOPItem: TEOPItem): Integer;
