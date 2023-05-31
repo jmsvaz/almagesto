@@ -85,11 +85,10 @@ type
       function GetMaxDate: TMJD;
       function GetMinDate: TMJD;
       procedure Sort;
-      function Find(const MJD: TMJD; out Index: Integer): Boolean;
     public
       constructor Create;
       destructor Destroy; override;
-      function IndexOf(const MJD: TMJD): Integer;
+      function Find(const MJD: TMJD; out Index: Integer): Boolean;
       function Add(aEOPItem: TEOPItem): Integer;
       procedure Clear;
       property Count: Integer read GetCount;
@@ -142,6 +141,8 @@ type
       fMaxDate: TMJD;
       fMinDate: TMJD;
     private
+      fTolerance: Double;
+      function Interpolate4(const MJD: TMJD; const Index: Integer): TEOPItem;
     public
       constructor Create(aDownloadPath: string = ''; aAutoDownload: Boolean = False);
       destructor Destroy; override;
@@ -151,6 +152,8 @@ type
       property AutoDownload: Boolean read FAutoDownload write FAutoDownload;
       property MinDate: TMJD read fMinDate;
       property MaxDate: TMJD read fMaxDate;
+      // How many time after MaxDate the values are valid (in days)
+      property Tolerance: Double read fTolerance write fTolerance;
     end;
 
 
@@ -223,47 +226,47 @@ begin
     Result:= Items[0].MJD;
 end;
 
-function TEOPData.IndexOf(const MJD: TMJD): Integer;
-begin
-  if not Find(MJD,Result) then
-    Result:= -1;
-end;
-
 procedure TEOPData.Sort;
 begin
   fList.Sort(@CompareEOPItem);
 end;
 
 function TEOPData.Find(const MJD: TMJD; out Index: Integer): Boolean;
-// Does a binary search and returns the Left index of the previous value.
+// Does a binary search and returns the index of the previous value.
 // If the search value exists it returns its index
 var
   L, R, I: Integer;
-  CompareRes: PtrInt;
 begin
-  Result:= False;
   Index:= -1;
+  Result:= False;
+
   if not Sorted then
     Sort;
-  // Use binary search.
+
+  // Edge cases
+  if (MJD < MinDate) or (MJD > MaxDate) then
+    Exit(False);
+
+  // Binary search
   L:= 0;
   R:= Count - 1;
   while (L <= R) do
     begin
       I:= L + (R - L) div 2;
-      CompareRes:= CompareValue(MJD,TEOPItem(fList[I]).MJD);
-      if (CompareRes = GreaterThanValue) then
-        L:= I + 1
-      else
-        begin
-//          R:= I;
+      case  CompareValue(MJD,TEOPItem(fList[I]).MJD) of
+        EqualsValue:
+          begin
+            Index:= I;
+            Exit(True);
+          end;
+        GreaterThanValue:
+          L:= I + 1;
+        LessThanValue:
           R:= I - 1;
-          if (CompareRes = EqualsValue) then
-            L:= I;
-        end;
+      end;
     end;
-  Index:= L;
-  Result:= (L = I);
+  Index:= R;
+  Result:= True;
 end;
 
 function TEOPData.Add(aEOPItem: TEOPItem): Integer;
@@ -401,6 +404,102 @@ end;
 
 { TEOP }
 
+function TEOP.Interpolate4(const MJD: TMJD; const Index: Integer): TEOPItem;
+type
+  DoubleArray = array of Double;
+var
+  i1, i2, i3, i4: Integer;
+  Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD: Double;
+  XArray, YArray: DoubleArray;
+begin
+  Result:= nil;
+  if (Index < 0) or (Index > fDB.Count - 2) then Exit;
+
+  XArray:= DoubleArray.Create(0,0,0,0);
+  YArray:= DoubleArray.Create(0,0,0,0);
+
+  if Index = 0 then
+    begin
+      i1:= Index;
+      i2:= Index + 1;
+      i3:= Index + 2;
+      i4:= Index + 3;
+    end
+  else
+    if Index = (fDB.Count - 2) then
+      begin
+        i1:= Index - 2;
+        i2:= Index - 1;
+        i3:= Index;
+        i4:= Index + 1;
+      end
+    else
+      begin
+        i1:= Index - 1;
+        i2:= Index;
+        i3:= Index + 1;
+        i4:= Index + 2;
+      end;
+
+  XArray[0]:= fDB[i1].MJD;
+  XArray[1]:= fDB[i2].MJD;
+  XArray[2]:= fDB[i3].MJD;
+  XArray[3]:= fDB[i4].MJD;
+
+  YArray[0]:= fDB[i1].Xp;
+  YArray[1]:= fDB[i2].Xp;
+  YArray[2]:= fDB[i3].Xp;
+  YArray[3]:= fDB[i4].Xp;
+  Xp:= Interpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= fDB[i1].Yp;
+  YArray[1]:= fDB[i2].Yp;
+  YArray[2]:= fDB[i3].Yp;
+  YArray[3]:= fDB[i4].Yp;
+  Yp:= Interpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= fDB[i1].DUT1;
+  YArray[1]:= fDB[i2].DUT1;
+  YArray[2]:= fDB[i3].DUT1;
+  YArray[3]:= fDB[i4].DUT1;
+  DUT1:= Interpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= fDB[i1].dX;
+  YArray[1]:= fDB[i2].dX;
+  YArray[2]:= fDB[i3].dX;
+  YArray[3]:= fDB[i4].dX;
+  dX:= Interpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= fDB[i1].dY;
+  YArray[1]:= fDB[i2].dY;
+  YArray[2]:= fDB[i3].dY;
+  YArray[3]:= fDB[i4].dY;
+  dY:= Interpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= fDB[i1].xrt;
+  YArray[1]:= fDB[i2].xrt;
+  YArray[2]:= fDB[i3].xrt;
+  YArray[3]:= fDB[i4].xrt;
+  xrt:= Interpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= fDB[i1].yrt;
+  YArray[1]:= fDB[i2].yrt;
+  YArray[2]:= fDB[i3].yrt;
+  YArray[3]:= fDB[i4].yrt;
+  yrt:= Interpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= fDB[i1].LOD;
+  YArray[1]:= fDB[i2].LOD;
+  YArray[2]:= fDB[i3].LOD;
+  YArray[3]:= fDB[i4].LOD;
+  LOD:= Interpolate(MJD,4,XArray,YArray);
+
+  Result:= TEOPItem.Create(MJD,Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD);
+
+  SetLength(XArray,0);
+  SetLength(YArray,0);
+end;
+
 constructor TEOP.Create(aDownloadPath: string; aAutoDownload: Boolean);
 begin
   fMaxDate:= 0;
@@ -408,6 +507,7 @@ begin
   fEOPDownload:= TEOPDownload.Create(aDownloadPath);
   AutoDownload:= aAutoDownload;
   fFileLoaded:= False;
+  Tolerance:= 1;
 end;
 
 destructor TEOP.Destroy;
@@ -421,15 +521,16 @@ end;
 function TEOP.GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double ): Boolean;
 var
   id: Integer;
+  EOPItem: TEOPItem;
 begin
   Result:= False;
   if (not fFileLoaded) and AutoDownload then
     Download;
   if fFileLoaded then
     begin
-      id:= fDB.IndexOf(UTC);
-      if id >= 0 then
+      if ((UTC >= fDB.MaxDate) and ((UTC - fDB.MaxDate) <= Tolerance)) then
         begin
+          id:= fDB.Count - 1;
           DUT1:= fDB[id].DUT1;
           Xp:= fDB[id].Xp;
           Yp:= fDB[id].Yp;
@@ -439,7 +540,25 @@ begin
           xrt:= fDB[id].xrt;
           yrt:= fDB[id].yrt;
           Result:= True;
-        end;
+        end
+      else
+        if fDB.Find(UTC,id) then
+          begin
+            EOPItem:= Interpolate4(UTC, id);
+            try
+              DUT1:= EOPItem.DUT1;
+              Xp:= EOPItem.Xp;
+              Yp:= EOPItem.Yp;
+              LOD:= EOPItem.LOD;
+              dX:= EOPItem.dX;
+              dY:= EOPItem.dY;
+              xrt:= EOPItem.xrt;
+              yrt:= EOPItem.yrt;
+              Result:= True;
+            finally
+              FreeAndNil(EOPItem);
+            end;
+          end
     end;
 end;
 
