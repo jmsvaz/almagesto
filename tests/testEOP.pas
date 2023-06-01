@@ -9,6 +9,8 @@ uses
 
 type
 
+  { TTestEOPDownload }
+
   TTestEOPDownload= class(TTestCase)
   protected
     fEOPDownload: TEOPDownload;
@@ -16,7 +18,20 @@ type
     procedure TearDown; override;
   published
     procedure TestDownloadEOPC04;
+    procedure TestDownloadEOP20C04;
+    procedure TestDownloadEOP14C04;
+    procedure TestDownloadEOPC01;
   end;
+
+  { Download the EOP (IERS) 20 C04 TIME SERIES (consistent with ITRF 2020 - sampled at 0h UTC)
+  from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+  }
+  { Download the EOP (IERS) 14 C04 TIME SERIES (consistent with ITRF 2014 - sampled at 0h UTC)
+  from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+  }
+  { Download the EOP (IERS) C01 TIME SERIES
+  from http://hpiers.obspm.fr/eoppc/eop/eopc01/eopc01.iau2000.1846-now
+  }
 
   { TTestEOP }
 
@@ -257,6 +272,30 @@ var
   DownloadedFile: string;
 begin
   DownloadedFile:= fEOPDownload.DownloadEOPC04;
+  Assert(FileExists(DownloadedFile));
+end;
+
+procedure TTestEOPDownload.TestDownloadEOP20C04;
+var
+  DownloadedFile: string;
+begin
+  DownloadedFile:= fEOPDownload.DownloadEOP20C04;
+  Assert(FileExists(DownloadedFile));
+end;
+
+procedure TTestEOPDownload.TestDownloadEOP14C04;
+var
+  DownloadedFile: string;
+begin
+  DownloadedFile:= fEOPDownload.DownloadEOP14C04;
+  Assert(FileExists(DownloadedFile));
+end;
+
+procedure TTestEOPDownload.TestDownloadEOPC01;
+var
+  DownloadedFile: string;
+begin
+  DownloadedFile:= fEOPDownload.DownloadEOPC01;
   Assert(FileExists(DownloadedFile));
 end;
 

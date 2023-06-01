@@ -30,6 +30,32 @@ uses
 
 type
 
+{
+
+EOP(IERS) C01 is a series of the Earth Orientation Parameters given at 0.1
+year interval (1846 - 1889) and 0.05 year over the interval 1890 to now.
+This series is the basis of the IERS system for long-term studies. Nethertheless
+it is updated regularly once per month, and encompasses the last 0.05 year interval.
+http://hpiers.obspm.fr/eoppc/eop/eopc01/eopc01.iau2000.1846-now
+
+EOP(IERS) 20 C04 is the current series of Earth orientation parameters smoothed values at
+1-day intervals) with respect to IAU 2006/2000A precession-nutation model and consistent
+with ITRF2020. EOP 20 C04 is updated daily.
+https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+https://datacenter.iers.org/data/234/eopc04_20.1962-now.txt
+
+EOP(IERS) 14 C04 is series of Earth orientation parameters smoothed values at 1-day
+intervals) with respect to IAU 2006/2000A precession-nutation model and consistent
+with ITRF2014. EOP 14 C04 is updated two times per week.
+https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now
+https://datacenter.iers.org/data/224/eopc04_14_IAU2000.62-now.txt
+
+
+TODO: Download leap second data: https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat
+https://hpiers.obspm.fr/iers/bul/bulc/BULLETINC.GUIDE.html
+
+}
+
   { TEOPDownload }
 
   TEOPDownload = class
@@ -38,13 +64,21 @@ type
       function Download(aURL, aFileName: string): string;
     public
       constructor Create(DownloadPath: String = '');
-      { Download EOP (IERS) 20 C04 TIME SERIES  consistent with ITRF 2020 - sampled at 0h UTC
-      from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
-      Reference Precession-Nutation Model: IAU 2000
+      { Download the current EOP (IERS) C04 TIME SERIES (currently EOP 20 C04 - ITRF 2020)
       }
       function DownloadEOPC04: string;
-      // TODO: Download leap second data: https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat
-      // https://hpiers.obspm.fr/iers/bul/bulc/BULLETINC.GUIDE.html
+      { Download the EOP (IERS) 20 C04 TIME SERIES (consistent with ITRF 2020 - sampled at 0h UTC)
+      from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+      }
+      function DownloadEOP20C04: string;
+      { Download the EOP (IERS) 14 C04 TIME SERIES (consistent with ITRF 2014 - sampled at 0h UTC)
+      from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+      }
+      function DownloadEOP14C04: string;
+      { Download the EOP (IERS) C01 TIME SERIES
+      from http://hpiers.obspm.fr/eoppc/eop/eopc01/eopc01.iau2000.1846-now
+      }
+      function DownloadEOPC01: string;
     end;
 
   { TEOPItem }
@@ -118,19 +152,18 @@ type
   Reference System (ITRS). It is described, in practice, by two angular coordinates with respect to an origin at the
   pole of the ITRF: x, along the meridian of 0° longitude and y along the meridian of 90° west longitude. The data
   are derived from astro-geodetic observations using models including high-frequency variations.
-   - DUT1 (UT1-UTC): Coordinated Universal Time (UTC) is the standard atomic based time scale in normal everyday use
+   - ∆UT1 (UT1-UTC): Coordinated Universal Time (UTC) is the standard atomic based time scale in normal everyday use
   throughout the world. It is defined by the International Radio Consultative Committee (CCIR) Recommendation
   460-4 (CCIR, 1986) to differ from International Atomic Time (TAI) by an integral number of seconds in such a
   way that UT1-UTC remains smaller than 0.9s in absolute value.
    - dX and dY: Precession-Nutation is referred to the CIP and exhibits, by definition, only motions
-   with periods greater than two days with respect to an inertial observer in space. The IERS determines
-   observational residuals with respect to the precession and nutation models, called celestial pole offsets.
-   The celestial pole offsets values can be represented in two forms. The first, X and Y refers
-   to use with the model IAU 2006/2000A (Capitaine et al., 2009). The second refers to use with
-   the classical nutation angles in longitude and obliquity (δ∆ε, and δ∆ψ).
-   LOD: The difference between the astronomically determined duration of the mean solar day (D) and
-   86400s of TAI, is called the excess of the length of day (LOD).
-
+  with periods greater than two days with respect to an inertial observer in space. The IERS determines
+  observational residuals with respect to the precession and nutation models, called celestial pole offsets.
+  The celestial pole offsets values can be represented in two forms. The first, δX and δY refers
+  to use with the model IAU 2006/2000A (Capitaine et al., 2009). The second refers to use with
+  the classical nutation angles in longitude and obliquity (δ∆ε, and δ∆ψ).
+   - LOD: The difference between the astronomically determined duration of the mean solar day (D) and
+  86400s of TAI, is called the excess of the length of day (LOD).
   }
   TEOP = class
     private
@@ -148,11 +181,14 @@ type
       destructor Destroy; override;
       procedure LoadEOPData(aEOPData: TEOPData);
       function Download: boolean;
+      { Get Earth Orientation Parameters values, interpolated with a 4 points Lagrangian
+        interpolation scheme as recommended by 1997-01-30 IERS Gazette n. 13
+      }
       function GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double): Boolean;
       property AutoDownload: Boolean read FAutoDownload write FAutoDownload;
       property MinDate: TMJD read fMinDate;
       property MaxDate: TMJD read fMaxDate;
-      // How many time after MaxDate the values are valid (in days)
+      // How many days after MaxDate the values are valid
       property Tolerance: Double read fTolerance write fTolerance;
     end;
 
@@ -393,10 +429,30 @@ begin
 end;
 
 function TEOPDownload.DownloadEOPC04: string;
+begin
+  Result:= DownloadEOP20C04;
+end;
+
+function TEOPDownload.DownloadEOP20C04: string;
 const
   URL = 'http://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now';
   FileName = 'eopc04.1962-now';
-//  URL = 'https://datacenter.iers.org/data/234/eopc04_20.1962-now.txt';
+begin
+  Result:= Download(URL, FileName);
+end;
+
+function TEOPDownload.DownloadEOP14C04: string;
+const
+  URL = 'https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now.txt';
+  FileName = 'eopc01.iau2000.1846-now';
+begin
+  Result:= Download(URL, FileName);
+end;
+
+function TEOPDownload.DownloadEOPC01: string;
+const
+  URL = 'https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now';
+  FileName = 'eopc04_IAU2000.62-now';
 begin
   Result:= Download(URL, FileName);
 end;
