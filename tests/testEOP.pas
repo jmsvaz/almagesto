@@ -21,6 +21,8 @@ type
     procedure TestDownloadEOP20C04;
     procedure TestDownloadEOP14C04;
     procedure TestDownloadEOPC01;
+    procedure TestDownloadEOPFinals2000A;
+
   end;
 
   { Download the EOP (IERS) 20 C04 TIME SERIES (consistent with ITRF 2020 - sampled at 0h UTC)
@@ -296,6 +298,14 @@ var
   DownloadedFile: string;
 begin
   DownloadedFile:= fEOPDownload.DownloadEOPC01;
+  Assert(FileExists(DownloadedFile));
+end;
+
+procedure TTestEOPDownload.TestDownloadEOPFinals2000A;
+var
+  DownloadedFile: string;
+begin
+  DownloadedFile:= fEOPDownload.DownloadEOPFinals2000A;
   Assert(FileExists(DownloadedFile));
 end;
 

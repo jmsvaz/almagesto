@@ -32,27 +32,41 @@ type
 
 {
 
-EOP(IERS) C01 is a series of the Earth Orientation Parameters given at 0.1
+ - EOP(IERS) C01 is a series of the Earth Orientation Parameters given at 0.1
 year interval (1846 - 1889) and 0.05 year over the interval 1890 to now.
 This series is the basis of the IERS system for long-term studies. Nethertheless
 it is updated regularly once per month, and encompasses the last 0.05 year interval.
 http://hpiers.obspm.fr/eoppc/eop/eopc01/eopc01.iau2000.1846-now
 
-EOP(IERS) 20 C04 is the current series of Earth orientation parameters smoothed values at
+ - EOP(IERS) 20 C04 is the current series of Earth orientation parameters smoothed values at
 1-day intervals) with respect to IAU 2006/2000A precession-nutation model and consistent
 with ITRF2020. EOP 20 C04 is updated daily.
 https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
 https://datacenter.iers.org/data/234/eopc04_20.1962-now.txt
 
-EOP(IERS) 14 C04 is series of Earth orientation parameters smoothed values at 1-day
+ - EOP(IERS) 14 C04 is series of Earth orientation parameters smoothed values at 1-day
 intervals) with respect to IAU 2006/2000A precession-nutation model and consistent
 with ITRF2014. EOP 14 C04 is updated two times per week.
 https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now
 https://datacenter.iers.org/data/224/eopc04_14_IAU2000.62-now.txt
 
+ - Standard Rapid EOP Data since 02. January 1973 (IAU2000)
+Quick-look weekly estimates of the EOP determined by combining the most recently available
+observed and modeled data (including VLBI 24-hour and intensive, GPS, and AAM).
+The combination process involves applying systematic corrections and slightly smoothing,
+in order to remove the high frequency noise.
+finals2000A.all contains the values from IERS Bulletin A for x/y pole, UT1-UTC, LOD,
+dX, dY, their errors and predictions for next 365 days for x/y pole, UT1-UTC, dX and dY
+as well as the values from IERS Bulletin B for x/y pole, UT1-UTC, dX, dY at daily
+intervals since 02. January 1973. Celestial pole offsets (dX, dY) are related to
+the IAU2000A precession/nutation theory.
+https://maia.usno.navy.mil/ser7/finals2000A.all
 
-TODO: Download leap second data: https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat
-https://hpiers.obspm.fr/iers/bul/bulc/BULLETINC.GUIDE.html
+
+TODO: Leap second data: https://hpiers.obspm.fr/iers/bul/bulc/BULLETINC.GUIDE.html
+https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat
+https://maia.usno.navy.mil/ser7/tai-utc.dat
+
 
 }
 
@@ -79,6 +93,10 @@ https://hpiers.obspm.fr/iers/bul/bulc/BULLETINC.GUIDE.html
       from http://hpiers.obspm.fr/eoppc/eop/eopc01/eopc01.iau2000.1846-now
       }
       function DownloadEOPC01: string;
+      { Download the Standard Rapid EOP Data since 02. January 1973 (IAU2000)
+      from https://maia.usno.navy.mil/ser7/finals2000A.all
+      }
+      function DownloadEOPFinals2000A: string;
     end;
 
   { TEOPItem }
@@ -453,6 +471,14 @@ function TEOPDownload.DownloadEOPC01: string;
 const
   URL = 'https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now';
   FileName = 'eopc04_IAU2000.62-now';
+begin
+  Result:= Download(URL, FileName);
+end;
+
+function TEOPDownload.DownloadEOPFinals2000A: string;
+const
+  URL = 'https://maia.usno.navy.mil/ser7/finals2000A.all';
+  FileName = 'finals2000A.all';
 begin
   Result:= Download(URL, FileName);
 end;
