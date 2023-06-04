@@ -102,6 +102,11 @@ const
 function fmod(X, Range: Double): Double;
 function fmod(X, Max, Min: Double): Double;
 
+{
+LagrangianInterpolate performs a Lagrangian interpolation within a set of nPoints (X,Y) pairs.
+}
+function LagrangianInterpolate(x: Double; nPoints: Integer; XArray, YArray: array of Double): Double;
+
 {$I consts.inc}
 
 implementation
@@ -129,6 +134,28 @@ begin
       Result:= Range*Frac(X/range);
       while Result < Min do
         Result:= Result + Range;
+    end;
+end;
+
+{
+LagrangianInterpolate performs a Lagrangian interpolation within a set of nPoints (X,Y) pairs.
+}
+function LagrangianInterpolate(x: Double; nPoints: Integer; XArray, YArray: array of Double): Double;
+var
+  i, j: Integer;
+  Term: Double;
+begin
+  Result:= 0;
+  if nPoints < 2 then
+    raise Exception.Create('Interpolate needs at least 2 points!');
+
+  for i:= 0 to nPoints - 1 do
+    begin
+      term:= YArray[i];
+      for j:= 0 to nPoints - 1 do
+        if i <> j then
+          term:= term * (X - XArray[j])/(XArray[i] - XArray[j]);
+      Result:= Result + term;
     end;
 end;
 

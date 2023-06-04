@@ -221,27 +221,7 @@ begin
 end;
 
 
-{
-Interpolate performs a Lagrangian interpolation within a set of nPoints (X,Y) pairs.
-}
-function Interpolate(x: Double; nPoints: Integer; XArray, YArray: array of Double): Double;
-var
-  i, j: Integer;
-  Term: Double;
-begin
-  Result:= 0;
-  if nPoints < 2 then
-    raise Exception.Create('Interpolate needs at least 2 points!');
 
-  for i:= 0 to nPoints - 1 do
-    begin
-      term:= YArray[i];
-      for j:= 0 to nPoints - 1 do
-        if i <> j then
-          term:= term * (X - XArray[j])/(XArray[i] - XArray[j]);
-      Result:= Result + term;
-    end;
-end;
 
 constructor TEOPData.Create;
 begin
@@ -532,49 +512,49 @@ begin
   YArray[1]:= fDB[i2].Xp;
   YArray[2]:= fDB[i3].Xp;
   YArray[3]:= fDB[i4].Xp;
-  Xp:= Interpolate(MJD,4,XArray,YArray);
+  Xp:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
   YArray[0]:= fDB[i1].Yp;
   YArray[1]:= fDB[i2].Yp;
   YArray[2]:= fDB[i3].Yp;
   YArray[3]:= fDB[i4].Yp;
-  Yp:= Interpolate(MJD,4,XArray,YArray);
+  Yp:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
   YArray[0]:= fDB[i1].DUT1;
   YArray[1]:= fDB[i2].DUT1;
   YArray[2]:= fDB[i3].DUT1;
   YArray[3]:= fDB[i4].DUT1;
-  DUT1:= Interpolate(MJD,4,XArray,YArray);
+  DUT1:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
   YArray[0]:= fDB[i1].dX;
   YArray[1]:= fDB[i2].dX;
   YArray[2]:= fDB[i3].dX;
   YArray[3]:= fDB[i4].dX;
-  dX:= Interpolate(MJD,4,XArray,YArray);
+  dX:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
   YArray[0]:= fDB[i1].dY;
   YArray[1]:= fDB[i2].dY;
   YArray[2]:= fDB[i3].dY;
   YArray[3]:= fDB[i4].dY;
-  dY:= Interpolate(MJD,4,XArray,YArray);
+  dY:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
   YArray[0]:= fDB[i1].xrt;
   YArray[1]:= fDB[i2].xrt;
   YArray[2]:= fDB[i3].xrt;
   YArray[3]:= fDB[i4].xrt;
-  xrt:= Interpolate(MJD,4,XArray,YArray);
+  xrt:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
   YArray[0]:= fDB[i1].yrt;
   YArray[1]:= fDB[i2].yrt;
   YArray[2]:= fDB[i3].yrt;
   YArray[3]:= fDB[i4].yrt;
-  yrt:= Interpolate(MJD,4,XArray,YArray);
+  yrt:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
   YArray[0]:= fDB[i1].LOD;
   YArray[1]:= fDB[i2].LOD;
   YArray[2]:= fDB[i3].LOD;
   YArray[3]:= fDB[i4].LOD;
-  LOD:= Interpolate(MJD,4,XArray,YArray);
+  LOD:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
   Result:= TEOPItem.Create(MJD,Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD);
 
