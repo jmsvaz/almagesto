@@ -202,7 +202,7 @@ type
       FAutoDownload: Boolean;
       fEOPDownload: TEOPDownload;
       fFileLoaded: Boolean;
-      fDB: TEOPData;
+      fC04Series: TEOPData;
       fMaxDate: TMJD;
       fMinDate: TMJD;
     private
@@ -715,7 +715,7 @@ var
   XArray, YArray: DoubleArray;
 begin
   Result:= nil;
-  if (Index < 0) or (Index > fDB.Count - 2) then Exit;
+  if (Index < 0) or (Index > fC04Series.Count - 2) then Exit;
 
   XArray:= DoubleArray.Create(0,0,0,0);
   YArray:= DoubleArray.Create(0,0,0,0);
@@ -728,7 +728,7 @@ begin
       i4:= Index + 3;
     end
   else
-    if Index = (fDB.Count - 2) then
+    if Index = (fC04Series.Count - 2) then
       begin
         i1:= Index - 2;
         i2:= Index - 1;
@@ -743,57 +743,57 @@ begin
         i4:= Index + 2;
       end;
 
-  XArray[0]:= fDB[i1].MJD;
-  XArray[1]:= fDB[i2].MJD;
-  XArray[2]:= fDB[i3].MJD;
-  XArray[3]:= fDB[i4].MJD;
+  XArray[0]:= fC04Series[i1].MJD;
+  XArray[1]:= fC04Series[i2].MJD;
+  XArray[2]:= fC04Series[i3].MJD;
+  XArray[3]:= fC04Series[i4].MJD;
 
-  YArray[0]:= fDB[i1].Xp;
-  YArray[1]:= fDB[i2].Xp;
-  YArray[2]:= fDB[i3].Xp;
-  YArray[3]:= fDB[i4].Xp;
+  YArray[0]:= fC04Series[i1].Xp;
+  YArray[1]:= fC04Series[i2].Xp;
+  YArray[2]:= fC04Series[i3].Xp;
+  YArray[3]:= fC04Series[i4].Xp;
   Xp:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
-  YArray[0]:= fDB[i1].Yp;
-  YArray[1]:= fDB[i2].Yp;
-  YArray[2]:= fDB[i3].Yp;
-  YArray[3]:= fDB[i4].Yp;
+  YArray[0]:= fC04Series[i1].Yp;
+  YArray[1]:= fC04Series[i2].Yp;
+  YArray[2]:= fC04Series[i3].Yp;
+  YArray[3]:= fC04Series[i4].Yp;
   Yp:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
-  YArray[0]:= fDB[i1].DUT1;
-  YArray[1]:= fDB[i2].DUT1;
-  YArray[2]:= fDB[i3].DUT1;
-  YArray[3]:= fDB[i4].DUT1;
+  YArray[0]:= fC04Series[i1].DUT1;
+  YArray[1]:= fC04Series[i2].DUT1;
+  YArray[2]:= fC04Series[i3].DUT1;
+  YArray[3]:= fC04Series[i4].DUT1;
   DUT1:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
-  YArray[0]:= fDB[i1].dX;
-  YArray[1]:= fDB[i2].dX;
-  YArray[2]:= fDB[i3].dX;
-  YArray[3]:= fDB[i4].dX;
+  YArray[0]:= fC04Series[i1].dX;
+  YArray[1]:= fC04Series[i2].dX;
+  YArray[2]:= fC04Series[i3].dX;
+  YArray[3]:= fC04Series[i4].dX;
   dX:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
-  YArray[0]:= fDB[i1].dY;
-  YArray[1]:= fDB[i2].dY;
-  YArray[2]:= fDB[i3].dY;
-  YArray[3]:= fDB[i4].dY;
+  YArray[0]:= fC04Series[i1].dY;
+  YArray[1]:= fC04Series[i2].dY;
+  YArray[2]:= fC04Series[i3].dY;
+  YArray[3]:= fC04Series[i4].dY;
   dY:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
-  YArray[0]:= fDB[i1].xrt;
-  YArray[1]:= fDB[i2].xrt;
-  YArray[2]:= fDB[i3].xrt;
-  YArray[3]:= fDB[i4].xrt;
+  YArray[0]:= fC04Series[i1].xrt;
+  YArray[1]:= fC04Series[i2].xrt;
+  YArray[2]:= fC04Series[i3].xrt;
+  YArray[3]:= fC04Series[i4].xrt;
   xrt:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
-  YArray[0]:= fDB[i1].yrt;
-  YArray[1]:= fDB[i2].yrt;
-  YArray[2]:= fDB[i3].yrt;
-  YArray[3]:= fDB[i4].yrt;
+  YArray[0]:= fC04Series[i1].yrt;
+  YArray[1]:= fC04Series[i2].yrt;
+  YArray[2]:= fC04Series[i3].yrt;
+  YArray[3]:= fC04Series[i4].yrt;
   yrt:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
-  YArray[0]:= fDB[i1].LOD;
-  YArray[1]:= fDB[i2].LOD;
-  YArray[2]:= fDB[i3].LOD;
-  YArray[3]:= fDB[i4].LOD;
+  YArray[0]:= fC04Series[i1].LOD;
+  YArray[1]:= fC04Series[i2].LOD;
+  YArray[2]:= fC04Series[i3].LOD;
+  YArray[3]:= fC04Series[i4].LOD;
   LOD:= LagrangianInterpolate(MJD,4,XArray,YArray);
 
   Result:= TEOPItem.Create(MJD,Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD);
@@ -814,8 +814,8 @@ end;
 
 destructor TEOP.Destroy;
 begin
-  if Assigned(fDB) then
-    FreeAndNil(fDB);
+  if Assigned(fC04Series) then
+    FreeAndNil(fC04Series);
   FreeAndNil(fEOPDownload);
   inherited Destroy;
 end;
@@ -830,21 +830,21 @@ begin
     Download;
   if fFileLoaded then
     begin
-      if ((UTC >= fDB.MaxDate) and ((UTC - fDB.MaxDate) <= Tolerance)) then
+      if ((UTC >= fC04Series.MaxDate) and ((UTC - fC04Series.MaxDate) <= Tolerance)) then
         begin
-          id:= fDB.Count - 1;
-          DUT1:= fDB[id].DUT1;
-          Xp:= fDB[id].Xp;
-          Yp:= fDB[id].Yp;
-          LOD:= fDB[id].LOD;
-          dX:= fDB[id].dX;
-          dY:= fDB[id].dY;
-          xrt:= fDB[id].xrt;
-          yrt:= fDB[id].yrt;
+          id:= fC04Series.Count - 1;
+          DUT1:= fC04Series[id].DUT1;
+          Xp:= fC04Series[id].Xp;
+          Yp:= fC04Series[id].Yp;
+          LOD:= fC04Series[id].LOD;
+          dX:= fC04Series[id].dX;
+          dY:= fC04Series[id].dY;
+          xrt:= fC04Series[id].xrt;
+          yrt:= fC04Series[id].yrt;
           Result:= True;
         end
       else
-        if fDB.Find(UTC,id) then
+        if fC04Series.Find(UTC,id) then
           begin
             EOPItem:= Interpolate4(UTC, id);
             try
@@ -877,17 +877,17 @@ end;
 procedure TEOP.LoadEOPData(aEOPData: TEOPData);
 begin
   fFileLoaded:= False;
-  if Assigned(fDB) then
-    FreeAndNil(fDB);
+  if Assigned(fC04Series) then
+    FreeAndNil(fC04Series);
   if aEOPData.Count > 0 then
     try
-      fDB:= aEOPData;
-      fMinDate:= fDB.MinDate;
-      fMaxDate:= fDB.MaxDate;
+      fC04Series:= aEOPData;
+      fMinDate:= fC04Series.MinDate;
+      fMaxDate:= fC04Series.MaxDate;
       fFileLoaded:= True;
     except;
-      if Assigned(fDB) then
-        FreeAndNil(fDB);
+      if Assigned(fC04Series) then
+        FreeAndNil(fC04Series);
     end;
 end;
 
