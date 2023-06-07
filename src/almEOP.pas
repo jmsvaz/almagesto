@@ -26,49 +26,9 @@ unit almEOP;
 interface
 
 uses
-  Classes, SysUtils, SdfData, almBase;
+  Classes, SysUtils, almBase;
 
 type
-
-{
-
- - EOP(IERS) C01 is a series of the Earth Orientation Parameters given at 0.1
-year interval (1846 - 1889) and 0.05 year over the interval 1890 to now.
-This series is the basis of the IERS system for long-term studies. Nethertheless
-it is updated regularly once per month, and encompasses the last 0.05 year interval.
-http://hpiers.obspm.fr/eoppc/eop/eopc01/eopc01.iau2000.1846-now
-
- - EOP(IERS) 20 C04 is the current series of Earth orientation parameters smoothed values at
-1-day intervals) with respect to IAU 2006/2000A precession-nutation model and consistent
-with ITRF2020. EOP 20 C04 is updated daily.
-https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
-https://datacenter.iers.org/data/234/eopc04_20.1962-now.txt
-
- - EOP(IERS) 14 C04 is series of Earth orientation parameters smoothed values at 1-day
-intervals) with respect to IAU 2006/2000A precession-nutation model and consistent
-with ITRF2014. EOP 14 C04 is updated two times per week.
-https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now
-https://datacenter.iers.org/data/224/eopc04_14_IAU2000.62-now.txt
-
- - Standard Rapid EOP Data since 02. January 1973 (IAU2000)
-Quick-look weekly estimates of the EOP determined by combining the most recently available
-observed and modeled data (including VLBI 24-hour and intensive, GPS, and AAM).
-The combination process involves applying systematic corrections and slightly smoothing,
-in order to remove the high frequency noise.
-finals2000A.all contains the values from IERS Bulletin A for x/y pole, UT1-UTC, LOD,
-dX, dY, their errors and predictions for next 365 days for x/y pole, UT1-UTC, dX and dY
-as well as the values from IERS Bulletin B for x/y pole, UT1-UTC, dX, dY at daily
-intervals since 02. January 1973. Celestial pole offsets (dX, dY) are related to
-the IAU2000A precession/nutation theory.
-https://maia.usno.navy.mil/ser7/finals2000A.all
-
-
-TODO: Leap second data: https://hpiers.obspm.fr/iers/bul/bulc/BULLETINC.GUIDE.html
-https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat
-https://maia.usno.navy.mil/ser7/tai-utc.dat
-
-
-}
 
   { TEOPDownload }
 
@@ -78,26 +38,27 @@ https://maia.usno.navy.mil/ser7/tai-utc.dat
       function Download(aURL, aFileName: string): string;
     public
       constructor Create(DownloadPath: String = '');
-      { Download the current EOP (IERS) C04 TIME SERIES (currently EOP 20 C04 - ITRF 2020)
-      }
+      { Download the current EOP (IERS) C04 TIME SERIES (currently EOP 20 C04 - ITRF 2020)      }
       function DownloadEOPC04: string;
       { Download the EOP (IERS) 20 C04 TIME SERIES (consistent with ITRF 2020 - sampled at 0h UTC)
-      from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
-      }
+      from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now      }
       function DownloadEOP20C04: string;
       { Download the EOP (IERS) 14 C04 TIME SERIES (consistent with ITRF 2014 - sampled at 0h UTC)
-      from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
-      }
+      from https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04.1962-now      }
       function DownloadEOP14C04: string;
       { Download the EOP (IERS) C01 TIME SERIES
-      from http://hpiers.obspm.fr/eoppc/eop/eopc01/eopc01.iau2000.1846-now
-      }
+      from https://hpiers.obspm.fr/iers/eop/eopc01/eopc01.iau2000.1846-now       }
       function DownloadEOPC01: string;
       { Download the Standard Rapid EOP Data since 02. January 1973 (IAU2000)
-      from https://maia.usno.navy.mil/ser7/finals2000A.all
-      }
+      from https://maia.usno.navy.mil/ser7/finals2000A.all      }
       function DownloadEOPFinals2000A: string;
-    end;
+      {
+      TODO: Leap second data: https://hpiers.obspm.fr/iers/bul/bulc/BULLETINC.GUIDE.html
+      https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat
+      https://maia.usno.navy.mil/ser7/tai-utc.dat
+      }
+  end;
+
 
   { TEOPItem }
 
@@ -153,11 +114,29 @@ https://maia.usno.navy.mil/ser7/tai-utc.dat
 
   TEOPReader = class
     public
-      { Read EOP (IERS) 20 C04 TIME SERIES  consistent with ITRF 2020 - sampled at 0h UTC
-        downloaded from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
-       Reference Precession-Nutation Model: IAU 2000
-      }
+      { Read the current EOP (IERS) C04 TIME SERIES
+        currently is EOP (IERS) 20 C04 TIME SERIES (consistent with ITRF 2020 - sampled at 0h UTC)}
       class function ReadEOPC04File(FileName: String): TEOPData;
+
+      { Read the EOP (IERS) C01 TIME SERIES
+        downloaded from https://hpiers.obspm.fr/iers/eop/eopc01/eopc01.iau2000.1846-now
+       Reference Precession-Nutation Model: IAU 2000      }
+      class function ReadEOPC01File(FileName: String): TEOPData;
+
+      { Read EOP (IERS) 20 C04 TIME SERIES (consistent with ITRF 2020 - sampled at 0h UTC)
+        downloaded from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+       Reference Precession-Nutation Model: IAU 2000      }
+      class function ReadEOP20C04File(FileName: String): TEOPData;
+
+      { Read EOP (IERS) 14 C04 TIME SERIES (consistent with ITRF 2014 - sampled at 0h UTC)
+        downloaded from https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04.1962-now
+       Reference Precession-Nutation Model: IAU 2000      }
+      class function ReadEOP14C04File(FileName: String): TEOPData;
+
+      { Read the Standard Rapid EOP Data since 02. January 1973 (IAU2000)
+        downloaded from https://maia.usno.navy.mil/ser7/finals2000A.all
+       Reference Precession-Nutation Model: IAU 2000      }
+      class function ReadEOPFinals2000AFile(FileName: String): TEOPData;
     end;
 
 
@@ -182,6 +161,41 @@ https://maia.usno.navy.mil/ser7/tai-utc.dat
   the classical nutation angles in longitude and obliquity (δ∆ε, and δ∆ψ).
    - LOD: The difference between the astronomically determined duration of the mean solar day (D) and
   86400s of TAI, is called the excess of the length of day (LOD).
+
+  The parameters are interpolatade according to the 1997-01-30 IERS Gazette n. 13
+  recommendation from the values obtained in the following series:
+
+  - EOP(IERS) C01 is a series of the Earth Orientation Parameters given at 0.1
+ year interval (1846 - 1889) and 0.05 year over the interval 1890 to now.
+ This series is the basis of the IERS system for long-term studies. Nethertheless
+ it is updated regularly once per month, and encompasses the last 0.05 year interval.
+ http://hpiers.obspm.fr/eoppc/eop/eopc01/eopc01.iau2000.1846-now
+ https://datacenter.iers.org/data/latestVersion/EOP_C01_IAU2000_1846-now.txt
+
+  - EOP(IERS) 20 C04 is the current series of Earth orientation parameters smoothed values at
+ 1-day intervals) with respect to IAU 2006/2000A precession-nutation model and consistent
+ with ITRF2020. EOP 20 C04 is updated daily.
+ https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+ https://datacenter.iers.org/data/latestVersion/EOP_20_C04_one_file_1962-now.txt
+
+  - EOP(IERS) 14 C04 is series of Earth orientation parameters smoothed values at 1-day
+ intervals) with respect to IAU 2006/2000A precession-nutation model and consistent
+ with ITRF2014. EOP 14 C04 is updated two times per week.
+ https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now
+ https://datacenter.iers.org/data/latestVersion/EOP_14_C04_IAU2000A_one_file_1962-now.txt
+
+  - Standard Rapid EOP Data since 02. January 1973 (IAU2000)
+ Quick-look weekly estimates of the EOP determined by combining the most recently available
+ observed and modeled data (including VLBI 24-hour and intensive, GPS, and AAM).
+ The combination process involves applying systematic corrections and slightly smoothing,
+ in order to remove the high frequency noise.
+ finals2000A.all contains the values from IERS Bulletin A for x/y pole, UT1-UTC, LOD,
+ dX, dY, their errors and predictions for next 365 days for x/y pole, UT1-UTC, dX and dY
+ as well as the values from IERS Bulletin B for x/y pole, UT1-UTC, dX, dY at daily
+ intervals since 02. January 1973. Celestial pole offsets (dX, dY) are related to
+ the IAU2000A precession/nutation theory.
+ https://maia.usno.navy.mil/ser7/finals2000A.all
+ https://datacenter.iers.org/data/latestVersion/finals.all.iau2000.txt
   }
   TEOP = class
     private
@@ -200,8 +214,7 @@ https://maia.usno.navy.mil/ser7/tai-utc.dat
       procedure LoadEOPData(aEOPData: TEOPData);
       function Download: boolean;
       { Get Earth Orientation Parameters values, interpolated with a 4 points Lagrangian
-        interpolation scheme as recommended by 1997-01-30 IERS Gazette n. 13
-      }
+        interpolation scheme as recommended by 1997-01-30 IERS Gazette n. 13      }
       function GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double): Boolean;
       property AutoDownload: Boolean read FAutoDownload write FAutoDownload;
       property MinDate: TMJD read fMinDate;
@@ -213,15 +226,14 @@ https://maia.usno.navy.mil/ser7/tai-utc.dat
 
 implementation
 
-uses   fphttpclient, openssl, opensslsockets, Math;
+uses almUnits, fphttpclient, openssl, opensslsockets, Math;
 
 function CompareEOPItem(Item1, Item2: Pointer): Integer;
 begin
   Result:= CompareValue(TEOPItem(Item1).MJD,TEOPItem(Item2).MJD);
 end;
 
-
-
+{ TEOP }
 
 constructor TEOPData.Create;
 begin
@@ -319,6 +331,84 @@ end;
 { TEOPLoader }
 
 class function TEOPReader.ReadEOPC04File(FileName: String): TEOPData;
+begin
+  Result:= ReadEOP20C04File(FileName);
+end;
+
+class function TEOPReader.ReadEOPC01File(FileName: String): TEOPData;
+var
+  aRow: TStringList;
+  InputFile: TextFile;
+  InputStr: String;
+  aEOPItem: TEOPItem;
+function ProcessEOPC01Line(InputStr: String): TEOPItem;
+  var
+    aRow: TStringList;
+    MJD: TMJD; Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD: Double;
+  begin
+    {
+    From https://hpiers.obspm.fr/iers/eop/eopc01/eopc01.iau2000.1846-now:
+    #  MJD         PM-X      PM-Y       UT1-TAI       DX           DY          X-ERR     Y-ERR      UT1-ERR    DX  -ERR   DY  -ERR        RMS      CORR      CORR      CORR      CORR     IND1     IND2    IND3     XRT       YRT        LOD         DXRT       DYRT       XRT-ERR   YRT-ERR    LOD-ERR     DXRT  -ERR  DYRT  -ERR
+    #              SECONDS   SECONDS    SECONDS       SECONDS      SECONDS     SECONDS   SECONDS    SECONDS    SECONDS    SECONDS         DELAY    X-Y       X-U       Y-U       DX-DY                              SECONDS   SECONDS    SECONDS     SECONDS    SECONDS    SECONDS   SECONDS    SECONDS     SECONDS     SECONDS
+    #              OF ARC    OF ARC     OF TIME       OF ARC       OF ARC      OF ARC    OF ARC     OF TIME    OF ARC     OF ARC          PSEC                                                                      OF ARC    OF ARC     OF TIME     OF ARC     OF ARC     OF ARC    OF ARC     OF TIME     OF ARC      OF ARC
+    #                                                                                                                                                                                                               PER DAY   PER DAY    PER DAY     PER DAY    PER DAY    PER DAY   PER DAY    PER DAY     PER DAY     PER DAY
+    #  (days)         (")       (")        (s)          (")          (")         (")       (")       (s)        (")        (")            (ps)                        (     unitless       )                        ("/d)     ("/d)      (s)         ("/d)      ("/d)      ("/d)     ("/d)      (s)         ("/d)       ("/d)
+    }
+    Result:= nil;
+    aRow:= TStringList.Create;
+    try
+      aRow.DelimitedText:= InputStr;
+      aRow.Delimiter:= ' ';
+      if aRow.Count = 29 then
+        begin
+          MJD:= StrToFloat(aRow[0]);
+          Xp:= StrToFloat(aRow[1]);
+          Yp:= StrToFloat(aRow[2]);
+          DUT1:= StrToFloat(aRow[3]);
+          dX:= StrToFloat(aRow[4]);
+          dY:= StrToFloat(aRow[5]);
+          xrt:= StrToFloat(aRow[19]);
+          yrt:= StrToFloat(aRow[20]);
+          LOD:= StrToFloat(aRow[21]);
+
+          Result:= TEOPItem.Create(MJD,Xp,Yp,DUT1,dX,dY,xrt,yrt,LOD);
+        end
+      else
+        raise Exception.Create('eopc01: Incorrect number of fields.');
+    finally
+      FreeAndNil(aRow);
+    end;
+  end;
+begin
+  Result:= TEOPData.Create;
+  try
+    if FileExists(FileName) then
+      begin
+        AssignFile(InputFile, FileName);
+        {$I-}
+        try
+          Reset(InputFile);
+          repeat
+            Readln(InputFile, InputStr);
+            if Length(InputStr) = 0 then
+              Continue;
+            if (InputStr[1] = '#') then
+              Continue;
+            aEOPItem:= ProcessEOPC01Line(InputStr);
+            if Assigned(aEOPItem) then
+              Result.Add(aEOPItem);
+          until(EOF(InputFile));
+        finally
+          {$I+}
+          CloseFile(InputFile);
+        end;
+      end;
+  except
+    Result.Clear;
+  end;
+end;
+
+class function TEOPReader.ReadEOP20C04File(FileName: String): TEOPData;
 var
   aRow: TStringList;
   InputFile: TextFile;
@@ -332,7 +422,7 @@ From https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now:
 # Description: https://hpiers.obspm.fr/eoppc/eop/eopc04/eopc04.txt        Contact: christian.bizouard@obspm.fr
 # Reference Precession-Nutation Model: IAU 2000
 # format(4(i4),f10.2,2(f12.6),f12.7,2(f12.6),2(f12.6),f12.7,2(f12.6),f12.7,2(f12.6),2(f12.6),f12.7)
-# YR  MM  DD  HH       MJD        x(")        y(")  UT1-UTC(s)     dPsi(")     dEps(")      xrt(")      yrt(")      LOD(s)        x Er        y Er  UT1-UTC Er     dPsi Er     dEps Er      xrt Er      yrt Er      LOD Er
+# YR  MM  DD  HH       MJD        x(")        y(")  UT1-UTC(s)       dX(")      dY(")       xrt(")      yrt(")      LOD(s)        x Er        y Er  UT1-UTC Er      dX Er       dY Er       xrt Er      yrt Er      LOD Er
 }
   Result:= TEOPData.Create;
   try
@@ -344,7 +434,9 @@ From https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now:
           Reset(InputFile);
           repeat
             Readln(InputFile, InputStr);
-            if InputStr[1] = '#' then
+            if Length(InputStr) = 0 then
+              Continue;
+            if (InputStr[1] = '#') or (InputStr[1] = ' ') then
               Continue;
             aRow:= TStringList.Create;
             try
@@ -358,10 +450,158 @@ From https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now:
                   Result.Add(aEOPItem);
                 end
               else
-                raise Exception.Create('Incorrect number of fields.');
+                raise Exception.Create('eopc04: Incorrect number of fields.');
             finally
               FreeAndNil(aRow);
             end;
+          until(EOF(InputFile));
+        finally
+          {$I+}
+          CloseFile(InputFile);
+        end;
+      end;
+  except
+    Result.Clear;
+  end;
+end;
+
+class function TEOPReader.ReadEOP14C04File(FileName: String): TEOPData;
+var
+  aRow: TStringList;
+  InputFile: TextFile;
+  InputStr: String;
+  aEOPItem: TEOPItem;
+function ProcessEOP14C04Line(InputStr: String): TEOPItem;
+  var
+    aRow: TStringList;
+    MJD: TMJD; Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD: Double;
+  begin
+    {
+    From https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now:
+    EARTH ORIENTATION PARAMETER (EOP) PRODUCT CENTER CENTER (PARIS OBSERVATORY)
+           INTERNATIONAL EARTH ROTATION AND REFERENCE SYSTEMS SERVICE
+                         EOP (IERS) 14 C04 TIME SERIES
+    Description: https://hpiers.obspm.fr/eoppc/eop/eopc04/C04.guide.pdf
+                 contact: christian.bizouard@obspm.fr
+
+    FORMAT(3(I4),I7,2(F11.6),2(F12.7),2(F11.6),2(F11.6),2(F11.7),2(F12.6))
+    ##################################################################################
+
+     Date      MJD      x          y        UT1-UTC       LOD         dX        dY        x Err     y Err   UT1-UTC Err  LOD Err     dX Err       dY Err
+                        "          "           s           s          "         "           "          "          s         s            "           "
+    (0h UTC)
+    }
+    Result:= nil;
+    aRow:= TStringList.Create;
+    try
+      aRow.DelimitedText:= InputStr;
+      aRow.Delimiter:= ' ';
+      if aRow.Count = 16 then
+        begin
+          MJD:= StrToFloat(aRow[3]);
+          Xp:= StrToFloat(aRow[4]);
+          Yp:= StrToFloat(aRow[5]);
+          DUT1:= StrToFloat(aRow[6]);
+          dX:= StrToFloat(aRow[8]);
+          dY:= StrToFloat(aRow[9]);
+          xrt:= 0;
+          yrt:= 0;
+          LOD:= StrToFloat(aRow[7]);
+
+          Result:= TEOPItem.Create(MJD,Xp,Yp,DUT1,dX,dY,xrt,yrt,LOD);
+        end
+      else
+        raise Exception.Create('eopc04_14: Incorrect number of fields.');
+    finally
+      FreeAndNil(aRow);
+    end;
+  end;
+begin
+  Result:= TEOPData.Create;
+  try
+    if FileExists(FileName) then
+      begin
+        AssignFile(InputFile, FileName);
+        {$I-}
+        try
+          Reset(InputFile);
+          repeat
+            Readln(InputFile, InputStr);
+            if Length(InputStr) = 0 then
+              Continue;
+            if (InputStr[1] = '#') or (InputStr[1] = ' ') then
+              Continue;
+            aEOPItem:= ProcessEOP14C04Line(InputStr);
+            if Assigned(aEOPItem) then
+              Result.Add(aEOPItem);
+          until(EOF(InputFile));
+        finally
+          {$I+}
+          CloseFile(InputFile);
+        end;
+      end;
+  except
+    Result.Clear;
+  end;
+end;
+
+class function TEOPReader.ReadEOPFinals2000AFile(FileName: String): TEOPData;
+var
+  InputFile: TextFile;
+  InputStr: String;
+  aEOPItem: TEOPItem;
+
+function ProcessFinals2000ALine(InputStr: String): TEOPItem;
+  var
+    MJD: TMJD; Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD: Double;
+  begin
+    {
+    From https://maia.usno.navy.mil/ser7/readme.finals2000A:
+               MJD          PM-x               PM-y                UT1-UTC              LOD                   dX                 dY
+                          sec. of arc        sec. of arc          sec. of time       msec. of time        msec. of arc       msec. of arc
+    cols:     8-15          19-27             38-46                 59-68              80-86                 98-106             117-125
+    format:   F8.2          F9.6              F9.6                  F10.7              F7.4                  F9.3               F9.3
+    }
+    Result:= nil;
+    if Length(InputStr) = 187 then
+      begin
+        TryStrToFloat(Trim(copy(InputStr,8,8)),MJD);
+        TryStrToFloat(Trim(copy(InputStr,19,9)),Xp);
+        TryStrToFloat(Trim(copy(InputStr,38,9)),Yp);
+        TryStrToFloat(Trim(copy(InputStr,59,10)),DUT1);
+        TryStrToFloat(Trim(copy(InputStr,98,9)),dX);
+        dX:= Convert(dX,cMilliSeconds,cSeconds);
+        TryStrToFloat(Trim(copy(InputStr,117,9)),dY);
+        dY:= Convert(dY,cMilliSeconds,cSeconds);
+        xrt:= 0;
+        yrt:= 0;
+        TryStrToFloat(Trim(copy(InputStr,80,7)),LOD);
+        LOD:= LOD/1000;
+
+        Result:= TEOPItem.Create(MJD,Xp,Yp,DUT1,dX,dY,xrt,yrt,LOD);
+      end
+    else
+      raise Exception.Create('finals 2000A: Incorrect number of columns at line: ' + InputStr + ' (' + IntToStr(Length(InputStr)) + 'columns instead of 185).');
+  end;
+
+begin
+  Result:= TEOPData.Create;
+  try
+    if FileExists(FileName) then
+      begin
+        AssignFile(InputFile, FileName);
+        {$I-}
+        try
+          Reset(InputFile);
+          repeat
+            Readln(InputFile, InputStr);
+            if Length(InputStr) = 0 then
+              Continue;
+            if (InputStr[1] = '#') then
+              Continue;
+            aEOPItem:= ProcessFinals2000ALine(InputStr);
+            if Assigned(aEOPItem) then
+              Result.Add(aEOPItem);
           until(EOF(InputFile));
         finally
           {$I+}
@@ -441,16 +681,16 @@ end;
 
 function TEOPDownload.DownloadEOP14C04: string;
 const
-  URL = 'https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now.txt';
-  FileName = 'eopc01.iau2000.1846-now';
+  URL = 'https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now';
+  FileName = 'eopc04_IAU2000.62-now';
 begin
   Result:= Download(URL, FileName);
 end;
 
 function TEOPDownload.DownloadEOPC01: string;
 const
-  URL = 'https://hpiers.obspm.fr/iers/eop/eopc04_14/eopc04_IAU2000.62-now';
-  FileName = 'eopc04_IAU2000.62-now';
+  URL = 'https://hpiers.obspm.fr/iers/eop/eopc01/eopc01.iau2000.1846-now';
+  FileName = 'eopc01.iau2000.1846-now';
 begin
   Result:= Download(URL, FileName);
 end;
