@@ -202,7 +202,9 @@ type
       FAutoDownload: Boolean;
       fEOPDownload: TEOPDownload;
       fFileLoaded: Boolean;
+      fC01Series: TEOPData;
       fC04Series: TEOPData;
+      fFinalsSeries: TEOPData;
       fMaxDate: TMJD;
       fMinDate: TMJD;
     private
@@ -211,22 +213,26 @@ type
     public
       constructor Create(aDownloadPath: string = ''; aAutoDownload: Boolean = False);
       destructor Destroy; override;
-      procedure LoadEOPData(aEOPData: TEOPData);
+      function LoadEOPC01Data(aEOPData: TEOPData): Boolean;
+      function LoadEOPC04Data(aEOPData: TEOPData): Boolean;
+      function LoadEOPFinals2000AData(aEOPData: TEOPData): Boolean;
+      { Will  download all the series }
       function Download: boolean;
       { Get Earth Orientation Parameters values, interpolated with a 4 points Lagrangian
         interpolation scheme as recommended by 1997-01-30 IERS Gazette n. 13      }
       function GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double): Boolean;
+      { If AutoDownload is True, all the series will be downloaded at the first call to GetEOP}
       property AutoDownload: Boolean read FAutoDownload write FAutoDownload;
       property MinDate: TMJD read fMinDate;
       property MaxDate: TMJD read fMaxDate;
-      // How many days after MaxDate the values are valid
+      { How many days after MaxDate the values are valid      }
       property Tolerance: Double read fTolerance write fTolerance;
     end;
 
 
 implementation
 
-uses almUnits, fphttpclient, openssl, opensslsockets, Math;
+uses almUnits, almDateTime, fphttpclient, openssl, opensslsockets, Math;
 
 function CompareEOPItem(Item1, Item2: Pointer): Integer;
 begin
@@ -337,7 +343,6 @@ end;
 
 class function TEOPReader.ReadEOPC01File(FileName: String): TEOPData;
 var
-  aRow: TStringList;
   InputFile: TextFile;
   InputStr: String;
   aEOPItem: TEOPItem;
@@ -467,7 +472,6 @@ end;
 
 class function TEOPReader.ReadEOP14C04File(FileName: String): TEOPData;
 var
-  aRow: TStringList;
   InputFile: TextFile;
   InputStr: String;
   aEOPItem: TEOPItem;
@@ -706,6 +710,72 @@ end;
 
 { TEOP }
 
+constructor TEOP.Create(aDownloadPath: string; aAutoDownload: Boolean);
+begin
+  fMaxDate:= JulianDateToMJD(0); // very small date - start of Julian period
+  fMinDate:= JulianDateToMJD(2817151); // very big date - year 3000
+  fEOPDownload:= TEOPDownload.Create(aDownloadPath);
+  AutoDownload:= aAutoDownload;
+  fFileLoaded:= False;
+  Tolerance:= 1;
+end;
+
+destructor TEOP.Destroy;
+begin
+  if Assigned(fC01Series) then
+    FreeAndNil(fC01Series);
+  if Assigned(fC04Series) then
+    FreeAndNil(fC04Series);
+  if Assigned(fFinalsSeries) then
+    FreeAndNil(fFinalsSeries);
+  FreeAndNil(fEOPDownload);
+  inherited Destroy;
+end;
+
+function TEOP.GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double ): Boolean;
+var
+  id: Integer;
+  EOPItem: TEOPItem;
+begin
+  Result:= False;
+  if (not fFileLoaded) and AutoDownload then
+    Download;
+  if fFileLoaded then
+    begin
+      if ((UTC >= fC04Series.MaxDate) and ((UTC - fC04Series.MaxDate) <= Tolerance)) then
+        begin
+          id:= fC04Series.Count - 1;
+          DUT1:= fC04Series[id].DUT1;
+          Xp:= fC04Series[id].Xp;
+          Yp:= fC04Series[id].Yp;
+          LOD:= fC04Series[id].LOD;
+          dX:= fC04Series[id].dX;
+          dY:= fC04Series[id].dY;
+          xrt:= fC04Series[id].xrt;
+          yrt:= fC04Series[id].yrt;
+          Result:= True;
+        end
+      else
+        if fC04Series.Find(UTC,id) then
+          begin
+            EOPItem:= Interpolate4(UTC, id);
+            try
+              DUT1:= EOPItem.DUT1;
+              Xp:= EOPItem.Xp;
+              Yp:= EOPItem.Yp;
+              LOD:= EOPItem.LOD;
+              dX:= EOPItem.dX;
+              dY:= EOPItem.dY;
+              xrt:= EOPItem.xrt;
+              yrt:= EOPItem.yrt;
+              Result:= True;
+            finally
+              FreeAndNil(EOPItem);
+            end;
+          end
+    end;
+end;
+
 function TEOP.Interpolate4(const MJD: TMJD; const Index: Integer): TEOPItem;
 type
   DoubleArray = array of Double;
@@ -802,92 +872,70 @@ begin
   SetLength(YArray,0);
 end;
 
-constructor TEOP.Create(aDownloadPath: string; aAutoDownload: Boolean);
-begin
-  fMaxDate:= 0;
-  fMinDate:= 0;
-  fEOPDownload:= TEOPDownload.Create(aDownloadPath);
-  AutoDownload:= aAutoDownload;
-  fFileLoaded:= False;
-  Tolerance:= 1;
-end;
-
-destructor TEOP.Destroy;
-begin
-  if Assigned(fC04Series) then
-    FreeAndNil(fC04Series);
-  FreeAndNil(fEOPDownload);
-  inherited Destroy;
-end;
-
-function TEOP.GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double ): Boolean;
-var
-  id: Integer;
-  EOPItem: TEOPItem;
-begin
-  Result:= False;
-  if (not fFileLoaded) and AutoDownload then
-    Download;
-  if fFileLoaded then
-    begin
-      if ((UTC >= fC04Series.MaxDate) and ((UTC - fC04Series.MaxDate) <= Tolerance)) then
-        begin
-          id:= fC04Series.Count - 1;
-          DUT1:= fC04Series[id].DUT1;
-          Xp:= fC04Series[id].Xp;
-          Yp:= fC04Series[id].Yp;
-          LOD:= fC04Series[id].LOD;
-          dX:= fC04Series[id].dX;
-          dY:= fC04Series[id].dY;
-          xrt:= fC04Series[id].xrt;
-          yrt:= fC04Series[id].yrt;
-          Result:= True;
-        end
-      else
-        if fC04Series.Find(UTC,id) then
-          begin
-            EOPItem:= Interpolate4(UTC, id);
-            try
-              DUT1:= EOPItem.DUT1;
-              Xp:= EOPItem.Xp;
-              Yp:= EOPItem.Yp;
-              LOD:= EOPItem.LOD;
-              dX:= EOPItem.dX;
-              dY:= EOPItem.dY;
-              xrt:= EOPItem.xrt;
-              yrt:= EOPItem.yrt;
-              Result:= True;
-            finally
-              FreeAndNil(EOPItem);
-            end;
-          end
-    end;
-end;
-
 function TEOP.Download: boolean;
 var
   FileName: string;
 begin
+  FileName:= fEOPDownload.DownloadEOPC01;
+  if FileExists(FileName) then
+    LoadEOPC01Data(TEOPReader.ReadEOPC01File(FileName));
   FileName:= fEOPDownload.DownloadEOPC04;
   if FileExists(FileName) then
-    LoadEOPData(TEOPReader.ReadEOPC04File(FileName));
+    fFileLoaded:= LoadEOPC04Data(TEOPReader.ReadEOPC04File(FileName));
+  FileName:= fEOPDownload.DownloadEOPFinals2000A;
+  if FileExists(FileName) then
+    LoadEOPFinals2000AData(TEOPReader.ReadEOPFinals2000AFile(FileName));
   Result:= fFileLoaded;
+end; 
+
+function TEOP.LoadEOPC01Data(aEOPData: TEOPData): Boolean;
+begin
+  Result:= False;
+  if Assigned(fC01Series) then
+    FreeAndNil(fC01Series);
+  if aEOPData.Count > 0 then
+    try
+      fC01Series:= aEOPData;
+      fMinDate:= Min(fMinDate,fC01Series.MinDate);
+      fMaxDate:= Max(fMaxDate, fC01Series.MaxDate);
+      Result:= True;
+    except;
+      if Assigned(fC01Series) then
+        FreeAndNil(fC01Series);
+    end;
 end;
 
-procedure TEOP.LoadEOPData(aEOPData: TEOPData);
+function TEOP.LoadEOPC04Data(aEOPData: TEOPData): Boolean;
 begin
-  fFileLoaded:= False;
+  Result:= False;
   if Assigned(fC04Series) then
     FreeAndNil(fC04Series);
   if aEOPData.Count > 0 then
     try
       fC04Series:= aEOPData;
-      fMinDate:= fC04Series.MinDate;
-      fMaxDate:= fC04Series.MaxDate;
-      fFileLoaded:= True;
+      fMinDate:= Min(fMinDate,fC04Series.MinDate);
+      fMaxDate:= Max(fMaxDate, fC04Series.MaxDate);
+      Result:= True;
     except;
       if Assigned(fC04Series) then
         FreeAndNil(fC04Series);
+    end;
+end;
+
+function TEOP.LoadEOPFinals2000AData(aEOPData: TEOPData): Boolean;
+begin
+   Result:= False;
+  if Assigned(fFinalsSeries) then
+    FreeAndNil(fFinalsSeries);
+  if aEOPData.Count > 0 then
+    try
+      fFinalsSeries:= aEOPData;
+      fMinDate:= Min(fMinDate,fFinalsSeries.MinDate);
+      fMaxDate:= Max(fMaxDate, fFinalsSeries.MaxDate);
+      Result:= True;
+    except;
+      if Assigned(fFinalsSeries) then
+        FreeAndNil(fFinalsSeries);
     end;
 end;
 

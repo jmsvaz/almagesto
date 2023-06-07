@@ -606,10 +606,10 @@ procedure TTestEOP.TestMinDate;
 var
   Computed, Expected: TMJD;
 begin
-  // MinDate from https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now
+  // MinDate from https://hpiers.obspm.fr/iers/eop/eopc01/eopc01.iau2000.1846-now
   fEOP.Download;
 
-  Expected:= 37665.00;
+  Expected:= -4703.268;
   Computed:= fEOP.MinDate;
   AssertEquals('MinDate',Expected,Computed,1e-7);
 end;
