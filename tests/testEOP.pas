@@ -54,8 +54,7 @@ type
     procedure TestInterpolatedValue;
     procedure TestInterpolatedValueatBegining;
     procedure TestMinDate;
-    procedure TestInsideTolerance;
-    procedure TestAfterTolerance;
+    procedure TestAfterMaxDate;
   end;
 
 implementation
@@ -568,33 +567,14 @@ interpolated value: 37665,50	-0,0143124	0,2135501	0,0323356	0,0000000	0,0000000	
   AssertEquals('yrt',Expected,Computed,1e-7);
 end;
 
-procedure TTestEOP.TestInsideTolerance;
+procedure TTestEOP.TestAfterMaxDate;
 var
   Computed, Expected: Double;
   DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double;
   MJD: TMJD;
 begin
   fEOP.Download;
-
-  MJD:= fEOP.MaxDate;
-  fEOP.GetEOP(MJD, DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt);
-  Expected:= DUT1;
-
-  MJD:= MJD + fEOP.Tolerance/2;
-  fEOP.GetEOP(MJD, DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt);
-  Computed:= DUT1;
-
-  AssertEquals('DUT1 inside tolerance',Expected,Computed,1e-7);
-end;
-
-procedure TTestEOP.TestAfterTolerance;
-var
-  Computed, Expected: Double;
-  DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double;
-  MJD: TMJD;
-begin
-  fEOP.Download;
-  MJD:= fEOP.MaxDate + 2*fEOP.Tolerance;
+  MJD:= fEOP.MaxDate + 1;
   fEOP.GetEOP(MJD, DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt);
 
   Expected:= 0;

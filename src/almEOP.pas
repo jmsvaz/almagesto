@@ -201,7 +201,6 @@ type
     private
       FAutoDownload: Boolean;
       fEOPDownload: TEOPDownload;
-      fFileLoaded: Boolean;
       fC01Series: TEOPData;
       fC04Series: TEOPData;
       fFinalsSeries: TEOPData;
@@ -209,14 +208,16 @@ type
       fMinDate: TMJD;
     private
       fTolerance: Double;
-      function Interpolate4(const MJD: TMJD; const Index: Integer): TEOPItem;
+      procedure CheckSeries;
+      function Interpolate4(const MJD: TMJD; const Index: Integer; aEOPData: TEOPData
+        ): TEOPItem;
     public
       constructor Create(aDownloadPath: string = ''; aAutoDownload: Boolean = False);
       destructor Destroy; override;
       function LoadEOPC01Data(aEOPData: TEOPData): Boolean;
       function LoadEOPC04Data(aEOPData: TEOPData): Boolean;
       function LoadEOPFinals2000AData(aEOPData: TEOPData): Boolean;
-      { Will  download all the series }
+      { Will download and load all the series }
       function Download: boolean;
       { Get Earth Orientation Parameters values, interpolated with a 4 points Lagrangian
         interpolation scheme as recommended by 1997-01-30 IERS Gazette n. 13      }
@@ -225,8 +226,6 @@ type
       property AutoDownload: Boolean read FAutoDownload write FAutoDownload;
       property MinDate: TMJD read fMinDate;
       property MaxDate: TMJD read fMaxDate;
-      { How many days after MaxDate the values are valid      }
-      property Tolerance: Double read fTolerance write fTolerance;
     end;
 
 
@@ -603,6 +602,8 @@ begin
               Continue;
             if (InputStr[1] = '#') then
               Continue;
+            if (InputStr[17] = ' ') then
+              Continue;
             aEOPItem:= ProcessFinals2000ALine(InputStr);
             if Assigned(aEOPItem) then
               Result.Add(aEOPItem);
@@ -716,8 +717,6 @@ begin
   fMinDate:= JulianDateToMJD(2817151); // very big date - year 3000
   fEOPDownload:= TEOPDownload.Create(aDownloadPath);
   AutoDownload:= aAutoDownload;
-  fFileLoaded:= False;
-  Tolerance:= 1;
 end;
 
 destructor TEOP.Destroy;
@@ -736,156 +735,76 @@ function TEOP.GetEOP(UTC: TMJD; out DUT1, Xp, Yp, LOD, dX, dY, xrt, yrt: Double 
 var
   id: Integer;
   EOPItem: TEOPItem;
+  EOPData: TEOPData;
 begin
   Result:= False;
-  if (not fFileLoaded) and AutoDownload then
-    Download;
-  if fFileLoaded then
-    begin
-      if ((UTC >= fC04Series.MaxDate) and ((UTC - fC04Series.MaxDate) <= Tolerance)) then
-        begin
-          id:= fC04Series.Count - 1;
-          DUT1:= fC04Series[id].DUT1;
-          Xp:= fC04Series[id].Xp;
-          Yp:= fC04Series[id].Yp;
-          LOD:= fC04Series[id].LOD;
-          dX:= fC04Series[id].dX;
-          dY:= fC04Series[id].dY;
-          xrt:= fC04Series[id].xrt;
-          yrt:= fC04Series[id].yrt;
+  DUT1:= 0;
+  Xp:= 0;
+  Yp:= 0;
+  LOD:= 0;
+  dX:= 0;
+  dY:= 0;
+  xrt:= 0;
+  yrt:= 0;
+
+  CheckSeries;
+
+  // order of search: C04 -> C01 -> Finals2000A
+  EOPData:= nil;
+  if Assigned(fC04Series) then
+    if ((UTC >= fC04Series.MinDate) and (UTC  <= fC04Series.MaxDate)) then
+      EOPData:= fC04Series;
+  if not Assigned(EOPData) then
+    if Assigned(fC01Series) then
+      if ((UTC >= fC01Series.MinDate) and (UTC  <= fC01Series.MaxDate)) then
+        EOPData:= fC01Series;
+  if not Assigned(EOPData) then
+    if Assigned(fFinalsSeries) then
+      if ((UTC >= fFinalsSeries.MinDate) and (UTC  <= fFinalsSeries.MaxDate)) then
+        EOPData:= fFinalsSeries;
+
+  if Assigned(EOPData) then
+    if EOPData.Find(UTC,id) then
+      begin
+        EOPItem:= Interpolate4(UTC, id, EOPData);
+        try
+          DUT1:= EOPItem.DUT1;
+          Xp:= EOPItem.Xp;
+          Yp:= EOPItem.Yp;
+          LOD:= EOPItem.LOD;
+          dX:= EOPItem.dX;
+          dY:= EOPItem.dY;
+          xrt:= EOPItem.xrt;
+          yrt:= EOPItem.yrt;
           Result:= True;
-        end
-      else
-        if fC04Series.Find(UTC,id) then
-          begin
-            EOPItem:= Interpolate4(UTC, id);
-            try
-              DUT1:= EOPItem.DUT1;
-              Xp:= EOPItem.Xp;
-              Yp:= EOPItem.Yp;
-              LOD:= EOPItem.LOD;
-              dX:= EOPItem.dX;
-              dY:= EOPItem.dY;
-              xrt:= EOPItem.xrt;
-              yrt:= EOPItem.yrt;
-              Result:= True;
-            finally
-              FreeAndNil(EOPItem);
-            end;
-          end
-    end;
+        finally
+          FreeAndNil(EOPItem);
+        end;
+      end
 end;
 
-function TEOP.Interpolate4(const MJD: TMJD; const Index: Integer): TEOPItem;
-type
-  DoubleArray = array of Double;
-var
-  i1, i2, i3, i4: Integer;
-  Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD: Double;
-  XArray, YArray: DoubleArray;
+procedure TEOP.CheckSeries;
 begin
-  Result:= nil;
-  if (Index < 0) or (Index > fC04Series.Count - 2) then Exit;
-
-  XArray:= DoubleArray.Create(0,0,0,0);
-  YArray:= DoubleArray.Create(0,0,0,0);
-
-  if Index = 0 then
-    begin
-      i1:= Index;
-      i2:= Index + 1;
-      i3:= Index + 2;
-      i4:= Index + 3;
-    end
-  else
-    if Index = (fC04Series.Count - 2) then
-      begin
-        i1:= Index - 2;
-        i2:= Index - 1;
-        i3:= Index;
-        i4:= Index + 1;
-      end
-    else
-      begin
-        i1:= Index - 1;
-        i2:= Index;
-        i3:= Index + 1;
-        i4:= Index + 2;
-      end;
-
-  XArray[0]:= fC04Series[i1].MJD;
-  XArray[1]:= fC04Series[i2].MJD;
-  XArray[2]:= fC04Series[i3].MJD;
-  XArray[3]:= fC04Series[i4].MJD;
-
-  YArray[0]:= fC04Series[i1].Xp;
-  YArray[1]:= fC04Series[i2].Xp;
-  YArray[2]:= fC04Series[i3].Xp;
-  YArray[3]:= fC04Series[i4].Xp;
-  Xp:= LagrangianInterpolate(MJD,4,XArray,YArray);
-
-  YArray[0]:= fC04Series[i1].Yp;
-  YArray[1]:= fC04Series[i2].Yp;
-  YArray[2]:= fC04Series[i3].Yp;
-  YArray[3]:= fC04Series[i4].Yp;
-  Yp:= LagrangianInterpolate(MJD,4,XArray,YArray);
-
-  YArray[0]:= fC04Series[i1].DUT1;
-  YArray[1]:= fC04Series[i2].DUT1;
-  YArray[2]:= fC04Series[i3].DUT1;
-  YArray[3]:= fC04Series[i4].DUT1;
-  DUT1:= LagrangianInterpolate(MJD,4,XArray,YArray);
-
-  YArray[0]:= fC04Series[i1].dX;
-  YArray[1]:= fC04Series[i2].dX;
-  YArray[2]:= fC04Series[i3].dX;
-  YArray[3]:= fC04Series[i4].dX;
-  dX:= LagrangianInterpolate(MJD,4,XArray,YArray);
-
-  YArray[0]:= fC04Series[i1].dY;
-  YArray[1]:= fC04Series[i2].dY;
-  YArray[2]:= fC04Series[i3].dY;
-  YArray[3]:= fC04Series[i4].dY;
-  dY:= LagrangianInterpolate(MJD,4,XArray,YArray);
-
-  YArray[0]:= fC04Series[i1].xrt;
-  YArray[1]:= fC04Series[i2].xrt;
-  YArray[2]:= fC04Series[i3].xrt;
-  YArray[3]:= fC04Series[i4].xrt;
-  xrt:= LagrangianInterpolate(MJD,4,XArray,YArray);
-
-  YArray[0]:= fC04Series[i1].yrt;
-  YArray[1]:= fC04Series[i2].yrt;
-  YArray[2]:= fC04Series[i3].yrt;
-  YArray[3]:= fC04Series[i4].yrt;
-  yrt:= LagrangianInterpolate(MJD,4,XArray,YArray);
-
-  YArray[0]:= fC04Series[i1].LOD;
-  YArray[1]:= fC04Series[i2].LOD;
-  YArray[2]:= fC04Series[i3].LOD;
-  YArray[3]:= fC04Series[i4].LOD;
-  LOD:= LagrangianInterpolate(MJD,4,XArray,YArray);
-
-  Result:= TEOPItem.Create(MJD,Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD);
-
-  SetLength(XArray,0);
-  SetLength(YArray,0);
+  if not (Assigned(fC01Series) or Assigned(fC04Series) or Assigned(fFinalsSeries)) and AutoDownload then
+    Download;
 end;
 
 function TEOP.Download: boolean;
 var
   FileName: string;
 begin
+  Result:= False;
   FileName:= fEOPDownload.DownloadEOPC01;
   if FileExists(FileName) then
-    LoadEOPC01Data(TEOPReader.ReadEOPC01File(FileName));
+    Result:= LoadEOPC01Data(TEOPReader.ReadEOPC01File(FileName));
+
   FileName:= fEOPDownload.DownloadEOPC04;
   if FileExists(FileName) then
-    fFileLoaded:= LoadEOPC04Data(TEOPReader.ReadEOPC04File(FileName));
+    Result:= LoadEOPC04Data(TEOPReader.ReadEOPC04File(FileName)) or Result;
+
   FileName:= fEOPDownload.DownloadEOPFinals2000A;
   if FileExists(FileName) then
-    LoadEOPFinals2000AData(TEOPReader.ReadEOPFinals2000AFile(FileName));
-  Result:= fFileLoaded;
+    Result:= LoadEOPFinals2000AData(TEOPReader.ReadEOPFinals2000AFile(FileName)) or Result;
 end; 
 
 function TEOP.LoadEOPC01Data(aEOPData: TEOPData): Boolean;
@@ -938,5 +857,111 @@ begin
         FreeAndNil(fFinalsSeries);
     end;
 end;
+
+function TEOP.Interpolate4(const MJD: TMJD; const Index: Integer; aEOPData: TEOPData): TEOPItem;
+type
+  DoubleArray = array of Double;
+var
+  i1, i2, i3, i4: Integer;
+  Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD: Double;
+  XArray, YArray: DoubleArray;
+begin
+  Result:= nil;
+  if (Index < 0) or (Index > aEOPData.Count - 1) then Exit;
+
+  XArray:= DoubleArray.Create(0,0,0,0);
+  YArray:= DoubleArray.Create(0,0,0,0);
+
+  if Index = 0 then
+    begin
+      i1:= Index;
+      i2:= Index + 1;
+      i3:= Index + 2;
+      i4:= Index + 3;
+    end
+  else
+    if Index = (aEOPData.Count - 1) then
+      begin
+        i1:= Index - 3;
+        i2:= Index - 2;
+        i3:= Index - 1;
+        i4:= Index;
+      end
+    else
+      if Index = (aEOPData.Count - 2) then
+        begin
+          i1:= Index - 2;
+          i2:= Index - 1;
+          i3:= Index;
+          i4:= Index + 1;
+        end
+      else
+        begin
+          i1:= Index - 1;
+          i2:= Index;
+          i3:= Index + 1;
+          i4:= Index + 2;
+        end;
+
+  XArray[0]:= aEOPData[i1].MJD;
+  XArray[1]:= aEOPData[i2].MJD;
+  XArray[2]:= aEOPData[i3].MJD;
+  XArray[3]:= aEOPData[i4].MJD;
+
+  YArray[0]:= aEOPData[i1].Xp;
+  YArray[1]:= aEOPData[i2].Xp;
+  YArray[2]:= aEOPData[i3].Xp;
+  YArray[3]:= aEOPData[i4].Xp;
+  Xp:= LagrangianInterpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= aEOPData[i1].Yp;
+  YArray[1]:= aEOPData[i2].Yp;
+  YArray[2]:= aEOPData[i3].Yp;
+  YArray[3]:= aEOPData[i4].Yp;
+  Yp:= LagrangianInterpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= aEOPData[i1].DUT1;
+  YArray[1]:= aEOPData[i2].DUT1;
+  YArray[2]:= aEOPData[i3].DUT1;
+  YArray[3]:= aEOPData[i4].DUT1;
+  DUT1:= LagrangianInterpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= aEOPData[i1].dX;
+  YArray[1]:= aEOPData[i2].dX;
+  YArray[2]:= aEOPData[i3].dX;
+  YArray[3]:= aEOPData[i4].dX;
+  dX:= LagrangianInterpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= aEOPData[i1].dY;
+  YArray[1]:= aEOPData[i2].dY;
+  YArray[2]:= aEOPData[i3].dY;
+  YArray[3]:= aEOPData[i4].dY;
+  dY:= LagrangianInterpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= aEOPData[i1].xrt;
+  YArray[1]:= aEOPData[i2].xrt;
+  YArray[2]:= aEOPData[i3].xrt;
+  YArray[3]:= aEOPData[i4].xrt;
+  xrt:= LagrangianInterpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= aEOPData[i1].yrt;
+  YArray[1]:= aEOPData[i2].yrt;
+  YArray[2]:= aEOPData[i3].yrt;
+  YArray[3]:= aEOPData[i4].yrt;
+  yrt:= LagrangianInterpolate(MJD,4,XArray,YArray);
+
+  YArray[0]:= aEOPData[i1].LOD;
+  YArray[1]:= aEOPData[i2].LOD;
+  YArray[2]:= aEOPData[i3].LOD;
+  YArray[3]:= aEOPData[i4].LOD;
+  LOD:= LagrangianInterpolate(MJD,4,XArray,YArray);
+
+  Result:= TEOPItem.Create(MJD,Xp, Yp, DUT1, dX, dY, xrt, yrt, LOD);
+
+  SetLength(XArray,0);
+  SetLength(YArray,0);
+end;
+
+
 
 end.
