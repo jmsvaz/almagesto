@@ -207,10 +207,8 @@ type
       fMaxDate: TMJD;
       fMinDate: TMJD;
     private
-      fTolerance: Double;
       procedure CheckSeries;
-      function Interpolate4(const MJD: TMJD; const Index: Integer; aEOPData: TEOPData
-        ): TEOPItem;
+      function Interpolate4(const MJD: TMJD; const Index: Integer; aEOPData: TEOPData): TEOPItem;
     public
       constructor Create(aDownloadPath: string = ''; aAutoDownload: Boolean = False);
       destructor Destroy; override;
@@ -237,6 +235,9 @@ function CompareEOPItem(Item1, Item2: Pointer): Integer;
 begin
   Result:= CompareValue(TEOPItem(Item1).MJD,TEOPItem(Item2).MJD);
 end;
+
+var
+  cMaxDate, cMinDate: Double;
 
 { TEOP }
 
@@ -265,21 +266,29 @@ end;
 
 function TEOPData.GetMaxDate: TMJD;
 begin
-  Result:= 0;
+  Result:= cMaxDate;
   if Count > 0 then
     Result:= Items[Count-1].MJD;
 end;
 
 function TEOPData.GetMinDate: TMJD;
 begin
-  Result:= 0;
+  Result:= cMinDate;
   if Count > 0 then
     Result:= Items[0].MJD;
 end;
 
-procedure TEOPData.Sort;
+function TEOPData.Add(aEOPItem: TEOPItem): Integer;
 begin
-  fList.Sort(@CompareEOPItem);
+  Result:= fList.Add(aEOPItem);
+  Sorted:= False;
+end;
+
+procedure TEOPData.Clear;
+begin
+  Sorted:= False;
+  if Count = 0 then Exit;
+  fList.Clear;
 end;
 
 function TEOPData.Find(const MJD: TMJD; out Index: Integer): Boolean;
@@ -320,18 +329,13 @@ begin
   Result:= True;
 end;
 
-function TEOPData.Add(aEOPItem: TEOPItem): Integer;
+procedure TEOPData.Sort;
 begin
-  Result:= fList.Add(aEOPItem);
-  Sorted:= False;
+  fList.Sort(@CompareEOPItem);
+  Sorted:= True;
 end;
 
-procedure TEOPData.Clear;
-begin
-  if Count = 0 then Exit;
-  fList.Clear;
-  Sorted:= False;
-end;
+
 
 { TEOPLoader }
 
@@ -402,6 +406,7 @@ begin
             if Assigned(aEOPItem) then
               Result.Add(aEOPItem);
           until(EOF(InputFile));
+          Result.Sort;
         finally
           {$I+}
           CloseFile(InputFile);
@@ -459,6 +464,7 @@ From https://hpiers.obspm.fr/iers/eop/eopc04/eopc04.1962-now:
               FreeAndNil(aRow);
             end;
           until(EOF(InputFile));
+          Result.Sort;
         finally
           {$I+}
           CloseFile(InputFile);
@@ -538,6 +544,7 @@ begin
             if Assigned(aEOPItem) then
               Result.Add(aEOPItem);
           until(EOF(InputFile));
+          Result.Sort;
         finally
           {$I+}
           CloseFile(InputFile);
@@ -608,6 +615,7 @@ begin
             if Assigned(aEOPItem) then
               Result.Add(aEOPItem);
           until(EOF(InputFile));
+          Result.Sort;
         finally
           {$I+}
           CloseFile(InputFile);
@@ -636,6 +644,18 @@ end;
 
 { TEOPDownload }
 
+constructor TEOPDownload.Create(DownloadPath: String);
+begin
+  InitSSLInterface;
+  if DownloadPath = EmptyStr then
+    fDownloadPath:= GetTempDir(False)
+  else
+    fDownloadPath:= DownloadPath;
+  if not DirectoryExists(fDownloadPath) then
+    CreateDir(fDownloadPath);
+  fDownloadPath:= IncludeTrailingPathDelimiter(fDownloadPath);
+end;
+
 function TEOPDownload.Download(aURL, aFileName: string): string;
 var
   Client: TFPHttpClient;
@@ -657,18 +677,6 @@ begin
         Client.Free;
       end;
     end;
-end;
-
-constructor TEOPDownload.Create(DownloadPath: String);
-begin
-  InitSSLInterface;
-  if DownloadPath = EmptyStr then
-    fDownloadPath:= GetTempDir(False)
-  else
-    fDownloadPath:= DownloadPath;
-  if not DirectoryExists(fDownloadPath) then
-    CreateDir(fDownloadPath);
-  fDownloadPath:= IncludeTrailingPathDelimiter(fDownloadPath);
 end;
 
 function TEOPDownload.DownloadEOPC04: string;
@@ -713,8 +721,8 @@ end;
 
 constructor TEOP.Create(aDownloadPath: string; aAutoDownload: Boolean);
 begin
-  fMaxDate:= JulianDateToMJD(0); // very small date - start of Julian period
-  fMinDate:= JulianDateToMJD(2817151); // very big date - year 3000
+  fMaxDate:= cMaxDate;
+  fMinDate:= cMinDate;
   fEOPDownload:= TEOPDownload.Create(aDownloadPath);
   AutoDownload:= aAutoDownload;
 end;
@@ -962,6 +970,9 @@ begin
   SetLength(YArray,0);
 end;
 
+initialization
 
+cMaxDate:= JulianDateToMJD(0); // very small date - start of Julian period
+cMinDate:= JulianDateToMJD(2817151); // very big date - year 3000
 
 end.
